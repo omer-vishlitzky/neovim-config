@@ -20,7 +20,7 @@ require("gruvbox").setup({
   palette_overrides = {},
   overrides = {},
   dim_inactive = false,
-  transparent_mode = true,
+  transparent_mode = false,
 })
 require('rose-pine').setup({
 	--- @usage 'auto'|'main'|'moon'|'dawn'
@@ -74,14 +74,14 @@ require('rose-pine').setup({
 
 -- Set colorscheme after options
 --vim.cmd('colorscheme rose-pine')
-vim.cmd("colorscheme rose-pine")
+vim.cmd("colorscheme gruvbox")
 
 
 
 function RosePine(color, transparent)
     if color == "gruvbox" then
         require(color).setup({
-            transparent_mode = transparent,
+            disable_background = transparent,
         })
     elseif color == "rose-pine" then
         require(color).setup({

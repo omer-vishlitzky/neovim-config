@@ -11,7 +11,13 @@ lsp.ensure_installed({
   'lua_ls',
 })
 
+-- If you want insert `(` after select function or method item
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -24,13 +30,6 @@ lsp.setup_nvim_cmp({
   mapping = cmp_mappings
 })
 
--- lsp.on_attach(function(client, bufnr)
---     lsp.default_keymaps({
---         buffer = bufnr,
---         preserve_mappings = true
---     })
--- end)
-
 lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({buffer = bufnr})
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, {buffer = bufnr, desc = "go defition"})
@@ -42,10 +41,3 @@ lsp.setup()
 
 
 
--- If you want insert `(` after select function or method item
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local cmp = require('cmp')
-cmp.event:on(
-  'confirm_done',
-  cmp_autopairs.on_confirm_done()
-)
