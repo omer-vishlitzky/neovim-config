@@ -36,6 +36,9 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, {buffer = bufnr, desc = "hover"})
 end)
 
+lsp.setup_servers({'dartls', force = true})
+
+
 lsp.setup()
 
 
