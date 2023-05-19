@@ -81,7 +81,7 @@ vim.cmd("colorscheme gruvbox")
 function RosePine(color, transparent)
     if color == "gruvbox" then
         require(color).setup({
-            disable_background = transparent,
+            transparent_mode = transparent,
         })
     elseif color == "rose-pine" then
         require(color).setup({
