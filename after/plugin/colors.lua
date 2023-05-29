@@ -25,7 +25,7 @@ require("gruvbox").setup({
 require('rose-pine').setup({
 	--- @usage 'auto'|'main'|'moon'|'dawn'
 	variant = 'moon',
-	--- @usage 'main'|'moon'|'dawn'
+	--- @usage 'moon'|'moon'|'dawn'
 	dark_variant = 'moon',
 	bold_vert_split = false,
 	dim_nc_background = false,
@@ -74,7 +74,7 @@ require('rose-pine').setup({
 
 -- Set colorscheme after options
 --vim.cmd('colorscheme rose-pine')
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme rose-pine")
 
 
 

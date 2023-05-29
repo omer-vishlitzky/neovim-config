@@ -6,30 +6,31 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     use 'ellisonleao/gruvbox.nvim'
-    use 'sainnhe/gruvbox-material'
     use 'numToStr/Comment.nvim'
     use 'norcalli/nvim-colorizer.lua'
     use 'theprimeagen/harpoon'
-    use 'theprimeagen/refactoring.nvim'
+    use 'tpope/vim-sleuth'
     use 'savq/melange-nvim'
     use 'tpope/vim-fugitive'
     use({ 'rose-pine/neovim', as = 'rose-pine' })
     use { 'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { { 'nvim-lua/plenary.nvim' } } }
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } }
-    --
-    -- use { 'romgrk/barbar.nvim',
-    --     requires = {
-    --         'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-    --         'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-    --     }
-    -- }
-    --
+    use { "ray-x/lsp_signature.nvim" }
+    use {
+        "ThePrimeagen/refactoring.nvim",
+        requires = {
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-treesitter/nvim-treesitter" }
+        }
+    }
+
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
-    -- -- Flutter
+
+    -- Flutter
     use {
         'akinsho/flutter-tools.nvim',
         requires = {
@@ -102,4 +103,8 @@ return require('packer').startup(function(use)
             { 'L3MON4D3/LuaSnip' },     -- Required
         }
     }
+
+    -- Debugger
+    use 'mfussenegger/nvim-dap'
+    use 'rcarriga/nvim-dap-ui'
 end)
