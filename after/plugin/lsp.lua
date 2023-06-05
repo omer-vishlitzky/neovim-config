@@ -50,7 +50,7 @@ local lspconfig = require('lspconfig')
 lspconfig.kotlin_language_server.setup{
     filetypes = { "kotlin" },
     root_dir = function(fname)
-        return lspconfig.util.root_pattern("build.gradle", "settings.gradle", ".git")(fname) or lspconfig.util.path.dirname(fname)
+        return lspconfig.util.root_pattern("pom.xml", "build.gradle", "settings.gradle", ".git")(fname) or lspconfig.util.path.dirname(fname)
     end,
     settings = {
         kotlin = {
