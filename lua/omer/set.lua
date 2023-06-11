@@ -30,6 +30,8 @@ vim.opt.colorcolumn = "80"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- vim.o.showtabline = 2
+vim.opt.clipboard = "unnamedplus" -- Access system clipboard
+
 
 -- Highlight on yank
 vim.cmd [[
