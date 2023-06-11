@@ -31,3 +31,10 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- vim.o.showtabline = 2
 
+-- Highlight on yank
+vim.cmd [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]]
