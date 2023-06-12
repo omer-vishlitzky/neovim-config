@@ -119,12 +119,27 @@ function M.setup()
             end
         }
 
+        -- Auto tag
+        use {
+            "windwp/nvim-ts-autotag",
+            wants = "nvim-treesitter",
+            event = "InsertEnter",
+            config = function()
+                require("nvim-ts-autotag").setup { enable = true }
+            end,
+        }
+
+        -- Auto pairs
         use {
             "windwp/nvim-autopairs",
+            wants = "nvim-treesitter",
+            module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
             config = function()
-                require("nvim-autopairs").setup {}
-            end
+                -- require("config.autopairs").setup()
+                dofile(vim.fn.stdpath('config') .. '/after/plugin/autopairs.lua').setup()
+            end,
         }
+
         -- Markdown
         use {
             "iamcco/markdown-preview.nvim",
@@ -158,26 +173,68 @@ function M.setup()
             end
         }
 
+        -- Completion
         use {
-            'VonHeikemen/lsp-zero.nvim',
-            branch = 'v2.x',
+            "ms-jpq/coq_nvim",
+            branch = "coq",
+            event = "InsertEnter",
+            opt = true,
+            run = ":COQdeps",
+            config = function()
+                dofile(vim.fn.stdpath('config') .. '/after/plugin/coq.lua').setup()
+            end,
             requires = {
-                -- LSP Support
-                { 'neovim/nvim-lspconfig' }, -- Required
+                { "ms-jpq/coq.artifacts",  branch = "artifacts" },
+                { "ms-jpq/coq.thirdparty", branch = "3p",       module = "coq_3p" },
+            },
+            disable = false,
+        }
+
+        use {
+            "hrsh7th/nvim-cmp",
+            event = "InsertEnter",
+            opt = true,
+            config = function()
+                -- require("config.cmp").setup()
+                dofile(vim.fn.stdpath('config') .. '/after/plugin/cmp.lua').setup()
+            end,
+            wants = { "LuaSnip" },
+            requires = {
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+                "hrsh7th/cmp-nvim-lua",
+                "ray-x/cmp-treesitter",
+                "hrsh7th/cmp-cmdline",
+                "saadparwaiz1/cmp_luasnip",
+                "hrsh7th/cmp-calc",
+                "f3fora/cmp-spell",
+                "hrsh7th/cmp-emoji",
                 {
-                    -- Optional
-                    'williamboman/mason.nvim',
-                    run = function()
-                        pcall(vim.cmd, 'MasonUpdate')
+                    "L3MON4D3/LuaSnip",
+                    wants = "friendly-snippets",
+                    config = function()
+                        -- require("config.luasnip").setup()
+                        dofile(vim.fn.stdpath('config') .. '/after/plugin/luasnip.lua').setup()
                     end,
                 },
-                { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+                "rafamadriz/friendly-snippets",
+                disable = false,
+            },
+        }
 
-                -- Autocompletion
-                { 'hrsh7th/nvim-cmp' },     -- Required
-                { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-                { 'L3MON4D3/LuaSnip' },     -- Required
-            }
+        -- LSP
+        use {
+            "neovim/nvim-lspconfig",
+            opt = true,
+            event = "BufReadPre",
+            wants = { "nvim-lsp-installer" },
+            config = function()
+                -- require("config.lsp").setup()
+                dofile(vim.fn.stdpath('config') .. '/after/plugin/lsp/init.lua').setup()
+            end,
+            requires = {
+                "williamboman/nvim-lsp-installer",
+            },
         }
 
         -- Debugger
