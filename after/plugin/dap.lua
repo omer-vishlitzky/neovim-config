@@ -1,5 +1,6 @@
 local dap = require('dap')
 local dapui = require("dapui").setup()
+
 dap.adapters.python = function(cb, config)
   if config.request == 'attach' then
     ---@diagnostic disable-next-line: undefined-field
@@ -51,3 +52,23 @@ dap.configurations.python = {
     end;
   },
 }
+
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/.npm-global/lib/node_modules/node-debug2-adapter/out/src/DebugAdapter.js'},
+}
+
+dap.configurations.javascript = {
+  {
+    type = 'node2',
+    request = 'launch',
+    program = '${workspaceFolder}/dist/${fileBasenameNoExtension}.js',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+    skipFiles = {'<node_internals>/**'},
+  },
+}
+
