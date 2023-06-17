@@ -9,13 +9,7 @@ function M.setup()
         profile = {
             enable = true,
             threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-        },
-
-        display = {
-            open_fn = function()
-                return require("packer.util").float { border = "rounded" }
-            end,
-        },
+        }
     }
 
     -- Check if packer.nvim is installed
@@ -125,6 +119,7 @@ function M.setup()
                 require("nvim-autopairs").setup {}
             end
         }
+        
         -- Markdown
         use {
             "iamcco/markdown-preview.nvim",
@@ -179,6 +174,14 @@ function M.setup()
                 { 'L3MON4D3/LuaSnip' },     -- Required
             }
         }
+
+        use({
+            "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+            config = function()
+                -- require("lsp_lines").setup()
+                dofile(vim.fn.stdpath('config') .. '/after/plugin/lsplines.lua').setup()
+            end,
+        })
 
         -- Debugger
         use 'mfussenegger/nvim-dap'
