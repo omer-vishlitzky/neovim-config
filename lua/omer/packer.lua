@@ -119,7 +119,7 @@ function M.setup()
                 require("nvim-autopairs").setup {}
             end
         }
-        
+
         -- Markdown
         use {
             "iamcco/markdown-preview.nvim",
@@ -152,36 +152,6 @@ function M.setup()
                 }
             end
         }
-
-        use {
-            'VonHeikemen/lsp-zero.nvim',
-            branch = 'v2.x',
-            requires = {
-                -- LSP Support
-                { 'neovim/nvim-lspconfig' }, -- Required
-                {
-                    -- Optional
-                    'williamboman/mason.nvim',
-                    run = function()
-                        pcall(vim.cmd, 'MasonUpdate')
-                    end,
-                },
-                { 'williamboman/mason-lspconfig.nvim' }, -- Optional
-
-                -- Autocompletion
-                { 'hrsh7th/nvim-cmp' },     -- Required
-                { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-                { 'L3MON4D3/LuaSnip' },     -- Required
-            }
-        }
-
-        use({
-            "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-            config = function()
-                -- require("lsp_lines").setup()
-                dofile(vim.fn.stdpath('config') .. '/after/plugin/lsplines.lua').setup()
-            end,
-        })
 
         -- Debugger
         use 'mfussenegger/nvim-dap'
