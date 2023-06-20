@@ -40,7 +40,6 @@ function M.setup()
         use 'theprimeagen/harpoon'
         use 'tpope/vim-sleuth'
         use 'savq/melange-nvim'
-        use 'tpope/vim-fugitive'
         use({ 'rose-pine/neovim', as = 'rose-pine' })
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { { 'nvim-lua/plenary.nvim' } } }
         use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -119,7 +118,7 @@ function M.setup()
                 require("nvim-autopairs").setup {}
             end
         }
-        
+
         -- Markdown
         use {
             "iamcco/markdown-preview.nvim",
@@ -182,6 +181,9 @@ function M.setup()
                 dofile(vim.fn.stdpath('config') .. '/after/plugin/lsplines.lua').setup()
             end,
         })
+
+        -- Packer
+        use "sindrets/diffview.nvim"
 
         -- Debugger
         use 'mfussenegger/nvim-dap'
