@@ -6,7 +6,7 @@ vim.cmd('highlight! TabLineFill guibg=NONE guifg=white')
 
 
 
-vim.keymap.set('n', 'H', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>', {noremap = true, silent = true, desc = "HarpoonToggle"})
+vim.keymap.set('n', '<leader>ht', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>', {noremap = true, silent = true, desc = "HarpoonToggle"})
 vim.keymap.set('n', '<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<CR>', {noremap = true, silent = true, desc = "HarpoonAddFile"})
 vim.keymap.set('n', '<C-]>', '<cmd>lua require("harpoon.ui").nav_next()<CR>', {noremap = true, silent = true, desc = "HarpoonNext"})
 vim.keymap.set('n', '<C-[>', '<cmd>lua require("harpoon.ui").nav_prev()<CR>', {noremap = true, silent = true, desc = "HarpoonPrev"})
@@ -37,3 +37,15 @@ global_settings = {
     tabline_prefix = "   ",
     tabline_suffix = "   ",
 }
+
+
+function _G.add_quickfix_to_harpoon()
+  local qf_list = vim.fn.getqflist()
+  for _, item in ipairs(qf_list) do
+    local filename = vim.fn.bufname(item.bufnr)
+    require("harpoon.mark").add_file(filename)
+  end
+end
+
+-- Map the command
+vim.cmd('command! -nargs=? HarpoonAddQuickfix lua add_quickfix_to_harpoon()')

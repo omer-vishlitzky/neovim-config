@@ -34,7 +34,6 @@ lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({buffer = bufnr})
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, {buffer = bufnr, desc = "go defition"})
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, {buffer = bufnr, desc = "hover"})
-    vim.keymap.set("n", "L", function() vim.lsp.buf.implementation() end, {buffer = bufnr, desc = "implementations"})
 end)
 
 lsp.setup_servers({'dartls', force = true})
