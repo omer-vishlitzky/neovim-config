@@ -1,6 +1,24 @@
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "dart", "java", "json", "kotlin", "latex", "bash", "vim", "query", "python", "javascript", "typescript", "c", "lua", "rust", "go" },
+  ensure_installed = {
+    "dart",
+    "java",
+    "json",
+    "kotlin",
+    "latex",
+    "bash",
+    "vim",
+    "query",
+    "python",
+    "javascript",
+    "typescript",
+    "c",
+    "lua",
+    "rust",
+    "markdown",
+    "markdown_inline",
+    "go"
+  },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -20,4 +38,3 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-

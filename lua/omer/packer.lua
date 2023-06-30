@@ -62,6 +62,7 @@ function M.setup()
             end,
         }
 
+        use 'windwp/nvim-ts-autotag'
 
         use {
             "nvim-tree/nvim-tree.lua",
@@ -177,33 +178,12 @@ function M.setup()
 
         -- Additional lua configuration, makes nvim stuff amazing!
         use 'folke/neodev.nvim'
-        use({
-            -- Adds git releated signs to the gutter, as well as utilities for managing changes
-            'lewis6991/gitsigns.nvim',
-            opts = {
-                -- See `:help gitsigns.txt`
-                signs = {
-                    add = { text = '+' },
-                    change = { text = '~' },
-                    delete = { text = '_' },
-                    topdelete = { text = '‾' },
-                    changedelete = { text = '~' },
-                },
-                on_attach = function(bufnr)
-                    vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-                        { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-                    vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
-                        { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-                    vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk,
-                        { buffer = bufnr, desc = '[P]review [H]unk' })
-                end,
-            },
-        })
+
+        use 'lewis6991/gitsigns.nvim'
 
         use({
             "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
             config = function()
-                -- require("lsp_lines").setup()
                 dofile(vim.fn.stdpath('config') .. '/after/plugin/lsplines.lua').setup()
             end,
         })
