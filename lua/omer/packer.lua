@@ -36,12 +36,16 @@ function M.setup()
     local function plugins(use)
         -- Packer can manage itself
         use 'wbthomason/packer.nvim'
+
+        -- Colorschemes
+        use 'savq/melange-nvim'
         use 'ellisonleao/gruvbox.nvim'
+        use({ 'rose-pine/neovim', as = 'rose-pine' })
+
+        -- General
         use 'norcalli/nvim-colorizer.lua'
         use 'theprimeagen/harpoon'
         use 'tpope/vim-sleuth'
-        use 'savq/melange-nvim'
-        use({ 'rose-pine/neovim', as = 'rose-pine' })
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { { 'nvim-lua/plenary.nvim' } } }
         use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
         use { "ray-x/lsp_signature.nvim" }
