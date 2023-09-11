@@ -15,5 +15,9 @@ function M.setup()
 end
 
 vim.keymap.set('n', '<C-n>', '<cmd>NvimTreeToggle<CR>', { noremap = true })
+vim.keymap.set('n', '<S-Up>', '<cmd>resize +2<CR>', { noremap = true })
+vim.keymap.set('n', '<S-Down>', '<cmd>resize -2<CR>', { noremap = true })
+vim.keymap.set('n', '<S-Left>', '<cmd>vertical resize -2<CR>', { noremap = true })
+vim.keymap.set('n', '<S-Right>', '<cmd>vertical resize +2<CR>', { noremap = true })
 
 return M
