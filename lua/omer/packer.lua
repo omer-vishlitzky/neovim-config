@@ -38,15 +38,24 @@ function M.setup()
         use 'wbthomason/packer.nvim'
 
         -- Colorschemes
-        use 'savq/melange-nvim'
         use 'ellisonleao/gruvbox.nvim'
         use({ 'rose-pine/neovim', as = 'rose-pine' })
+        use({
+            'projekt0n/github-nvim-theme',
+            config = function()
+                require('github-theme').setup({
+                    -- ...
+                })
+
+                vim.cmd('colorscheme github_dark')
+            end
+        })
 
         -- General
         use 'norcalli/nvim-colorizer.lua'
         use 'theprimeagen/harpoon'
         use 'tpope/vim-sleuth'
-        use { 'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { { 'nvim-lua/plenary.nvim' } } }
+        use { 'nvim-telescope/telescope.nvim', tag = '0.1.3', requires = { { 'nvim-lua/plenary.nvim' } } }
         use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
         use { "ray-x/lsp_signature.nvim" }
         use {
