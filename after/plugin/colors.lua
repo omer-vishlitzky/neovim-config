@@ -23,6 +23,22 @@ require("gruvbox").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
+
+require('github-theme').setup({
+  options = {
+      inverse = {                -- Inverse highlight for different types
+	  match_paren = true,
+	  visual = true,
+	  search = true,
+      },
+      styles = {
+	  comments = 'italic',
+	  keywords = 'bold',
+	  types = 'italic,bold',
+      }
+  }
+})
+
 require('rose-pine').setup({
 	--- @usage 'auto'|'main'|'moon'|'dawn'
 	variant = 'moon',
@@ -33,7 +49,6 @@ require('rose-pine').setup({
 	disable_background = false,
 	disable_float_background = false,
 	disable_italics = false,
-
 	--- @usage string hex value or named color from rosepinetheme.com/palette
 	groups = {
 		background = 'base',
@@ -75,7 +90,7 @@ require('rose-pine').setup({
 
 -- Set colorscheme after options
 --vim.cmd('colorscheme rose-pine')
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme github_dark")
 
 
 

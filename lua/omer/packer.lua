@@ -40,16 +40,7 @@ function M.setup()
         -- Colorschemes
         use 'ellisonleao/gruvbox.nvim'
         use({ 'rose-pine/neovim', as = 'rose-pine' })
-        use({
-            'projekt0n/github-nvim-theme',
-            config = function()
-                require('github-theme').setup({
-                    -- ...
-                })
-
-                vim.cmd('colorscheme github_dark')
-            end
-        })
+        use 'projekt0n/github-nvim-theme'
 
         -- General
         use 'norcalli/nvim-colorizer.lua'
