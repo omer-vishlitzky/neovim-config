@@ -27,7 +27,7 @@ require("gruvbox").setup({
 require('github-theme').setup({
   options = {
       inverse = {                -- Inverse highlight for different types
-	  match_paren = true,
+	  match_paren = false,
 	  visual = true,
 	  search = true,
       },
