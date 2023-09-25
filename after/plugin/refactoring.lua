@@ -1,23 +1,28 @@
 require('refactoring').setup({
-    -- prompt for return type
     prompt_func_return_type = {
-        go = true,
-        cpp = true,
-        c = true,
+        go = false,
         java = true,
+
+        cpp = false,
+        c = false,
+        h = false,
+        hpp = false,
+        cxx = false,
     },
-    -- prompt for function parameters
     prompt_func_param_type = {
-        go = true,
-        cpp = true,
-        c = true,
+        go = false,
         java = true,
+
+        cpp = false,
+        c = false,
+        h = false,
+        hpp = false,
+        cxx = false,
     },
     printf_statements = {},
     print_var_statements = {},
-})
+})-- Remaps for the refactoring operations currently offered by the plugin
 
--- Remaps for the refactoring operations currently offered by the plugin
 vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
     { noremap = true, silent = true, expr = false, desc = "extract function" })
 vim.api.nvim_set_keymap("v", "<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],

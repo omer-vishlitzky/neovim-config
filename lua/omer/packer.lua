@@ -41,6 +41,7 @@ function M.setup()
         use 'ellisonleao/gruvbox.nvim'
         use({ 'rose-pine/neovim', as = 'rose-pine' })
         use 'projekt0n/github-nvim-theme'
+        use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
 
         -- General
         use 'norcalli/nvim-colorizer.lua'
@@ -56,6 +57,10 @@ function M.setup()
                 { "nvim-treesitter/nvim-treesitter" }
             }
         }
+
+
+        -- Rust:
+        use 'simrat39/rust-tools.nvim'
 
         use {
             "numToStr/Comment.nvim",
