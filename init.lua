@@ -1,3 +1,1 @@
-require("omer")
-require("omer.packer").setup()
-
+print("Hello from init.lua")
