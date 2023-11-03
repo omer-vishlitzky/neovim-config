@@ -1,4 +1,5 @@
 local mappings = {
+  c = { "Change", "Change" },
   g = { "Gitsigns", "Gitsigns" },
   f = { "Telescope", "Telescope" },
   d = { "DiffView", "DiffView" },

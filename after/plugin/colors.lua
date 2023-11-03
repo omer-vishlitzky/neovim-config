@@ -88,22 +88,31 @@ require('rose-pine').setup({
 	}
 })
 
-vim.cmd("colorscheme darcula-solid")
+vim.cmd("colorscheme gruvbox")
 
 
+math.randomseed(os.time())
 
-function RosePine(color, transparent)
-    if color == "gruvbox" then
-        require(color).setup({
-            transparent_mode = transparent,
-        })
-    elseif color == "rose-pine" then
-        require(color).setup({
-            disable_background = transparent,
-        })
+-- Function to generate a random number between 1 and 5
+function _G.ChangeColorScheme()
+    local randomNumber = math.random(1, 5)
+    if randomNumber == 1 then
+	vim.cmd("colorscheme gruvbox")
+    elseif randomNumber == 2 then
+	vim.cmd("colorscheme rose-pine")
+    elseif randomNumber == 3 then
+	vim.cmd("colorscheme github_dark")
+    elseif randomNumber == 4 then
+	vim.cmd("colorscheme github_dark_tritanopia")
+    elseif randomNumber == 5 then
+	vim.cmd("colorscheme darcula-solid")
+    else
+	vim.cmd("colorscheme torte")
     end
-    vim.cmd.colorscheme(color)
 end
+vim.api.nvim_command('command! ChangeColorScheme lua ChangeColorScheme()')
+vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>ChangeColorScheme<CR>', { desc = "[Change Color"})
+
 
 function GetCurrentColorscheme()
     return vim.g.colors_name

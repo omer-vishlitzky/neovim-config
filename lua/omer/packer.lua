@@ -42,7 +42,6 @@ function M.setup()
         use({ 'rose-pine/neovim', as = 'rose-pine' })
         use 'projekt0n/github-nvim-theme'
         use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
-
         -- General
         use 'norcalli/nvim-colorizer.lua'
         use 'theprimeagen/harpoon'
@@ -70,6 +69,8 @@ function M.setup()
                 require("Comment").setup {}
             end,
         }
+
+        use "RRethy/vim-illuminate"
 
         use 'windwp/nvim-ts-autotag'
 
@@ -130,14 +131,14 @@ function M.setup()
         }
 
         -- Markdown
-        use {
-            "iamcco/markdown-preview.nvim",
-            run = function()
-                vim.fn["mkdp#util#install"]()
-            end,
-            ft = "markdown",
-            cmd = { "MarkdownPreview" },
-        }
+        -- use {
+        --     "iamcco/markdown-preview.nvim",
+        --     run = function()
+        --         vim.fn["mkdp#util#install"]()
+        --     end,
+        --     ft = "markdown",
+        --     cmd = { "MarkdownPreview" },
+        -- }
 
         use({
             "kylechui/nvim-surround",
@@ -149,18 +150,18 @@ function M.setup()
             end
         })
 
-        use {
-            "folke/trouble.nvim",
-            -- cmd = "Trouble",
-            requires = "nvim-tree/nvim-web-devicons",
-            config = function()
-                require("trouble").setup {
-                    -- your configuration comes here
-                    -- or leave it empty to use the default settings
-                    -- refer to the configuration section below
-                }
-            end
-        }
+        -- use {
+        --     "folke/trouble.nvim",
+        --     -- cmd = "Trouble",
+        --     requires = "nvim-tree/nvim-web-devicons",
+        --     config = function()
+        --         require("trouble").setup {
+        --             -- your configuration comes here
+        --             -- or leave it empty to use the default settings
+        --             -- refer to the configuration section below
+        --         }
+        --     end
+        -- }
 
         use({
             'VonHeikemen/lsp-zero.nvim',

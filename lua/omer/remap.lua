@@ -9,8 +9,8 @@ vim.api.nvim_set_keymap("n", "N", "Nzz", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "p", '"_dP', { noremap = true, silent = true })
 
 -- Switch buffer
-vim.api.nvim_set_keymap("n", "<Tab>", ":bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<S-Tab>", ":bprevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Right>", ":bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Left>", ":bprevious<CR>", { noremap = true, silent = true })
 
 -- Switch window
 vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h<CR>", { noremap = true, silent = true })
