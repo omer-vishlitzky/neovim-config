@@ -1,5 +1,6 @@
 require("defaults.set")
 require("defaults.remap")
+require("defaults.lazy")
 
 -- disable providers
 vim.g.loaded_perl_provider = 0
