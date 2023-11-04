@@ -1,6 +1,4 @@
-require("config.set")
-require("config.remap")
-require("config.lazy")
+require("plugins.lazy")
 
 -- disable providers
 vim.g.loaded_perl_provider = 0
