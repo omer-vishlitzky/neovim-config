@@ -3,7 +3,6 @@ vim.g.loaded_netrwPlugin = 1
 
 return {
   'nvim-tree/nvim-tree.lua',
-  lazy = false,
   keys = {
     { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
   },

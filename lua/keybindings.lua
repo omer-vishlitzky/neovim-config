@@ -1,5 +1,5 @@
-vim.g.mapleader = " "
-
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Center search results
 vim.api.nvim_set_keymap("n", "n", "nzz", { noremap = true, silent = true })
@@ -17,5 +17,3 @@ vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h<CR>", { noremap = true, silent = t
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k<CR>", { noremap = true, silent = true })
-
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
