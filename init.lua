@@ -1,1 +1,1 @@
-require("defaults")
+require("config")
