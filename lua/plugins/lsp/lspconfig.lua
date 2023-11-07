@@ -32,6 +32,13 @@ return {
       pyright = {},
       rust_analyzer = {},
       tsserver = {},
+      java_language_server = {},
+      bashls = {},
+      tailwindcss = {},
+      vls = {},
+      jqls = {},
+      zls = {},
+      kotlin_language_server = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
 
       lua_ls = {
