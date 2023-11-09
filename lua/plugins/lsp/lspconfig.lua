@@ -40,7 +40,6 @@ return {
       zls = {},
       kotlin_language_server = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
-
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },

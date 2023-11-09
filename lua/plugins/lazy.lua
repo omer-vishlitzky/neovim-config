@@ -12,11 +12,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { import = "plugins.general" },
-  { import = "plugins.lsp" },
-  { import = "plugins.git" },
-  { import = "plugins.colorschemes" },
+  spec = {
+    { import = "plugins.general" },
+    { import = "plugins.lsp" },
+    { import = "plugins.git" },
+    { import = "plugins.colorschemes" },
+  },
   defaults = {
-    version = "*"
+    -- version = "*"
   }
 })
