@@ -31,6 +31,5 @@
         "/home/omer/.local/share/nvim/lazy/plenary.nvim/lua",
         "/home/omer/.local/share/nvim/lazy/lush.nvim/lua",
         "/home/omer/.config/nvim/lua",
-        "${3rd}/luv/library"
     ]
 }

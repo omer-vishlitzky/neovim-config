@@ -16,4 +16,7 @@ require("lazy").setup({
   { import = "plugins.lsp" },
   { import = "plugins.git" },
   { import = "plugins.colorschemes" },
+  defaults = {
+    version = "*"
+  }
 })

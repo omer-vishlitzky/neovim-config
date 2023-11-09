@@ -32,7 +32,7 @@ return {
       pyright = {},
       rust_analyzer = {},
       tsserver = {},
-      java_language_server = {},
+      jdtls = {},
       bashls = {},
       tailwindcss = {},
       vls = {},
