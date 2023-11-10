@@ -5,6 +5,7 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   build = ':TSUpdate',
+  lazy = false,
   config = function()
     require 'nvim-treesitter.configs'.setup {
       -- A list of parser names, or "all"

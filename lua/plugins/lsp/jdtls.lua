@@ -1,9 +1,6 @@
 return {
   'mfussenegger/nvim-jdtls',
-  keys = {
-    { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
-  },
-  enabled = false,
+  ft = {"java"},
   config = function()
     local config = {
       cmd = { '/home/omer/.local/share/nvim/mason/packages/jdtls/jdtls' },
