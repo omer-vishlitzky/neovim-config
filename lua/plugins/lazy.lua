@@ -19,6 +19,6 @@ require("lazy").setup({
     { import = "plugins.colorschemes" },
   },
   defaults = {
-    -- version = "*"
+    lazy = true
   }
 })

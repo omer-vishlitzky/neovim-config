@@ -1,5 +1,8 @@
 return {
   "RRethy/vim-illuminate",
+  keys = {
+    { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
+  },
   config = function()
     -- default configuration
     require('illuminate').configure({
@@ -56,17 +59,5 @@ return {
       -- case_insensitive_regex: sets regex case sensitivity
       case_insensitive_regex = false,
     })
-    -- change the highlight style
-    vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "Gray" })
-
-    --- auto update the highlight style on colorscheme change
-    -- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-    --   pattern = { "*" },
-    --   callback = function(ev)
-    --     vim.api.nvim_set_hl(0, "IlluminatedWordText", { sp = "NONE" })
-    --     vim.api.nvim_set_hl(0, "IlluminatedWordRead", { sp = "NONE" })
-    --     vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { sp = "NONE" })
-    --   end
-    -- })
   end
 }
