@@ -13,6 +13,9 @@ return {
     -- Additional lua configuration, makes nvim stuff amazing!
     'folke/neodev.nvim',
   },
+  -- opts = {
+  --   inlay_hints = { enabled = true },
+  -- },  
   config = function()
     -- mason-lspconfig requires that these setup functions are called in this order
     -- before setting up the servers.
@@ -50,7 +53,9 @@ return {
     }
 
     -- Setup neovim lua configuration
-    require('neodev').setup()
+    require('neodev').setup({
+        library = { plugins = { "nvim-dap-ui" }, types = true }
+    })
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
