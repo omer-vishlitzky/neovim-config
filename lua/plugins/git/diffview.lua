@@ -22,7 +22,7 @@ return {
     -- Map the command
     vim.cmd('command! -nargs=? DiffviewToggle lua toggle_diffview(<q-args>)')
 
-    vim.api.nvim_set_keymap("n", "<Leader>dl", "<CMD>DiffviewToggle<CR>", { desc = "DiffView Local"})
-    vim.api.nvim_set_keymap("n", "<Leader>do", "<CMD>DiffviewToggle @{u}<CR>", { desc = "DiffView Origin"})
+    vim.api.nvim_set_keymap("n", "<Leader>dl", "<CMD>DiffviewToggle<CR>", { desc = "DiffView Local" })
+    vim.api.nvim_set_keymap("n", "<Leader>do", "<CMD>DiffviewToggle @{u}<CR>", { desc = "DiffView Origin" })
   end
 }
