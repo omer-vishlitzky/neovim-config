@@ -15,8 +15,8 @@ require("lazy").setup({
   spec = {
     { import = "plugins.general" },
     { import = "plugins.lsp" },
-    { import = "plugins.git" },
-    { import = "plugins.dap" },
+    -- { import = "plugins.git" },
+    -- { import = "plugins.dap" },
     { import = "plugins.colorschemes" },
   },
   defaults = {

@@ -32,6 +32,9 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.showtabline = 2
 vim.opt.clipboard = "unnamedplus" -- Access system clipboard
 
+-- disable providers
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Highlight on yank
 vim.cmd [[
