@@ -17,6 +17,7 @@ return {
         "latex",
         "bash",
         "vim",
+        "vimdoc",
         "query",
         "python",
         "javascript",

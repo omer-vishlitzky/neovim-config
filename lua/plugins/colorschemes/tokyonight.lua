@@ -1,5 +1,7 @@
 return {
   "folke/tokyonight.nvim",
-  lazy = true,
-  opts = {},
+  lazy = false,
+  config = function ()
+    vim.cmd.colorscheme("tokyonight")
+  end
 }

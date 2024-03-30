@@ -6,13 +6,8 @@ return {
   keys = {
     { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
   },
-  config = function()
-    require("nvim-tree").setup()
-  end,
+  opts = {},
   dependencies = {
-    {
-      'nvim-tree/nvim-web-devicons',
-      lazy = true
-    }
+    'nvim-tree/nvim-web-devicons',
   }
 }

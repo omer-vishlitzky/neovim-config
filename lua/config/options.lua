@@ -27,8 +27,8 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.showtabline = 2
 vim.opt.clipboard = "unnamedplus" -- Access system clipboard
 
@@ -40,3 +40,15 @@ vim.cmd [[
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
 ]]
+
+
+vim.cmd [[
+  augroup ProjectSetup
+    autocmd!
+    autocmd BufRead,BufEnter vim.fn.stdpath("config")/* setlocal et sts=2 sw=2
+  augroup END
+]]
+
+-- disable providers
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
