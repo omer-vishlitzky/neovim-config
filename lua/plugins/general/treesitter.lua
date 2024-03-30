@@ -27,7 +27,10 @@ return {
         "rust",
         "markdown",
         "markdown_inline",
-        "go"
+        "go",
+        "yaml",
+        "toml",
+        "sql"
       },
 
       -- Install parsers synchronously (only applied to `ensure_installed`)

@@ -19,7 +19,6 @@ require("lazy").setup({
     { import = "plugins.dap" },
     { import = "plugins.colorschemes" },
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
   defaults = {
     lazy = true
   }

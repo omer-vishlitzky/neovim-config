@@ -1,6 +1,6 @@
 return {
   'mfussenegger/nvim-jdtls',
-  ft = {"java"},
+  ft = { "java" },
   config = function()
     local config = {
       cmd = { '/home/omer/.local/share/nvim/mason/packages/jdtls/jdtls' },

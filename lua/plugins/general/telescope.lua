@@ -1,7 +1,12 @@
 return {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
-  lazy = false,
+  keys = {
+    {"<leader>f"}
+  },
+  cmd = {
+    "Telescope"
+  },
   config = function()
     require('telescope').setup {
       defaults = {
@@ -23,6 +28,8 @@ return {
     vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
     vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[F]ind [D]iagnostics' })
     vim.keymap.set('n', '<leader>fr', require('telescope.builtin').lsp_references, { desc = '[F]ind [R]eferences' })
+    vim.keymap.set('n', '<leader>fk', require('telescope.builtin').keymaps, { desc = '[F]ind [K]eymaps' })
+    vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp tags' })
   end,
   dependencies = {
     'nvim-lua/plenary.nvim',

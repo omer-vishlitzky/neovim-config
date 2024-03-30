@@ -1,6 +1,6 @@
 return {
-                    -- Theme inspired by Atom
-                    'navarasu/onedark.nvim',
-                    lazy = true,
-                    opts = {},
+  -- Theme inspired by Atom
+  'navarasu/onedark.nvim',
+  priority = 1000,
+  opts = {},
 }
