@@ -1,5 +1,5 @@
 return {
   'nvim-lualine/lualine.nvim',
-  lazy = false,
   opts = {},
+  lazy = false,
 }

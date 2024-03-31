@@ -30,6 +30,7 @@ return {
     vim.keymap.set('n', '<leader>fr', require('telescope.builtin').lsp_references, { desc = '[F]ind [R]eferences' })
     vim.keymap.set('n', '<leader>fk', require('telescope.builtin').keymaps, { desc = '[F]ind [K]eymaps' })
     vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp tags' })
+    vim.keymap.set('n', '<leader>fs', require('telescope.builtin').git_status, { desc = '[F]ind Git [S]tatus' })
   end,
   dependencies = {
     'nvim-lua/plenary.nvim',
