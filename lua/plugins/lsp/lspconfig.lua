@@ -80,7 +80,7 @@ return { -- LSP Configuration & Plugins
 
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
-        vim.keymap.set('n', '<leader>K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Hover Documentation' })
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Hover Documentation' })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
