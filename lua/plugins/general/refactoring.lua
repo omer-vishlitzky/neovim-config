@@ -1,5 +1,6 @@
 return {
   "ThePrimeagen/refactoring.nvim",
+  -- lazy = false,
   enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -26,10 +27,10 @@ return {
         java = true,
       },
     })
-    vim.keymap.set("x", "<leader>re", ":Refactor extract ")
-    vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+    vim.keymap.set("v", "<leader>re", ":Refactor extract ")
+    vim.keymap.set("v", "<leader>rf", ":Refactor extract_to_file ")
 
-    vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+    vim.keymap.set("v", "<leader>rv", ":Refactor extract_var ")
 
     vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
 
