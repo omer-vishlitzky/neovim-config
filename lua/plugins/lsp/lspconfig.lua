@@ -76,7 +76,8 @@ return { -- LSP Configuration & Plugins
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { buffer = event.buf, desc = '[C]ode [A]ction' })
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action,
+          { buffer = event.buf, desc = '[C]ode [A]ction' })
 
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
@@ -156,6 +157,7 @@ return { -- LSP Configuration & Plugins
             completion = {
               callSnippet = 'Replace',
             },
+            hint = { enable = true }
             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             -- diagnostics = { disable = { 'missing-fields' } },
           },
