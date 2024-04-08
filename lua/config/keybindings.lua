@@ -8,6 +8,21 @@ vim.api.nvim_set_keymap("n", "N", "Nzz", { noremap = true, silent = true })
 -- Paste over currently selected text without yanking it
 vim.api.nvim_set_keymap("v", "p", '"_dP', { noremap = true, silent = true })
 
+-- 
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("n", "<S-Left>", "<cmd>vertical resize -5<CR>")
+vim.keymap.set("n", "<S-Right>", "<cmd>vertical resize +5<CR>")
+vim.keymap.set("n", "<S-Up>", "<cmd>resize -5<CR>")
+vim.keymap.set("n", "<S-Down>", "<cmd>resize +5<CR>")
+vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader><leader>", function()
+    vim.cmd("so")
+end)
+
+
 -- Switch buffer
 vim.api.nvim_set_keymap("n", "<Right>", ":bnext<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Left>", ":bprevious<CR>", { noremap = true, silent = true })
