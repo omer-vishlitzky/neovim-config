@@ -87,6 +87,7 @@ return { -- LSP Configuration & Plugins
         --  For example, in C this would take you to the header.
         vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, { buffer = event.buf, desc = '[G]oto [D]eclaration' })
         vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { buffer = event.buf, desc = '[L]sp [F]ormat' })
+        vim.keymap.set('n', '<leader>th', vim.lsp.inlay_hint.enable(0, nil), { buffer = event.buf, desc = '[T]oggle inlay [H]ints' })
 
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
@@ -129,10 +130,12 @@ return { -- LSP Configuration & Plugins
       gopls = {
         settings = {
           gopls = {
-            analyses = {
-              unusedparams = true,
+            ["ui.inlayhint.hints"] = {
+              compositeLiteralFields = true,
+              constantValues = true,
+              parameterNames = true,
+              assignVariableTypes = true
             },
-            staticcheck = true,
           },
         },
       },
