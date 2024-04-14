@@ -1,6 +1,5 @@
 return {
   'nvim-tree/nvim-tree.lua',
-  lazy = true,
   keys = {
     { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
     { "<C-f>", "<cmd>NvimTreeFindFile<cr>", desc = "NvimTreeFindFile" },
