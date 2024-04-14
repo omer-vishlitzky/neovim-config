@@ -27,38 +27,53 @@ return { -- LSP Configuration & Plugins
     require('neodev').setup({})
     require('mason').setup()
     require('mason-tool-installer').setup({})
-    local lspconfig = require('lspconfig')
-    lspconfig.lua_ls.setup({
-      settings = {
-        Lua = {
-          completion = {
-            callSnippet = 'Replace',
-          },
-          hint = { enable = true }
-        },
-      }
-
-    })
-    lspconfig.rust_analyzer.setup({})
-    lspconfig.gopls.setup({
-      settings = {
-        gopls = {
-          ["ui.inlayhint.hints"] = {
-            compositeLiteralFields = true,
-            constantValues = true,
-            parameterNames = true,
-            assignVariableTypes = true
+    local servers = {
+      lua_ls = {
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = 'Replace',
+            },
+            hint = { enable = true }
           },
         },
       },
-    })
-    require('mason-lspconfig').setup({
+      rust_analyzer = {},
+      gopls = {
+        settings = {
+          gopls = {
+            ["ui.inlayhint.hints"] = {
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              functionTypeParameters = true,
+              constantValues = true,
+              parameterNames = true,
+              assignVariableTypes = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+      },
+      yamlls = {},
+    }
+    require('mason-lspconfig').setup {
       ensure_installed = {
         "rust_analyzer",
         "lua_ls",
         "gopls",
         "clangd",
+        -- "yamlls",
       },
-    })
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          -- This handles overriding only values explicitly passed
+          -- by the server configuration above. Useful when disabling
+          -- certain features of an LSP (for example, turning off formatting for tsserver)
+          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          require('lspconfig')[server_name].setup(server)
+        end,
+      },
+    }
   end,
 }

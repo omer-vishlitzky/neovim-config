@@ -5,7 +5,7 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   build = ':TSUpdate',
-  lazy = false,
+  event = { "BufReadPost", "BufNewFile" },
   config = function()
     require 'nvim-treesitter.configs'.setup {
       -- A list of parser names, or "all"
