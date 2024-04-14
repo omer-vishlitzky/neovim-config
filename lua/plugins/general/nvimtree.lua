@@ -1,8 +1,6 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 return {
   'nvim-tree/nvim-tree.lua',
+  lazy = true,
   keys = {
     { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
     { "<C-f>", "<cmd>NvimTreeFindFile<cr>", desc = "NvimTreeFindFile" },

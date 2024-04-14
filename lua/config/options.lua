@@ -41,13 +41,8 @@ vim.cmd [[
   augroup end
 ]]
 
-
-vim.cmd [[
-  augroup ProjectSetup
-    autocmd!
-    autocmd BufRead,BufEnter vim.fn.stdpath("config")/* setlocal et sts=2 sw=2
-  augroup END
-]]
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- disable providers
 vim.g.loaded_perl_provider = 0

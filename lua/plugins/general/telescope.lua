@@ -2,7 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
   keys = {
-    { "<leader>f" }
+    { "<leader>f", mode = {"n"} }
   },
   cmd = {
     "Telescope"
