@@ -34,11 +34,16 @@ return { -- LSP Configuration & Plugins
             completion = {
               callSnippet = 'Replace',
             },
-            hint = { enable = true }
+            hint = {
+              enable = true,
+              setType = true,
+            }
           },
         },
       },
+
       rust_analyzer = {},
+
       gopls = {
         settings = {
           gopls = {
@@ -54,7 +59,9 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
+
     }
+
     require('mason-lspconfig').setup {
       ensure_installed = {
         "rust_analyzer",
