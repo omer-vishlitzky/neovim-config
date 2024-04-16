@@ -57,6 +57,9 @@ return { -- LSP Configuration & Plugins
         "lua_ls",
         "gopls",
         "clangd",
+        "pyright",
+        "jsonls",
+        "yamlls",
       },
       handlers = {
         function(server_name)
