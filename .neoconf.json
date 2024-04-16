@@ -1,17 +1,23 @@
 {
   "neodev": {
+    "lspconfig": true,
+    "setup_jsonls": true,
     "library": {
       "enabled": true,
       "plugins": [
         "nvim-lspconfig",
-        "lsp"
+        "lsp",
+        "neoconf.nvim"
       ]
     }
   },
   "neoconf": {
+    "local_settings": ".neoconf.json",
+    "live_reload": true,
     "plugins": {
       "lua_ls": {
-        "enabled": true
+        "enabled": true,
+        "enabled_for_neovim_config": true
       }
     }
   },

@@ -7,8 +7,8 @@ return { -- LSP Configuration & Plugins
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'hrsh7th/nvim-cmp',
-    { 'j-hui/fidget.nvim', opts = {} },
-    { 'folke/neodev.nvim', opts = {} },
+    { 'j-hui/fidget.nvim',  opts = {} },
+    { 'folke/neodev.nvim',  opts = {} },
     { 'folke/neoconf.nvim', opts = {} },
   },
   config = function()

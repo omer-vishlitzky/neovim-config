@@ -1,6 +1,7 @@
 return {
   'ellisonleao/gruvbox.nvim',
   priority = 1000,
+  lazy = false,
   config = function()
     -- setup must be called before loading the colorscheme
     -- Default options:
@@ -28,6 +29,6 @@ return {
       dim_inactive = false,
       transparent_mode = false,
     })
-    -- vim.cmd.colorscheme 'gruvbox'
+    vim.cmd.colorscheme 'gruvbox'
   end
 }
