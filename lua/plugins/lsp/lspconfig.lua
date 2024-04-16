@@ -6,8 +6,10 @@ return { -- LSP Configuration & Plugins
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    'hrsh7th/nvim-cmp',
     { 'j-hui/fidget.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
+    { 'folke/neoconf.nvim', opts = {} },
   },
   config = function()
     vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efition' })
@@ -25,23 +27,10 @@ return { -- LSP Configuration & Plugins
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
     require('neodev').setup({})
+    require('neoconf').setup({})
     require('mason').setup()
     require('mason-tool-installer').setup({})
     local servers = {
-      lua_ls = {
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
-            hint = {
-              enable = true,
-              setType = true,
-            }
-          },
-        },
-      },
-
       rust_analyzer = {},
 
       gopls = {
