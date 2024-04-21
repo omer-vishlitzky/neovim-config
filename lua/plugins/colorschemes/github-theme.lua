@@ -2,7 +2,7 @@ return {
   'projekt0n/github-nvim-theme',
   priority = 1000,
   config = function()
-    require('github-theme').setup({
+    local cfg = {
       options = {
         inverse = { -- Inverse highlight for different types
           match_paren = false,
@@ -15,6 +15,7 @@ return {
           types = 'italic,bold',
         }
       }
-    })
+    }
+    require('github-theme').setup(cfg)
   end
 }

@@ -3,7 +3,7 @@ return {
   priority = 1000,
   name = 'rose-pine',
   config = function()
-    require('rose-pine').setup({
+    local cfg = {
       --- @usage 'auto'|'main'|'moon'|'dawn'
       variant = 'auto',
       --- @usage 'main'|'moon'|'dawn'
@@ -56,6 +56,7 @@ return {
         -- you can set the inherit option:
         Search = { bg = 'gold', inherit = false },
       }
-    })
+    }
+    require('rose-pine').setup(cfg)
   end
 }
