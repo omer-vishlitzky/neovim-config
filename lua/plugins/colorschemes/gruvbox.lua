@@ -3,9 +3,8 @@ return {
   priority = 1000,
   lazy = false,
   config = function()
-    -- setup must be called before loading the colorscheme
-    -- Default options:
-    require("gruvbox").setup({
+    --- @type GruvboxConfig
+    local cfg = {
       undercurl = true,
       underline = true,
       bold = true,
@@ -28,7 +27,9 @@ return {
       overrides = {},
       dim_inactive = false,
       transparent_mode = false,
-    })
+      terminal_colors = true,
+    }
+    require("gruvbox").setup(cfg)
     vim.cmd.colorscheme 'gruvbox'
   end
 }
