@@ -20,7 +20,23 @@
       "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
       "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
       "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
-      "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always"
+      "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
+      "rust-analyzer.inlayHints.closureStyle": "rust_analyzer",
+      "rust-analyzer.inlayHints.rangeExclusiveHints.enable": true,
+      "rust-analyzer.inlayHints.renderColons": true,
+      "rust-analyzer.inlayHints.reborrowHints.enable": "always",
+      "rust-analyzer.inlayHints.parameterHints.enable": true,
+      "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+      "rust-analyzer.hover.actions.implementations.enable": true,
+      "rust-analyzer.hover.actions.enable": true
+    },
+    "kotlin_language_server": {
+      "kotlin.indexing.enabled": true,
+      "kotlin.inlayHints.typeHints": true,
+      "kotlin.inlayHints.chainedHints": true,
+      "kotlin.inlayHints.parameterHints": true,
+      "kotlin.completion.snippets.enabled": true,
+      "kotlin.languageServer.enabled": true
     }
   }
 }
