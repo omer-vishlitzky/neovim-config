@@ -1,4 +1,18 @@
 {
+  "neodev": {
+    "lspconfig": true
+  },
+  "neoconf": {
+    "plugins": {
+      "lspconfig": {
+        "enabled": true
+      },
+      "jsonls": {
+        "enabled": true,
+        "configured_servers_only": true
+      }
+    }
+  },
   "lspconfig": {
     "rust_analyzer": {
       "rust-analyzer.inlayHints.chainingHints.enable": true,
