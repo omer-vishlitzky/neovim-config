@@ -1,0 +1,12 @@
+{
+  "lspconfig": {
+    "rust_analyzer": {
+      "rust-analyzer.inlayHints.chainingHints.enable": true,
+      "rust-analyzer.inlayHints.typeHints.enable": true,
+      "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
+      "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
+      "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
+      "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always"
+    }
+  }
+}
