@@ -2,7 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
   keys = {
-    { "<leader>f", mode = {"n"} }
+    { "<leader>f", mode = { "n" } }
   },
   cmd = {
     "Telescope"
@@ -24,7 +24,8 @@ return {
 
     -- See `:help telescope.builtin`
     vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[F]ind recently [O]pened files' })
-    vim.keymap.set('n', '<leader>ff', function () require('telescope.builtin').find_files(--[[ {no_ignore=true} ]]) end, { desc = '[F]ind [F]iles' })
+    vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
+    vim.keymap.set('n', '<leader>rt', require('telescope.builtin').resume, { desc = '[R]esume [T]elescope' })
     vim.keymap.set('n', '<leader>fp', require('telescope.builtin').git_files, { desc = '[F]ind [P]roject files' })
     vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
     vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[F]ind [B]uffers' })
