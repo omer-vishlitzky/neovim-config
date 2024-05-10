@@ -40,6 +40,12 @@
       "kotlin.inlayHints.parameterHints": true,
       "kotlin.completion.snippets.enabled": true,
       "kotlin.languageServer.enabled": true
+    },
+    "clangd": {
+      "clangd.enableCodeCompletion": true,
+      "clangd.serverCompletionRanking": true,
+      "clangd.onConfigChanged": "prompt",
+      "clangd.inactiveRegions.useBackgroundHighlight": true
     }
   }
 }

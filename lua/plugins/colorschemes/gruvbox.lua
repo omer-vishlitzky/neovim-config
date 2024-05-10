@@ -3,6 +3,7 @@ return {
   priority = 1000,
   lazy = false,
   config = function()
+    ---@diagnostic disable-next-line: undefined-doc-name
     --- @type GruvboxConfig
     local cfg = {
       undercurl = true,
