@@ -49,6 +49,7 @@ return { -- LSP Configuration & Plugins
         },
       },
 
+      clangd = {}
     }
 
     require('mason-lspconfig').setup {
