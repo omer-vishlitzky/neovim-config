@@ -9,6 +9,7 @@ return {
       c = { name = "[C]ode" },
       f = { name = "[F]ind" },
       r = { name = "[R]efactoring" },
+      j = { name = "[J]son" },
       t = { name = "[T]oggle" },
     }, { prefix = "<leader>" })
   end

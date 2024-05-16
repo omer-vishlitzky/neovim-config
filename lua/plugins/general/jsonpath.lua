@@ -1,8 +1,8 @@
 return {
   'phelipetls/jsonpath.nvim',
   keys = {
-    { "<leader>jw", mode = { "n" } },
-    { "<leader>jc", mode = { "n" } }
+    { "<leader>jw", mode = { "n" }, desc = "[J]son Show in [W]inbar" },
+    { "<leader>jc", mode = { "n" }, desc = "[J]son [C]opy" }
   },
   config = function()
     vim.keymap.set("n", "<leader>jw", function()
