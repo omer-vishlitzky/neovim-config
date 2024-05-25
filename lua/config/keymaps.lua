@@ -23,10 +23,6 @@ vim.keymap.set("n", "<leader><leader>", function()
 end, { desc = "[S]ource" })
 
 
--- Switch buffer
-vim.api.nvim_set_keymap("n", "<Right>", ":bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Left>", ":bprevious<CR>", { noremap = true, silent = true })
-
 -- Switch window
 vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l<CR>", { noremap = true, silent = true })

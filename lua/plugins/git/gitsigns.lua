@@ -24,7 +24,7 @@ return {
           gs.next_hunk()
         end)
         return '<Ignore>'
-      end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
+      end, { expr = true, buffer = bufnr, desc = 'Next Hunk' })
       vim.keymap.set({ 'n', 'v' }, '[c', function()
         if vim.wo.diff then
           return '[c'
@@ -33,7 +33,7 @@ return {
           gs.prev_hunk()
         end)
         return '<Ignore>'
-      end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
+      end, { expr = true, buffer = bufnr, desc = 'Previous Hunk' })
     end,
   },
 }
