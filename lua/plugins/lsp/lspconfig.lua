@@ -9,7 +9,7 @@ return { -- LSP Configuration & Plugins
     'hrsh7th/nvim-cmp',
     { 'j-hui/fidget.nvim',  opts = {} },
     { 'folke/neodev.nvim',  opts = {} },
-    -- { 'folke/neoconf.nvim', opts = {} },
+    { 'folke/neoconf.nvim', opts = {} },
   },
   config = function()
     vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efition' })
@@ -21,13 +21,13 @@ return { -- LSP Configuration & Plugins
     vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
     vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = '[L]sp [F]ormat' })
-    vim.keymap.set('n', '<leader>th', function() vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled()) end,
+    vim.keymap.set('n', '<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
       { desc = '[T]oggle inlay [H]ints' })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
     require('neodev').setup({})
-    -- require('neoconf').setup({})
+    require('neoconf').setup({})
     require('mason').setup()
     require('mason-tool-installer').setup({})
     local servers = {
