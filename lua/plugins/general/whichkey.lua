@@ -7,6 +7,7 @@ return {
     wk.register({
       l = { name = "[L]sp" },
       c = { name = "[C]ode" },
+      h = { name = "[H]unk" },
       f = { name = "[F]ind" },
       r = { name = "[R]efactoring" },
       j = { name = "[J]son" },

@@ -14,7 +14,7 @@ return { -- LSP Configuration & Plugins
   config = function()
     vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efition' })
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
-    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { desc = '[G]oto [R]eferences' })
+    vim.keymap.set('n', 'gr', function() require("trouble").toggle("lsp_references") end, { desc = "[G]oto [R]eferences"})
     vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = '[G]oto [I]mplementation' })
     vim.keymap.set('n', 'gt', require('telescope.builtin').lsp_type_definitions, { desc = '[G]oto Type [D]efinitions' })
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })

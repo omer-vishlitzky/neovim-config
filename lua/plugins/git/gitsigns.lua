@@ -14,6 +14,9 @@ return {
     on_attach = function(bufnr)
       -- vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
 
+      vim.api.nvim_set_keymap("n", "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+      vim.api.nvim_set_keymap("n", "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+      vim.api.nvim_set_keymap("n", "<leader>hp", "<CMD>Gitsigns preview_hunk<CR>", { desc = "[H]unk [P]review" })
       -- don't override the built-in and fugitive keymaps
       local gs = package.loaded.gitsigns
       vim.keymap.set({ 'n', 'v' }, ']c', function()
