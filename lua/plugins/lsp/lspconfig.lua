@@ -8,7 +8,7 @@ return { -- LSP Configuration & Plugins
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'hrsh7th/nvim-cmp',
     { 'j-hui/fidget.nvim',  opts = {} },
-    { 'folke/neodev.nvim',  opts = {} },
+    -- { 'folke/neodev.nvim',  opts = {} },
     { 'folke/neoconf.nvim', opts = {} },
   },
   config = function()
@@ -26,7 +26,7 @@ return { -- LSP Configuration & Plugins
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-    require('neodev').setup({})
+    -- require('neodev').setup({})
     require('neoconf').setup({})
     require('mason').setup()
     require('mason-tool-installer').setup({})
