@@ -10,6 +10,7 @@ return {
   config = function()
     require('refactoring').setup({
       show_success_message = true,
+      below = true,
     })
     vim.keymap.set("v", "<leader>re", ":Refactor extract ")
     vim.keymap.set("v", "<leader>rf", ":Refactor extract_to_file ")

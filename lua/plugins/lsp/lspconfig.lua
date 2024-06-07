@@ -1,35 +1,38 @@
 return { -- LSP Configuration & Plugins
-  'neovim/nvim-lspconfig',
+  "neovim/nvim-lspconfig",
   event = { "BufReadPost", "BufNewFile" },
   cmd = { "Mason" },
   dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-    'hrsh7th/nvim-cmp',
-    { 'j-hui/fidget.nvim',  opts = {} },
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    "hrsh7th/nvim-cmp",
+    { "j-hui/fidget.nvim",  opts = {} },
     -- { 'folke/neodev.nvim',  opts = {} },
-    { 'folke/neoconf.nvim', opts = {} },
+    { "folke/neoconf.nvim", opts = {} },
   },
   config = function()
-    vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efition' })
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
-    vim.keymap.set('n', 'gr', function() require("trouble").toggle("lsp_references") end, { desc = "[G]oto [R]eferences"})
-    vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = '[G]oto [I]mplementation' })
-    vim.keymap.set('n', 'gt', require('telescope.builtin').lsp_type_definitions, { desc = '[G]oto Type [D]efinitions' })
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
-    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = '[L]sp [F]ormat' })
-    vim.keymap.set('n', '<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
-      { desc = '[T]oggle inlay [H]ints' })
+    vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efition" })
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
+    vim.keymap.set("n", "gr", function()
+      require("trouble").toggle("lsp_references")
+    end, { desc = "[G]oto [R]eferences" })
+    vim.keymap.set("n", "gI", require("telescope.builtin").lsp_implementations, { desc = "[G]oto [I]mplementation" })
+    vim.keymap.set("n", "gt", require("telescope.builtin").lsp_type_definitions, { desc = "[G]oto Type [D]efinitions" })
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" })
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "[L]sp [F]ormat" })
+    vim.keymap.set("n", "<leader>th", function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end, { desc = "[T]oggle inlay [H]ints" })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
     -- require('neodev').setup({})
-    require('neoconf').setup({})
-    require('mason').setup()
-    require('mason-tool-installer').setup({})
+    require("neoconf").setup({})
+    require("mason").setup()
+    require("mason-tool-installer").setup({})
     local servers = {
       rust_analyzer = {},
 
@@ -48,28 +51,46 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
+      -- pylsp = {
+      --   plugins = {
+      --     -- formatter options
+      --     black = { enabled = true },
+      --     autopep8 = { enabled = false },
+      --     yapf = { enabled = false },
+      --     -- linter options
+      --     pylint = { enabled = true, executable = "pylint" },
+      --     pyflakes = { enabled = false },
+      --     pycodestyle = { enabled = false },
+      --     -- type checker
+      --     pylsp_mypy = { enabled = true },
+      --     -- auto-completion options
+      --     jedi_completion = { fuzzy = true },
+      --     -- import sorting
+      --     pyls_isort = { enabled = true },
+      --   },
+      -- },
 
-      clangd = {}
+      clangd = {},
     }
-
-    require('mason-lspconfig').setup {
+    require("mason-lspconfig").setup({
       ensure_installed = {
         "rust_analyzer",
         "lua_ls",
         "zls",
         "gopls",
         "clangd",
-        "pyright",
+        "ruff",
+        "ruff_lsp",
         "jsonls",
         "yamlls",
       },
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+          require("lspconfig")[server_name].setup(server)
         end,
       },
-    }
+    })
   end,
 }
