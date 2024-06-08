@@ -35,7 +35,8 @@ return { -- LSP Configuration & Plugins
     require("mason-tool-installer").setup({})
     local servers = {
       rust_analyzer = {},
-
+      ruff = {},
+      lua_ls = {},
       gopls = {
         settings = {
           gopls = {
@@ -51,25 +52,6 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
-      -- pylsp = {
-      --   plugins = {
-      --     -- formatter options
-      --     black = { enabled = true },
-      --     autopep8 = { enabled = false },
-      --     yapf = { enabled = false },
-      --     -- linter options
-      --     pylint = { enabled = true, executable = "pylint" },
-      --     pyflakes = { enabled = false },
-      --     pycodestyle = { enabled = false },
-      --     -- type checker
-      --     pylsp_mypy = { enabled = true },
-      --     -- auto-completion options
-      --     jedi_completion = { fuzzy = true },
-      --     -- import sorting
-      --     pyls_isort = { enabled = true },
-      --   },
-      -- },
-
       clangd = {},
     }
     require("mason-lspconfig").setup({
@@ -80,7 +62,6 @@ return { -- LSP Configuration & Plugins
         "gopls",
         "clangd",
         "ruff",
-        "ruff_lsp",
         "jsonls",
         "yamlls",
       },
