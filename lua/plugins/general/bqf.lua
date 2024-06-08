@@ -1,5 +1,5 @@
 return {
   'kevinhwang91/nvim-bqf',
-  lazy = false,
+  event = "VeryLazy",
   opts = {},
 }

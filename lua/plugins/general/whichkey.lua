@@ -1,7 +1,7 @@
 return {
   'folke/which-key.nvim',
   opts = {},
-  lazy = false,
+  event = "VeryLazy",
   config = function()
     local wk = require("which-key")
     wk.register({

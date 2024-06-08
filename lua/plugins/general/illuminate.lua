@@ -1,6 +1,6 @@
 return {
   'RRethy/vim-illuminate',
-  lazy = false,
+  event = "VeryLazy",
   config = function()
     -- default configuration
     require("illuminate").configure {} -- change the highlight styl
