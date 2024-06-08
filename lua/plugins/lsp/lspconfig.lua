@@ -62,6 +62,7 @@ return { -- LSP Configuration & Plugins
         "gopls",
         "clangd",
         "ruff",
+        "pyright",
         "jsonls",
         "yamlls",
       },
