@@ -14,12 +14,11 @@
     }
   },
   "lspconfig": {
-    "pylsp": {
-      //"pylsp.plugins.pyflakes.enabled": true,
-      //"pylsp.plugins.pylint.enabled": true,
-      "pylsp.plugins.flake8.enabled": true
-      //"pylsp.plugins.autopep8.enabled": false,
-      //"pylsp.plugins.yapf.enabled": true
+    "pyright": {
+      "python.analysis.typeCheckingMode": "strict",
+      "pyright.disableTaggedHints": false,
+      "pyright.disableLanguageServices": false,
+      "python.analysis.autoImportCompletions": true,
     },
     "rust_analyzer": {
       "rust-analyzer.inlayHints.chainingHints.enable": true,
