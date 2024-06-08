@@ -14,7 +14,6 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
-
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
@@ -31,6 +30,7 @@ vim.opt.colorcolumn = "80"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.showtabline = 2
 vim.opt.clipboard = "unnamedplus" -- Access system clipboard
+vim.g.have_nerd_font = true
 
 
 -- Highlight on yank
