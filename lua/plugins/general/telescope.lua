@@ -49,18 +49,18 @@ return {
     pcall(require('telescope').load_extension, 'fzf')
 
     -- See `:help telescope.builtin`
-    vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[F]ind recently [O]pened files' })
-    vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
-    vim.keymap.set('n', '<leader>rt', require('telescope.builtin').resume, { desc = '[R]esume [T]elescope' })
-    vim.keymap.set('n', '<leader>fp', require('telescope.builtin').git_files, { desc = '[F]ind [P]roject files' })
-    vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
-    vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[F]ind [B]uffers' })
-    vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[F]ind [D]iagnostics' })
-    vim.keymap.set('n', '<leader>fr', require('telescope.builtin').lsp_references, { desc = '[F]ind [R]eferences' })
-    vim.keymap.set('n', '<leader>fi', require('telescope.builtin').lsp_implementations,
-      { desc = '[F]ind [I]mplementations' })
-    vim.keymap.set('n', '<leader>fk', require('telescope.builtin').keymaps, { desc = '[F]ind [K]eymaps' })
-    vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp tags' })
-    vim.keymap.set('n', '<leader>fs', require('telescope.builtin').git_status, { desc = '[F]ind Git [S]tatus' })
+    local telescope = require('telescope.builtin')
+    vim.keymap.set('n', '<leader>fo', telescope.oldfiles, { desc = '[F]ind recently [O]pened files' })
+    vim.keymap.set('n', '<leader>ff', telescope.find_files, { desc = '[F]ind [F]iles' })
+    vim.keymap.set('n', '<leader>rt', telescope.resume, { desc = '[R]esume [T]elescope' })
+    vim.keymap.set('n', '<leader>fp', telescope.git_files, { desc = '[F]ind [P]roject files' })
+    vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = '[F]ind by [G]rep' })
+    vim.keymap.set('n', '<leader>fb', telescope.buffers, { desc = '[F]ind [B]uffers' })
+    vim.keymap.set('n', '<leader>fd', telescope.diagnostics, { desc = '[F]ind [D]iagnostics' })
+    vim.keymap.set('n', '<leader>fr', telescope.lsp_references, { desc = '[F]ind [R]eferences' })
+    vim.keymap.set('n', '<leader>fi', telescope.lsp_implementations, { desc = '[F]ind [I]mplementations' })
+    vim.keymap.set('n', '<leader>fk', telescope.keymaps, { desc = '[F]ind [K]eymaps' })
+    vim.keymap.set('n', '<leader>fh', telescope.help_tags, { desc = '[F]ind [H]elp tags' })
+    vim.keymap.set('n', '<leader>fs', telescope.git_status, { desc = '[F]ind Git [S]tatus' })
   end,
 }
