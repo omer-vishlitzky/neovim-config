@@ -31,9 +31,11 @@ return {
           },
         })
       else
+        local venv_path = os.getenv("VIRTUAL_ENV")
+        local python_executable = venv_path and venv_path .. "/bin/python" or "/usr/bin/python"
         cb({
           type = "executable",
-          command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
+          command = python_executable,
           args = { "-m", "debugpy.adapter" },
           options = {
             source_filetype = "python",
