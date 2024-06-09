@@ -1,14 +1,14 @@
 return {
   "ThePrimeagen/refactoring.nvim",
   cmd = {
-    "Refactor"
+    "Refactor",
   },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require('refactoring').setup({
+    require("refactoring").setup({
       prompt_func_return_type = {
         go = true,
         c = true,

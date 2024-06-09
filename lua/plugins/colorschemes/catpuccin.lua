@@ -1,5 +1,5 @@
 return {
-  'catppuccin/nvim',
+  "catppuccin/nvim",
   priority = 1000,
   opts = {},
 }

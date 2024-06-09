@@ -32,14 +32,13 @@ vim.o.showtabline = 2
 vim.opt.clipboard = "unnamedplus" -- Access system clipboard
 vim.g.have_nerd_font = true
 
-
 -- Highlight on yank
-vim.cmd [[
+vim.cmd([[
   augroup YankHighlight
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
-]]
+]])
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

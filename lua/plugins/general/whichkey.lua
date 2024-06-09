@@ -1,5 +1,5 @@
 return {
-  'folke/which-key.nvim',
+  "folke/which-key.nvim",
   opts = {},
   event = "VeryLazy",
   config = function()
@@ -13,5 +13,5 @@ return {
       j = { name = "[J]son" },
       t = { name = "[T]oggle" },
     }, { prefix = "<leader>" })
-  end
+  end,
 }

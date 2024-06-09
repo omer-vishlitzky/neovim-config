@@ -1,5 +1,5 @@
 return {
-  'projekt0n/github-nvim-theme',
+  "projekt0n/github-nvim-theme",
   priority = 1000,
   config = function()
     local cfg = {
@@ -10,12 +10,12 @@ return {
           search = true,
         },
         styles = {
-          comments = 'italic',
-          keywords = 'bold',
-          types = 'italic,bold',
-        }
-      }
+          comments = "italic",
+          keywords = "bold",
+          types = "italic,bold",
+        },
+      },
     }
-    require('github-theme').setup(cfg)
-  end
+    require("github-theme").setup(cfg)
+  end,
 }
