@@ -5,7 +5,14 @@ return {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
   },
-  lazy = false,
+  keys = {
+    { "<F5>",  "<CMD>DapContinue<CR>",                   mode = "n", desc = "Debug" },
+    { "<F6>",  "<CMD>DapToggleBreakpoint<CR>",           mode = "n", desc = "Toggle Breakpoint" },
+    { "<F7>",  "<CMD>DapStepInto<CR>",                   mode = "n", desc = "Step Into" },
+    { "<F8>",  "<CMD>DapStepOver<CR>",                   mode = "n", desc = "Step Over" },
+    { "<F9>",  "<CMD>DapStepOut<CR>",                    mode = "n", desc = "Step Out" },
+    { "<F10>", "<CMD>lua require('dapui').toggle()<CR>", mode = "n", desc = "Toggle Debug UI" },
+  },
   config = function()
     local dap = require('dap')
     local dapui = require("dapui").setup()
