@@ -1,7 +1,4 @@
 {
-  "neodev": {
-    "lspconfig": true
-  },
   "neoconf": {
     "plugins": {
       "lspconfig": {
@@ -15,10 +12,10 @@
   },
   "lspconfig": {
     "pyright": {
-      "python.analysis.typeCheckingMode": "strict",
+      "python.analysis.typeCheckingMode": "standard",
       "pyright.disableTaggedHints": false,
       "pyright.disableLanguageServices": false,
-      "python.analysis.autoImportCompletions": true,
+      "python.analysis.autoImportCompletions": true
     },
     "rust_analyzer": {
       "rust-analyzer.inlayHints.chainingHints.enable": true,

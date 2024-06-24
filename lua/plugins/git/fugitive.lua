@@ -3,4 +3,7 @@ return {
   cmd = {
     "Git",
   },
+  keys = {
+    { mode = "n", "<leader>gb", "<CMD>Git blame<CR>"}
+  }
 }

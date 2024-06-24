@@ -9,7 +9,7 @@ return {
       c = { name = "[C]ode" },
       h = { name = "[H]unk" },
       f = { name = "[F]ind" },
-      r = { name = "[R]efactoring" },
+      r = { name = "[R]efactor/[R]esume/[R]eset" },
       j = { name = "[J]son" },
       t = { name = "[T]oggle" },
     }, { prefix = "<leader>" })
