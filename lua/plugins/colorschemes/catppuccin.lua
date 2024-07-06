@@ -1,7 +1,6 @@
 return {
   "catppuccin/nvim",
   priority = 1000,
-  lazy = false,
   config = function()
     require("catppuccin").setup({
       ---@type CatppuccinOptions
@@ -16,6 +15,5 @@ return {
         dark = "mocha",
       },
     })
-    vim.cmd.colorscheme("catppuccin-mocha")
   end,
 }

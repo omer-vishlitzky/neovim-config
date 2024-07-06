@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  event = { "BufReadPost", "BufNewFile" },
   opts = {
     sections = {
       lualine_c = {
@@ -11,5 +12,4 @@ return {
       },
     },
   },
-  event = "VeryLazy",
 }

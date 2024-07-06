@@ -1,6 +1,6 @@
 return {
   "icholy/lsplinks.nvim",
-  lazy = false,
+  ft = {"yaml"},
   config = function()
     local lsplinks = require("lsplinks")
     lsplinks.setup()

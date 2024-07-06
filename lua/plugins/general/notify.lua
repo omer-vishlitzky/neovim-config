@@ -1,6 +1,5 @@
 return {
   "rcarriga/nvim-notify",
-  event = "VeryLazy",
   init = function()
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.notify = function(...)
