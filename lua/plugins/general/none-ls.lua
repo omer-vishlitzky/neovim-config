@@ -1,7 +1,6 @@
 return {
   "nvimtools/none-ls.nvim",
   event = { "BufReadPost", "BufNewFile" },
-  enabled = false,
   config = function()
     local null_ls = require("null-ls")
 
@@ -17,11 +16,6 @@ return {
 
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.yamlfix,
-
-        -- python
-        null_ls.builtins.formatting.isort,
-        null_ls.builtins.formatting.black,
-        null_ls.builtins.diagnostics.mypy,
 
         null_ls.builtins.hover.printenv,
       },
