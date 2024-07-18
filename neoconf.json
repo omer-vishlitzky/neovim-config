@@ -11,6 +11,29 @@
     }
   },
   "lspconfig": {
+    "pylsp": {
+      "pylsp.plugins.rope_completion.eager": true,
+      "pylsp.plugins.rope_autoimport.code_actions.enabled": true,
+      "pylsp.plugins.rope_autoimport.memory": true,
+      "pylsp.plugins.rope_autoimport.enabled": true,
+      "pylsp.plugins.rope_completion.enabled": true,
+      "pylsp.plugins.rope_autoimport.completions.enabled": true,
+      "pylsp.plugins.pylint.enabled": false,
+      "pylsp.plugins.pyflakes.enabled": false,
+      "pylsp.plugins.flake8.enabled": false,
+      "pylsp.plugins.pycodestyle.enabled": false,
+      "pylsp.plugins.jedi_signature_help.enabled": false,
+      "pylsp.plugins.yapf.enabled": false,
+      "pylsp.plugins.mccabe.enabled": false,
+      "pylsp.plugins.preload.enabled": false,
+      "pylsp.plugins.autopep8.enabled": false,
+      "pylsp.plugins.jedi_references.enabled": false,
+      "pylsp.plugins.pydocstyle.enabled": false,
+      "pylsp.plugins.jedi_hover.enabled": false,
+      "pylsp.plugins.jedi_symbols.enabled": false,
+      "pylsp.plugins.jedi_definition.enabled": false,
+      "pylsp.plugins.jedi_completion.enabled": false
+    },
     "pyright": {
       "python.analysis.typeCheckingMode": "standard",
       "pyright.disableTaggedHints": false,

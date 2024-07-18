@@ -4,8 +4,8 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {},
   keys = {
-    { "<leader>a", mode = { "n" } },
-    { "H", mode = { "n" } },
+    { "<leader>a", mode = { "n" }, desc = "[A]dd to harpoon" },
+    { "H", mode = { "n" } , desc = "[H]arpoon"},
   },
   config = function()
     local harpoon = require("harpoon")

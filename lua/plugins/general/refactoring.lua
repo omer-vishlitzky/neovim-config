@@ -15,12 +15,12 @@ return {
       prompt_func_return_type = {
         go = true,
         c = true,
-        python = true,
+        python = false,
       },
       prompt_func_param_type = {
         go = true,
         c = true,
-        python = true,
+        python = false,
       },
       show_success_message = true,
       below = true,

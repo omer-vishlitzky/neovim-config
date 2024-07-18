@@ -75,6 +75,13 @@ return {
             }
           },
         },
+        git_commits = {
+          mappings = {
+            i = {
+              ["<C-d>"] = diff("DiffviewOpen %s"),
+            }
+          },
+        },
         colorscheme = {
           enable_preview = true,
           layout_config = { preview_width = 0.7 },

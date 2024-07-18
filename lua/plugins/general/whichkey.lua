@@ -1,17 +1,22 @@
 return {
   "folke/which-key.nvim",
-  opts = {},
   event = "VeryLazy",
   config = function()
     local wk = require("which-key")
-    wk.register({
-      l = { name = "[L]sp" },
-      c = { name = "[C]ode" },
-      h = { name = "[H]unk" },
-      f = { name = "[F]ind" },
-      r = { name = "[R]efactor/[R]esume/[R]eset" },
-      j = { name = "[J]son" },
-      t = { name = "[T]oggle" },
-    }, { prefix = "<leader>" })
-  end,
+    local mappings = {
+      { "<leader>c", group = "[C]ode" },
+      { "<leader>f", group = "[F]ind" },
+      { "<leader>h", group = "[H]unk" },
+      { "<leader>j", group = "[J]son" },
+      { "<leader>l", group = "[L]sp" },
+      { "<leader>r", group = "[R]efactor/[R]esume/[R]eset" },
+      { "<leader>t", group = "[T]oggle" },
+    }
+    ---@type wk.Opts
+    local cfg = {
+      preset = "classic"
+    }
+    wk.add(mappings, {})
+    wk.setup(cfg)
+  end
 }

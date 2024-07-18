@@ -38,7 +38,14 @@ return { -- Autocompletion
     -- See `:help cmp`
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+    local types = require("cmp.types")
     luasnip.config.setup({})
+
+    local get_filter_for_kind =  function(kind)
+      return function(entry, ctx)
+        return entry:get_kind() == kind
+      end
+    end
 
     cmp.setup({
       snippet = {
@@ -47,6 +54,7 @@ return { -- Autocompletion
         end,
       },
       completion = { completeopt = "menu,menuone,noinsert" },
+
 
       -- For an understanding of why these mappings were
       -- chosen, you will need to read `:help ins-completion`
@@ -57,11 +65,6 @@ return { -- Autocompletion
         ["<C-n>"] = cmp.mapping.select_next_item(),
         -- Select the [p]revious item
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-
-        -- Scroll the documentation window [b]ack / [f]orward
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-
         -- Accept ([y]es) the completion.
         --  This will auto-import if your LSP supports it.
         --  This will expand snippets if the LSP sent a snippet.
@@ -90,19 +93,53 @@ return { -- Autocompletion
             luasnip.jump(-1)
           end
         end, { "i", "s" }),
+        ["<C-M-v>"] = cmp.mapping(function()
+          cmp.complete({
+            config = {
+              sources = {
+                {
+                  name = "nvim_lsp",
+                  trigger_characters = {},
+                  entry_filter = get_filter_for_kind(types.lsp.CompletionItemKind.Variable)
+                },
+              },
+            },
+          })
+        end, { "i", "c" }),
 
+        ["<C-M-p>"] = cmp.mapping(function()
+          cmp.complete({
+            config = {
+              sources = {
+                {
+                  name = "nvim_lsp",
+                  trigger_characters = {},
+                  entry_filter = get_filter_for_kind(types.lsp.CompletionItemKind.Property)
+                },
+              },
+            },
+          })
+        end, { "i", "c" }),
+
+        ["<C-M-f>"] = cmp.mapping(function()
+          cmp.complete({
+            config = {
+              sources = {
+                {
+                  name = "nvim_lsp",
+                  trigger_characters = {},
+                  entry_filter = get_filter_for_kind(types.lsp.CompletionItemKind.Field)
+                },
+              },
+            },
+          })
+        end, { "i", "c" }),
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       }),
       sources = {
-        {
-          name = "nvim_lsp",
-          entry_filter = function(entry, ctx)
-            local types = require("cmp.types")
-            -- return types.lsp.CompletionItemKind[entry:get_kind()] == cmp.lsp.CompletionItemKind.Variable
-            return true
-          end,
-        },
+        { name = "nvim_lsp" },
+        { name = "nvim_lsp_signature_help" },
         { name = "luasnip" },
         { name = "path" },
         { name = "buffer" },

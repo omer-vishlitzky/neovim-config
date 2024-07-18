@@ -87,6 +87,7 @@ return { -- LSP Configuration & Plugins
         "clangd",
         "ruff",
         "basedpyright",
+        "pylsp",
         "jsonls",
         "yamlls",
       },
