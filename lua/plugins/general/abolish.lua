@@ -1,4 +1,4 @@
 return {
   "tpope/vim-abolish",
-  lazy = false,
+  event = { "BufReadPost", "BufNewFile" },
 }
