@@ -108,13 +108,13 @@ return {
     vim.keymap.set("n", "<leader>fs", telescope.git_status, { desc = "[F]ind Git [S]tatus" })
 
     vim.keymap.set("n", "<leader>fw", function()
-      require("telescope.builtin").live_grep({ default_text = vim.fn.expand("<cword>") })
+      telescope.live_grep({ default_text = vim.fn.expand("<cword>") })
     end, { noremap = true, desc = "[F]ind [W]ord" })
     vim.keymap.set("n", "<leader>fW", function()
-      require("telescope.builtin").live_grep({ default_text = vim.fn.expand("<cWORD>") })
+      telescope.live_grep({ default_text = vim.fn.expand("<cWORD>") })
     end, { noremap = true, desc = "[F]ind [w]ord" })
     vim.keymap.set("n", "<leader>FW", function()
-      require("telescope.builtin").find_files({ default_text = vim.fn.expand("<cWORD>") })
+      telescope.find_files({ default_text = vim.fn.expand("<cWORD>") })
     end, { noremap = true, desc = "[F]ind [w]ord" })
   end,
 }
