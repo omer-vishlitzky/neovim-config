@@ -1,16 +1,16 @@
+---@diagnostic disable: missing-fields
 return { -- LSP Configuration & Plugins
   "neovim/nvim-lspconfig",
   event = { "BufReadPost", "BufNewFile" },
-  cmd = { "Mason" },
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    "hrsh7th/nvim-cmp",
-    { "j-hui/fidget.nvim",  opts = {} },
     { "folke/neoconf.nvim", opts = {} },
   },
   config = function()
+
+    vim.lsp.set_log_level(2)
     vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end,
       { desc = "[G]oto [D]efition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
@@ -36,10 +36,14 @@ return { -- LSP Configuration & Plugins
     require("neoconf").setup({})
     require("mason").setup()
     require("mason-tool-installer").setup({})
+
+    ---@type lspconfig.options
     local servers = {
       rust_analyzer = {},
       ruff = {},
-      lua_ls = {},
+      lua_ls = {
+
+      },
       gopls = {
         settings = {
           gopls = {
@@ -80,6 +84,7 @@ return { -- LSP Configuration & Plugins
       },
       clangd = {},
     }
+    require("lspconfig").ocamllsp.setup({})
     require("mason-lspconfig").setup({
       ensure_installed = {
         "rust_analyzer",

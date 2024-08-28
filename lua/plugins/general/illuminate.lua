@@ -1,6 +1,7 @@
 return {
   "RRethy/vim-illuminate",
-  event = { "BufReadPost", "BufNewFile" },
+  -- event = { "BufReadPost", "BufNewFile" },
+  event = { "VeryLazy" },
   config = function()
     -- default configuration
     require("illuminate").configure({}) -- change the highlight styl

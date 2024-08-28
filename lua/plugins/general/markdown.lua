@@ -1,10 +1,7 @@
 return {
-  "iamcco/markdown-preview.nvim",
-  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-  build = "cd app && npm install",
-  enabled = false,
-  init = function()
-    vim.g.mkdp_filetypes = { "markdown" }
-  end,
+  'MeanderingProgrammer/markdown.nvim',
+  main = "render-markdown",
   ft = { "markdown" },
+  opts = {},
+  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
 }

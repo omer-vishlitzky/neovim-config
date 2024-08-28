@@ -2,6 +2,7 @@ return {
   "rose-pine/neovim",
   priority = 1000,
   name = "rose-pine",
+  -- lazy = false,
   config = function()
     local cfg = {
       ---@usage 'auto'|'main'|'moon'|'dawn'
@@ -57,5 +58,6 @@ return {
       },
     }
     require("rose-pine").setup(cfg)
+    -- vim.cmd.colorscheme("rose-pine")
   end,
 }

@@ -4,9 +4,6 @@ return {
     { "<C-n>", "<cmd>NvimTreeToggle<cr>",   desc = "NvimTreeToggle" },
     { "<C-f>", "<cmd>NvimTreeFindFile<cr>", desc = "NvimTreeFindFile" },
   },
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
   config = function()
     local nvimtree = require("nvim-tree")
     local config = {

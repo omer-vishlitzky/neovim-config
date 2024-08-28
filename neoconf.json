@@ -1,77 +1,84 @@
 {
-  "neoconf": {
-    "plugins": {
-      "lspconfig": {
-        "enabled": true
-      },
-      "jsonls": {
-        "enabled": true,
-        "configured_servers_only": true
-      }
+    "neoconf": {
+        "plugins": {
+            "lspconfig": {
+                "enabled": true
+            },
+            "jsonls": {
+                "enabled": true,
+                "configured_servers_only": true
+            }
+        }
+    },
+    "lspconfig": {
+        "pylsp": {
+            "pylsp.plugins.rope_completion.eager": true,
+            "pylsp.plugins.rope_autoimport.code_actions.enabled": true,
+            "pylsp.plugins.rope_autoimport.memory": true,
+            "pylsp.plugins.rope_autoimport.enabled": true,
+            "pylsp.plugins.rope_completion.enabled": true,
+            "pylsp.plugins.rope_autoimport.completions.enabled": true,
+            "pylsp.plugins.pylint.enabled": false,
+            "pylsp.plugins.pyflakes.enabled": false,
+            "pylsp.plugins.flake8.enabled": false,
+            "pylsp.plugins.pycodestyle.enabled": false,
+            "pylsp.plugins.jedi_signature_help.enabled": false,
+            "pylsp.plugins.yapf.enabled": false,
+            "pylsp.plugins.mccabe.enabled": false,
+            "pylsp.plugins.preload.enabled": false,
+            "pylsp.plugins.autopep8.enabled": false,
+            "pylsp.plugins.jedi_references.enabled": false,
+            "pylsp.plugins.pydocstyle.enabled": false,
+            "pylsp.plugins.jedi_hover.enabled": false,
+            "pylsp.plugins.jedi_symbols.enabled": false,
+            "pylsp.plugins.jedi_definition.enabled": false,
+            "pylsp.plugins.jedi_completion.enabled": false
+        },
+        "pyright": {
+            "python.analysis.typeCheckingMode": "standard",
+            "pyright.disableTaggedHints": false,
+            "pyright.disableLanguageServices": false,
+            "python.analysis.autoImportCompletions": true
+        },
+        "rust_analyzer": {
+            "rust-analyzer.inlayHints.chainingHints.enable": true,
+            "rust-analyzer.inlayHints.typeHints.enable": true,
+            "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
+            "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
+            "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
+            "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
+            "rust-analyzer.inlayHints.closureStyle": "rust_analyzer",
+            "rust-analyzer.inlayHints.rangeExclusiveHints.enable": true,
+            "rust-analyzer.inlayHints.renderColons": true,
+            "rust-analyzer.inlayHints.reborrowHints.enable": "always",
+            "rust-analyzer.inlayHints.parameterHints.enable": true,
+            "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+            "rust-analyzer.hover.actions.implementations.enable": true,
+            "rust-analyzer.hover.actions.enable": true,
+            "rust-analyzer.checkOnSave": true,
+            "rust-analyzer.completion.fullFunctionSignatures.enable": true,
+            "rust-analyzer.completion.autoimport.enable": true
+        },
+        "kotlin_language_server": {
+            "kotlin.indexing.enabled": true,
+            "kotlin.inlayHints.typeHints": true,
+            "kotlin.inlayHints.chainedHints": true,
+            "kotlin.inlayHints.parameterHints": true,
+            "kotlin.completion.snippets.enabled": true,
+            "kotlin.languageServer.enabled": true
+        },
+        "clangd": {
+            "clangd.enableCodeCompletion": true,
+            "clangd.serverCompletionRanking": true,
+            "clangd.onConfigChanged": "prompt",
+            "clangd.inactiveRegions.useBackgroundHighlight": true
+        },
+        "lua_ls": {
+            "Lua.hint.await": true,
+            "Lua.hint.enable": true,
+            "Lua.hover.enable": true,
+            "Lua.hint.setType": true,
+            "Lua.format.enable": true
+        }
     }
-  },
-  "lspconfig": {
-    "pylsp": {
-      "pylsp.plugins.rope_completion.eager": true,
-      "pylsp.plugins.rope_autoimport.code_actions.enabled": true,
-      "pylsp.plugins.rope_autoimport.memory": true,
-      "pylsp.plugins.rope_autoimport.enabled": true,
-      "pylsp.plugins.rope_completion.enabled": true,
-      "pylsp.plugins.rope_autoimport.completions.enabled": true,
-      "pylsp.plugins.pylint.enabled": false,
-      "pylsp.plugins.pyflakes.enabled": false,
-      "pylsp.plugins.flake8.enabled": false,
-      "pylsp.plugins.pycodestyle.enabled": false,
-      "pylsp.plugins.jedi_signature_help.enabled": false,
-      "pylsp.plugins.yapf.enabled": false,
-      "pylsp.plugins.mccabe.enabled": false,
-      "pylsp.plugins.preload.enabled": false,
-      "pylsp.plugins.autopep8.enabled": false,
-      "pylsp.plugins.jedi_references.enabled": false,
-      "pylsp.plugins.pydocstyle.enabled": false,
-      "pylsp.plugins.jedi_hover.enabled": false,
-      "pylsp.plugins.jedi_symbols.enabled": false,
-      "pylsp.plugins.jedi_definition.enabled": false,
-      "pylsp.plugins.jedi_completion.enabled": false
-    },
-    "pyright": {
-      "python.analysis.typeCheckingMode": "standard",
-      "pyright.disableTaggedHints": false,
-      "pyright.disableLanguageServices": false,
-      "python.analysis.autoImportCompletions": true
-    },
-    "rust_analyzer": {
-      "rust-analyzer.inlayHints.chainingHints.enable": true,
-      "rust-analyzer.inlayHints.typeHints.enable": true,
-      "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
-      "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
-      "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
-      "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
-      "rust-analyzer.inlayHints.closureStyle": "rust_analyzer",
-      "rust-analyzer.inlayHints.rangeExclusiveHints.enable": true,
-      "rust-analyzer.inlayHints.renderColons": true,
-      "rust-analyzer.inlayHints.reborrowHints.enable": "always",
-      "rust-analyzer.inlayHints.parameterHints.enable": true,
-      "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
-      "rust-analyzer.hover.actions.implementations.enable": true,
-      "rust-analyzer.hover.actions.enable": true,
-      "rust-analyzer.checkOnSave": true,
-      "rust-analyzer.completion.fullFunctionSignatures.enable": true,
-      "rust-analyzer.completion.autoimport.enable": true
-    },
-    "kotlin_language_server": {
-      "kotlin.indexing.enabled": true,
-      "kotlin.inlayHints.typeHints": true,
-      "kotlin.inlayHints.chainedHints": true,
-      "kotlin.inlayHints.parameterHints": true,
-      "kotlin.completion.snippets.enabled": true,
-      "kotlin.languageServer.enabled": true
-    },
-    "clangd": {
-      "clangd.enableCodeCompletion": true,
-      "clangd.serverCompletionRanking": true,
-      "clangd.onConfigChanged": "prompt",
-      "clangd.inactiveRegions.useBackgroundHighlight": true
-    }
-  }
 }

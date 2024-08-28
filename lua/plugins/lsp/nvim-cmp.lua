@@ -1,5 +1,6 @@
 return { -- Autocompletion
   "hrsh7th/nvim-cmp",
+  event = "InsertEnter",
   dependencies = {
     -- Snippet Engine & its associated nvim-cmp source
     {
@@ -42,7 +43,7 @@ return { -- Autocompletion
     luasnip.config.setup({})
 
     local get_filter_for_kind =  function(kind)
-      return function(entry, ctx)
+      return function(entry)
         return entry:get_kind() == kind
       end
     end
@@ -115,6 +116,20 @@ return { -- Autocompletion
                   name = "nvim_lsp",
                   trigger_characters = {},
                   entry_filter = get_filter_for_kind(types.lsp.CompletionItemKind.Property)
+                },
+              },
+            },
+          })
+        end, { "i", "c" }),
+
+        ["<C-M-r>"] = cmp.mapping(function()
+          cmp.complete({
+            config = {
+              sources = {
+                {
+                  name = "nvim_lsp",
+                  trigger_characters = {},
+                  entry_filter = get_filter_for_kind(types.lsp.CompletionItemKind.Reference)
                 },
               },
             },

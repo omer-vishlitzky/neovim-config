@@ -3,10 +3,17 @@ return {
   dependencies = {
     "kevinhwang91/promise-async",
   },
-  event = { "BufReadPost", "BufNewFile" },
+  -- keys = {
+  --   { "za", mode = { "n" } },
+  --   { "zA", mode = { "n" } },
+  --   { "zR", mode = { "n" } },
+  --   { "zM", mode = { "n" } },
+  --   { "zf", mode = { "n" } },
+  -- },
+  event = "VeryLazy",
   config = function()
     vim.o.foldcolumn = "0" -- '0' is not bad
-    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+    vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
 

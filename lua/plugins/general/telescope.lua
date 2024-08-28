@@ -23,9 +23,9 @@ return {
   keys = {
     { "<leader>f", mode = { "n" } },
   },
-  -- cmd = {
-  --   "Telescope",
-  -- },
+  cmd = {
+    "Telescope",
+  },
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     {
@@ -61,6 +61,13 @@ return {
         },
       },
       pickers = {
+        fd = {
+          mappings = {
+            i = {
+              ["<C-d>"] = function() vim.api.nvim_set_current_dir("%s") end
+            }
+          }
+        },
         git_branches = {
           mappings = {
             i = {
@@ -110,11 +117,34 @@ return {
     vim.keymap.set("n", "<leader>fw", function()
       telescope.live_grep({ default_text = vim.fn.expand("<cword>") })
     end, { noremap = true, desc = "[F]ind [W]ord" })
+    vim.keymap.set("n", "<leader>fn", function()
+      telescope.find_files({ cwd = "~/.config/nvim" })
+    end, { noremap = true, desc = "[F]ind [N]eovim Configuration files" })
+    vim.keymap.set("n", "<leader>fP", function()
+      telescope.find_files({ no_ignore = true })
+    end, { noremap = true, desc = "[F]ind [P]rojects" })
+    vim.keymap.set("n", "<leader>fp", function()
+      require("telescope.builtin").find_files({
+        cwd = "~/Desktop/projects",
+        find_command = { "fd", "--type", "d", "--max-depth", "1" },
+        attach_mappings = function(_, map)
+          map("i", "<C-d>", function(prompt_bufnr)
+            local selection = require("telescope.actions.state").get_selected_entry()
+            require("telescope.actions").close(prompt_bufnr)
+            vim.schedule(function()
+              vim.cmd("cd " .. selection.path)
+              print("Changed to directory: " .. selection.path)
+            end)
+          end)
+          return true
+        end
+      })
+    end, { noremap = true, desc = "[F]ind [P]rojects" })
     vim.keymap.set("n", "<leader>fW", function()
       telescope.live_grep({ default_text = vim.fn.expand("<cWORD>") })
     end, { noremap = true, desc = "[F]ind [w]ord" })
     vim.keymap.set("n", "<leader>FW", function()
       telescope.find_files({ default_text = vim.fn.expand("<cWORD>") })
-    end, { noremap = true, desc = "[F]ind [w]ord" })
+    end, { noremap = true, desc = "[F]ind Files [W]ord" })
   end,
 }
