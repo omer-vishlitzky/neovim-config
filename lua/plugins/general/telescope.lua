@@ -82,6 +82,18 @@ return {
             }
           },
         },
+        buffers = {
+          mappings = {
+            i = {
+              ["<c-d>"] = function(prompt_bufnr)
+                local action_state = require("telescope.actions.state")
+                local selection = action_state.get_selected_entry()
+                require("telescope.actions").close(prompt_bufnr)
+                vim.api.nvim_command('bdelete ' .. selection.bufnr)
+              end,
+            }
+          }
+        },
         git_commits = {
           mappings = {
             i = {

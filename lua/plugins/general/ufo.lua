@@ -21,6 +21,8 @@ return {
     local ufo = require("ufo")
     vim.keymap.set("n", "zR", ufo.openAllFolds)
     vim.keymap.set("n", "zM", ufo.closeAllFolds)
+    vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
+    vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor)
 
     -- Option 2: nvim lsp as LSP client
     -- Tell the server the capability of foldingRange,
