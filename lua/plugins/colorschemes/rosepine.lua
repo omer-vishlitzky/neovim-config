@@ -4,7 +4,12 @@ return {
   name = "rose-pine",
   -- lazy = false,
   config = function()
+    ---@type Options
     local cfg = {
+      -- ---@type Palette
+      -- palette = {
+      --   pine = "#111111"
+      -- },
       ---@usage 'auto'|'main'|'moon'|'dawn'
       variant = "auto",
       ---@usage 'main'|'moon'|'dawn'
@@ -17,7 +22,7 @@ return {
 
       --- @usage string hex value or named color from rosepinetheme.com/palette
       groups = {
-        background_nc = "_experimental_nc",
+        background_nc = "#111111",
         panel = "surface",
         panel_nc = "base",
         border = "highlight_med",
@@ -44,9 +49,11 @@ return {
 
       -- Change specific vim highlight groups
       -- https://github.com/rose-pine/neovim/wiki/Recipes
+      ---@type Highlight
       highlight_groups = {
         ColorColumn = { bg = "rose" },
-
+        Normal = { bg = "#111111" },
+        NormalNC = { bg = "#111111" },
         -- Blend colours against the "base" background
         CursorLine = { bg = "foam", blend = 10 },
         StatusLine = { fg = "love", bg = "love", blend = 10 },

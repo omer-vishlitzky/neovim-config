@@ -22,6 +22,7 @@ return {
   branch = "0.1.x",
   keys = {
     { "<leader>f", mode = { "n" } },
+    { "<leader>ch", mode = { "n" } },
   },
   cmd = {
     "Telescope",
@@ -125,6 +126,7 @@ return {
     vim.keymap.set("n", "<leader>fk", telescope.keymaps, { desc = "[F]ind [K]eymaps" })
     vim.keymap.set("n", "<leader>fh", telescope.help_tags, { desc = "[F]ind [H]elp tags" })
     vim.keymap.set("n", "<leader>fs", telescope.git_status, { desc = "[F]ind Git [S]tatus" })
+    vim.keymap.set("n", "<leader>ch", telescope.command_history, { desc = "[C]ommands [H]istory" })
 
     vim.keymap.set("n", "<leader>fw", function()
       telescope.live_grep({ default_text = vim.fn.expand("<cword>") })

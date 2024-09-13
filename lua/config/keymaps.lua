@@ -29,3 +29,7 @@ vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h<CR>", { noremap = true, silent = t
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k<CR>", { noremap = true, silent = true })
+
+-- diff
+vim.keymap.set("n", "<leader>dg", "<cmd>diffget<cr>")
+vim.keymap.set("n", "<leader>dp", "<cmd>diffput<cr>")
