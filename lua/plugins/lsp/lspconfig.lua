@@ -9,8 +9,6 @@ return { -- LSP Configuration & Plugins
     { "folke/neoconf.nvim", opts = {} },
   },
   config = function()
-
-    vim.lsp.set_log_level(2)
     vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end,
       { desc = "[G]oto [D]efition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })

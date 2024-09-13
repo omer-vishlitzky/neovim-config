@@ -7,6 +7,7 @@ return {
     require("lint").linters_by_ft = {
       python = { "ruff" },
       lua = { "luacheck" },
+      go = { "golangcilint" },
     }
     vim.keymap.set("n", "<leader>cl", function()
       require("lint").try_lint()
