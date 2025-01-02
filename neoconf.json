@@ -79,6 +79,6 @@
             "Lua.hover.enable": true,
             "Lua.hint.setType": true,
             "Lua.format.enable": true
-        }
+        },
     }
 }

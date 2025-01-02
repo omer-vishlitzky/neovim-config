@@ -7,6 +7,7 @@ return { -- LSP Configuration & Plugins
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "folke/neoconf.nvim", opts = {} },
+    "saghen/blink.cmp"
   },
   config = function()
     vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end,
@@ -29,14 +30,12 @@ return { -- LSP Configuration & Plugins
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { desc = "[T]oggle inlay [H]ints" })
 
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-    require("neoconf").setup({})
-    require("mason").setup()
-    require("mason-tool-installer").setup({})
+
 
     ---@type lspconfig.options
     local servers = {
+
+      ---@type lspconfig.settings.rust_analyzer
       rust_analyzer = {},
       ruff = {},
       lua_ls = {
@@ -65,6 +64,7 @@ return { -- LSP Configuration & Plugins
               parameterNames = true,
               rangeVariableTypes = true,
             },
+            experimentalPostfixCompletions = true,
             analyses = {
               fieldalignment = true,
               nilness = true,
@@ -82,6 +82,15 @@ return { -- LSP Configuration & Plugins
       },
       clangd = {},
     }
+
+
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
+    require("neoconf").setup({})
+    require("mason").setup({})
+    require("mason-tool-installer").setup({})
+
     require("lspconfig").ocamllsp.setup({})
     require("mason-lspconfig").setup({
       ensure_installed = {
