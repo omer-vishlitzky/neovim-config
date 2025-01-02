@@ -25,7 +25,7 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
       ---@class GruvboxPalette
       palette_overrides = {
-        dark0_hard = "#111111",
+        -- dark0_hard = "#111111",
       },
       overrides = {
 

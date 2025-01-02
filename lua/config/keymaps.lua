@@ -33,3 +33,22 @@ vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k<CR>", { noremap = true, silent = t
 -- diff
 vim.keymap.set("n", "<leader>dg", "<cmd>diffget<cr>")
 vim.keymap.set("n", "<leader>dp", "<cmd>diffput<cr>")
+
+
+-- Create the command
+vim.api.nvim_create_user_command('OpenGitModified', function()
+    -- Get git status output
+    local git_output = vim.fn.system('git status --porcelain')
+    -- Split into lines and filter empty ones
+    local modified_files = vim.split(git_output, '\n')
+    -- Open each modified file
+    for _, file in ipairs(modified_files) do
+        if file ~= '' then
+            -- Extract filename from git status output
+            local filename = string.gsub(file, '^.. ', '')
+            -- Open the file
+            vim.cmd('edit ' .. filename)
+        end
+    end
+end, {})
+vim.keymap.set("n", "<leader>ba", ":OpenGitModified<CR>")

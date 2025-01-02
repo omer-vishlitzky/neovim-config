@@ -9,6 +9,7 @@ local function diff(diff_command)
     local selected_entry = action_state.get_selected_entry()
     local value = selected_entry.value
     -- close Telescope window properly prior to switching windows
+    require("diffview")
     vim.api.nvim_win_close(0, true)
     vim.cmd("stopinsert")
     vim.schedule(function()

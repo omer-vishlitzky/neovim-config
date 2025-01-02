@@ -18,7 +18,7 @@ return { -- LSP Configuration & Plugins
     vim.keymap.set("n", "gi", function() require("telescope.builtin").lsp_implementations() end,
       { desc = "[G]oto [I]mplementation" })
     vim.keymap.set("n", "gt", function() require("telescope.builtin").lsp_type_definitions() end,
-      { desc = "[G]oto Type [D]efinitions" })
+      { desc = "[G]oto [T]ype Definitions" })
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" })
     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
