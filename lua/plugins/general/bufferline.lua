@@ -3,7 +3,6 @@ return {
   -- event = { "BufReadPost", "BufNewFile" },
   event = { "VeryLazy" },
   keys = {
-    { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",                 desc = "[B]uffer pin" },
     { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",               desc = "[B]uffers delete [O]thers" },
     { "<leader>bd", "<Cmd>bd<CR>",                                  desc = "[B]uffer [D]elete" },
     { "<leader>bf", "<Cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "[B]uffer Fuzzy [F]ind" },

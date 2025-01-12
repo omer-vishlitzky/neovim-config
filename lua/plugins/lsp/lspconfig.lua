@@ -66,7 +66,6 @@ return { -- LSP Configuration & Plugins
             },
             experimentalPostfixCompletions = true,
             analyses = {
-              fieldalignment = true,
               nilness = true,
               unusedparams = true,
               unusedwrite = true,

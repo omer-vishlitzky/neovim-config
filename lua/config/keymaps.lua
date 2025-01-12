@@ -35,20 +35,31 @@ vim.keymap.set("n", "<leader>dg", "<cmd>diffget<cr>")
 vim.keymap.set("n", "<leader>dp", "<cmd>diffput<cr>")
 
 
--- Create the command
 vim.api.nvim_create_user_command('OpenGitModified', function()
-    -- Get git status output
-    local git_output = vim.fn.system('git status --porcelain')
-    -- Split into lines and filter empty ones
-    local modified_files = vim.split(git_output, '\n')
-    -- Open each modified file
-    for _, file in ipairs(modified_files) do
-        if file ~= '' then
-            -- Extract filename from git status output
-            local filename = string.gsub(file, '^.. ', '')
-            -- Open the file
-            vim.cmd('edit ' .. filename)
-        end
-    end
+  -- Get git status output
+  local git_output = vim.fn.system('git diff upstream/master --name-only')
+  local modified_files = vim.split(git_output, '\n')
+  for _, file in pairs(modified_files) do
+    vim.cmd('edit ' .. file)
+  end
 end, {})
 vim.keymap.set("n", "<leader>ba", ":OpenGitModified<CR>")
+
+
+
+vim.api.nvim_create_user_command('CombineBuffers', function()
+    local result = {}
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(bufnr) then
+            local filename = vim.api.nvim_buf_get_name(bufnr)
+            local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+            table.insert(result, "Filename: " .. (filename == "" and "[No Name]" or filename))
+            table.insert(result, "-----------")
+            table.insert(result, table.concat(lines, "\n"))
+            table.insert(result, "-----------\n")
+        end
+    end
+    vim.cmd("new")
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(table.concat(result, "\n"), "\n"))
+end, {})
+vim.keymap.set("n", "<leader>bp", ":CombineBuffers<CR>")

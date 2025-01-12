@@ -29,20 +29,49 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      cmdline = {},
     },
     completion = {
+      accept = {
+        auto_brackets = {
+          enabled = true
+        }
+      },
       menu = {
-        auto_show = function(ctx) return ctx.mode ~= 'cmdline' end,
-        border = 'single',
+        -- auto_show = function(ctx) return ctx.mode ~= 'cmdline' end,
+        border = 'rounded',
         draw = {
+          padding = 1,
+          treesitter = { 'lsp' },
           columns = {
-            { "label", "label_description", gap = 3 },
-            { "kind_icon", "kind", gap = 5 }
+            { "label",       "label_description", gap = 1 },
+            { "kind_icon",   "kind",              gap = 1 },
+            { "source_name", gap = 1 },
+          },
+          components = {
+            label = {
+              text = function(ctx)
+                return require("colorful-menu").blink_components_text(ctx)
+              end,
+              highlight = function(ctx)
+                return require("colorful-menu").blink_components_highlight(ctx)
+              end,
+            },
           },
         }
+      },
+      documentation = {
+        window = {
+          border = 'rounded'
+        },
+        auto_show = true,
+        auto_show_delay_ms = 200,
+      },
+      ghost_text = {
+        enabled = vim.g.ai_cmp,
       },
     },
     signature = { window = { border = 'single' } },
   },
-  opts_extend = { "sources.default" }
+  opts_extend = { "sources.default" },
 }
