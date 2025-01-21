@@ -6,6 +6,7 @@ return {
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
+    { "fredrikaverpil/neotest-golang", version = "*" },   -- Installation
   },
   cmd = {
     "Neotest",
@@ -28,6 +29,7 @@ return {
         require("neotest-python")({
           dap = { justMyCode = false },
         }),
+        require("neotest-golang")({}),
       },
     }
     neotest.setup(cfg)

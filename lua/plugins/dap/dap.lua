@@ -4,6 +4,7 @@ return {
     "jay-babu/mason-nvim-dap.nvim",
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
+    "leoluz/nvim-dap-go",
   },
   keys = {
     { "<F5>",  "<CMD>DapContinue<CR>",                   mode = "n", desc = "Debug" },
@@ -66,5 +67,64 @@ return {
         end,
       },
     }
+
+
+    -- Configure Go debugging
+    dap.adapters.delve = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = 'dlv',
+        args = { 'dap', '-l', '127.0.0.1:${port}' },
+      }
+    }
+
+    dap.configurations.go = {
+      {
+        type = "delve",
+        name = "Debug",
+        request = "launch",
+        program = "${file}",
+      },
+      {
+        type = "delve",
+        name = "Debug Package",
+        request = "launch",
+        program = "${fileDirname}",
+      },
+      {
+        type = "delve",
+        name = "Debug test", -- Configuration for debugging tests
+        request = "launch",
+        mode = "test",
+        program = "${file}",
+      },
+      {
+        type = "delve",
+        name = "Debug test (go.mod)",
+        request = "launch",
+        mode = "test",
+        program = "./${relativeFileDirname}",
+      }
+    }
+
+    -- Optional: Set up dap-go for additional Go-specific functionality
+    require('dap-go').setup()
+
+    -- Recommended: Set up specific signs for breakpoints
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapBreakpointCondition', { text = '🟡', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapLogPoint', { text = '📝', texthl = '', linehl = '', numhl = '' })
+
+    -- Optional: Auto-open dap-ui when debugging starts
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+      dapui.close()
+    end
   end,
 }
