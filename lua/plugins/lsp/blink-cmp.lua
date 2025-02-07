@@ -1,11 +1,9 @@
 return {
-  'saghen/blink.cmp',
+  "saghen/blink.cmp",
   -- optional: provides snippets for the snippet source
-  dependencies = 'rafamadriz/friendly-snippets',
-
+  dependencies = "rafamadriz/friendly-snippets",
   -- use a release tag to download pre-built binaries
-  version = '*',
-
+  version = "*",
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -13,7 +11,7 @@ return {
     -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
     -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
     -- See the full "keymap" documentation for information on defining your own keymap.
-    keymap = { preset = 'enter' },
+    keymap = { preset = "enter" },
 
     appearance = {
       -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -22,30 +20,30 @@ return {
       use_nvim_cmp_as_default = true,
       -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = 'mono'
+      nerd_font_variant = "mono",
     },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      default = { "lsp", "path", "snippets", "buffer" },
       cmdline = {},
     },
     completion = {
       accept = {
         auto_brackets = {
-          enabled = true
-        }
+          enabled = true,
+        },
       },
       menu = {
         -- auto_show = function(ctx) return ctx.mode ~= 'cmdline' end,
-        border = 'rounded',
+        border = "rounded",
         draw = {
           padding = 1,
-          treesitter = { 'lsp' },
+          treesitter = { "lsp" },
           columns = {
-            { "label",       "label_description", gap = 1 },
-            { "kind_icon",   "kind",              gap = 1 },
+            { "label", "label_description", gap = 1 },
+            { "kind_icon", "kind", gap = 1 },
             { "source_name", gap = 1 },
           },
           components = {
@@ -58,20 +56,24 @@ return {
               end,
             },
           },
-        }
+        },
       },
       documentation = {
         window = {
-          border = 'rounded'
+          border = "rounded",
         },
-        auto_show = true,
+        auto_show = false,
         auto_show_delay_ms = 200,
       },
       ghost_text = {
         enabled = vim.g.ai_cmp,
       },
     },
-    signature = { window = { border = 'single' } },
+    signature = {
+      window = {
+        border = "single",
+      },
+    },
   },
   opts_extend = { "sources.default" },
 }

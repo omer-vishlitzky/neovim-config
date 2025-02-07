@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   "nvim-neotest/neotest",
   dependencies = {
@@ -6,7 +7,8 @@ return {
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
-    { "fredrikaverpil/neotest-golang", version = "*" },   -- Installation
+    { "fredrikaverpil/neotest-golang", version = "*" }, -- Installation
+    { dir = "/home/omer/Desktop/projects/nvim-ginkgo", name = "nvim-ginkgo" },
   },
   cmd = {
     "Neotest",
@@ -25,11 +27,57 @@ return {
     local neotest = require("neotest")
     ---@type neotest.Config
     local cfg = {
+      log_level = vim.log.levels.INFO,
+      quickfix = {
+        enabled = false,
+      },
+      diagnostic = {
+        enabled = true,
+        severity = 1,
+      },
+      discovery = {
+        concurrent = 0
+      },
+      floating = {
+        border = "rounded",
+        max_height = 0.8,
+        max_width = 0.8,
+        options = {},
+      },
+      status = {
+        virtual_text = true,
+        enabled = true,
+        signs = true,
+      },
+      summary = {
+        animated = true,
+        enabled = true,
+        expand_errors = false,
+        open = "topleft vsplit | vertical resize 50",
+        follow = true,
+      },
+      output = {
+        open_on_run = false,
+        enabled = true,
+      },
+      output_panel = {
+        enabled = true,
+      },
       adapters = {
         require("neotest-python")({
           dap = { justMyCode = false },
         }),
-        require("neotest-golang")({}),
+        -- require("neotest-golang")({}),
+        require("nvim-ginkgo").setup({
+          args = {
+            -- "-v",
+            -- "-timeout", "60m",
+            "--integration",
+            "--gateway-url=http://localhost:8000",
+            "--maestro-rest-api-url=http://localhost:8001",
+            "--azure-operators-managed-identities-config-path=/home/omer/Desktop/projects/uhc-clusters-service/path2.yaml"
+          },
+        })
       },
     }
     neotest.setup(cfg)

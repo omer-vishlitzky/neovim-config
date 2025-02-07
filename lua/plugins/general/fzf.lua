@@ -1,36 +1,26 @@
 return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  opts = {},
   cmd = { "FzfLua" },
+  opts = {},
   keys = {
-    {"<leader>sb"},
-    {"<leader>sd"},
-    {"<leader>si"}, -- new key for interfaces
-    {"<leader>st"}, -- new key for structs/types
+    { "<leader><leader>f", "<CMD>FzfLua<CR>", desc = "FzfLua" },
+    { "<leader>sw", "<CMD>FzfLua lsp_live_workspace_symbols<CR>", desc = "[S]ymbols [W]orkspace" },
+    { "<leader>sd", "<CMD>FzfLua lsp_document_symbols<CR>", desc = "[S]ymbols [D]ocument" },
+    { "<leader>fo", "<CMD>FzfLua oldfiles<CR>", desc = "[F]ind recently [O]pened files" },
+    { "<leader>ff", "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" },
+    { "<leader>rt", "<CMD>FzfLua resume<CR>", desc = "[R]esume [T]elescope" },
+    { "<leader>fc", "<CMD>FzfLua git_commits<CR>", desc = "[F]ind Git [C]ommits" },
+    { "<leader>fb", "<CMD>FzfLua git_branches<CR>", desc = "[F]ind Git [B]ranches" },
+    { "<leader>fg", "<CMD>FzfLua live_grep<CR>", desc = "[F]ind by [G]rep" },
+    { "<leader>fd", "<CMD>FzfLua lsp_workspace_diagnostics<CR>", desc = "[F]ind [D]iagnostics" },
+    { "<leader>fr", "<CMD>FzfLua lsp_references<CR>", desc = "[F]ind [R]eferences" },
+    { "<leader>fi", "<CMD>FzfLua lsp_implementations<CR>", desc = "[F]ind [I]mplementations" },
+    { "<leader>fk", "<CMD>FzfLua keymaps<CR>", desc = "[F]ind [K]eymaps" },
+    { "<leader>fh", "<CMD>FzfLua help_tags<CR>", desc = "[F]ind [H]elp tags" },
+    { "<leader>fs", "<CMD>FzfLua git_status<CR>", desc = "[F]ind Git [S]tatus" },
+    { "<leader>ch", "<CMD>FzfLua command_history<CR>", desc = "[C]ommands [H]istory" },
+    { "<leader>fw", "<CMD>FzfLua grep_cword<CR>", desc = "[F]ind [w]ord" },
+    { "<leader>fW", "<CMD>FzfLua grep_cWORD<CR>", desc = "[F]ind [W]ord" },
   },
-  config = function()
-    local function symbols_with_filter(filter)
-      return function()
-        require('fzf-lua').lsp_live_workspace_symbols({
-          symbol_filter = filter
-        })
-      end
-    end
-
-    vim.keymap.set('n', '<leader>sb', '<cmd>FzfLua lsp_document_symbols<cr>', {
-      desc = 'Buffer symbols',
-    })
-    vim.keymap.set('n', '<leader>sd', '<cmd>FzfLua lsp_live_workspace_symbols<cr>', {
-      desc = 'Dynamic/workspace symbols',
-    })
-    
-    -- Add filtered symbol searches
-    vim.keymap.set('n', '<leader>si', symbols_with_filter("interface"), {
-      desc = 'Interface symbols',
-    })
-    vim.keymap.set('n', '<leader>st', symbols_with_filter("struct"), {
-      desc = 'Struct symbols',
-    })
-  end
 }

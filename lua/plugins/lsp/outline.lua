@@ -4,4 +4,5 @@ return {
     { "<leader>o", "<Cmd>Outline<CR>", desc = "[O]utline" },
   },
   opts = {},
+  enabled = false,
 }

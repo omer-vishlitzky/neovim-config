@@ -1,6 +1,11 @@
 return {
   "kevinhwang91/nvim-bqf",
   event = { "VeryLazy" },
-  enabled = false,
-  opts = {},
+  ---@module bqf
+  ---@type BqfConfig
+  ---@diagnostic disable-next-line: missing-fields
+  opts = {
+    auto_enable = true,
+    magic_window = true,
+  },
 }

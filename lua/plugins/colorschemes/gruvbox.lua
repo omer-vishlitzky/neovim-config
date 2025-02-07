@@ -25,7 +25,7 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
       ---@class GruvboxPalette
       palette_overrides = {
-        -- dark0_hard = "#111111",
+        -- dark0_hard = "#222222",
       },
       overrides = {
 
@@ -35,6 +35,7 @@ return {
       terminal_colors = true,
     }
     require("gruvbox").setup(cfg)
+    -- vim.cmd.colorscheme("rose-pine-main")
     vim.cmd.colorscheme("gruvbox")
   end,
 }

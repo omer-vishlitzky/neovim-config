@@ -6,42 +6,39 @@ return {
   },
   build = ":TSUpdate",
   event = { "BufReadPost", "BufNewFile" },
+  ---@type TSConfig
+  ---@diagnostic disable-next-line: missing-fields
+  opts = {
+    ensure_installed = {
+      "dart",
+      "java",
+      "json",
+      "kotlin",
+      "latex",
+      "bash",
+      "vim",
+      "vimdoc",
+      "query",
+      "python",
+      "javascript",
+      "typescript",
+      "c",
+      "lua",
+      "rust",
+      "markdown",
+      "markdown_inline",
+      "go",
+      "yaml",
+      "toml",
+      "sql",
+    },
+    sync_install = false,
+    modules = {},
+    auto_install = true,
+  },
   config = function()
+    ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
-      -- A list of parser names, or "all"
-      ensure_installed = {
-        "dart",
-        "java",
-        "json",
-        "kotlin",
-        "latex",
-        "bash",
-        "vim",
-        "vimdoc",
-        "query",
-        "python",
-        "javascript",
-        "typescript",
-        "c",
-        "lua",
-        "rust",
-        "markdown",
-        "markdown_inline",
-        "go",
-        "yaml",
-        "toml",
-        "sql",
-      },
-
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
-
-      modules = {},
-      ignore_install = {},
-
-      -- Automatically install missing parsers when entering buffer
-      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-      auto_install = true,
 
       highlight = {
         -- `false` will disable the whole extension
@@ -108,9 +105,5 @@ return {
         },
       },
     })
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
   end,
 }

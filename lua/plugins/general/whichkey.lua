@@ -14,7 +14,7 @@ return {
     }
     ---@type wk.Opts
     local cfg = {
-      preset = "classic"
+      preset = "modern"
     }
     wk.add(mappings, {})
     wk.setup(cfg)

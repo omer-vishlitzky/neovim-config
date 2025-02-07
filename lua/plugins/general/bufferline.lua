@@ -1,6 +1,5 @@
 return {
   "akinsho/bufferline.nvim",
-  -- event = { "BufReadPost", "BufNewFile" },
   event = { "VeryLazy" },
   keys = {
     { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",               desc = "[B]uffers delete [O]thers" },
@@ -11,12 +10,11 @@ return {
     { "[b",         "<cmd>BufferLineCyclePrev<CR>",                 desc = "Prev Buffer" },
     { "]b",         "<cmd>BufferLineCycleNext<CR>",                 desc = "Next Buffer" },
   },
-  opts = {},
-  config = function()
-    require("bufferline").setup({
-      options = {
-        truncate_names = false,
-      },
-    })
-  end,
+  opts = {
+    ---@module "bufferline.nvim"
+    ---@type bufferline.Options
+    options = {
+      truncate_names = false,
+    }
+  },
 }

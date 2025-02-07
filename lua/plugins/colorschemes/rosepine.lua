@@ -3,7 +3,6 @@ return {
   "rose-pine/neovim",
   priority = 1000,
   name = "rose-pine",
-  -- lazy = false,
   config = function()
     ---@type Options
     local cfg = {
@@ -13,13 +12,22 @@ return {
       dark_variant = "main",
       bold_vert_split = false,
       dim_nc_background = false,
-      disable_background = true,
+      disable_background = false,
       disable_float_background = false,
       disable_italics = false,
 
-      dim_inactive_windows = true,
+      dim_inactive_windows = false,
+      palette = {
+        ---@type Palette
+        main = {
+          base = "#111111",
+          surface = "#111111",
+          text = "#ffffff"
+          -- overlay = "#111111",
+          -- muted = "#000000",
+        }
+      },
       groups = {
-        background = "#111111",
         panel = "surface",
         panel_nc = "base",
         border = "highlight_med",

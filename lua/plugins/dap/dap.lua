@@ -4,7 +4,9 @@ return {
     "jay-babu/mason-nvim-dap.nvim",
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
+    "theHamsta/nvim-dap-virtual-text",
     "leoluz/nvim-dap-go",
+    "mfussenegger/nvim-dap-python"
   },
   keys = {
     { "<F5>",  "<CMD>DapContinue<CR>",                   mode = "n", desc = "Debug" },
@@ -16,7 +18,14 @@ return {
   },
   config = function()
     local dap = require("dap")
-    local dapui = require("dapui").setup()
+    local dapui = require("dapui")
+
+    ---@diagnostic disable-next-line: missing-fields
+    dapui.setup({})
+    ---@diagnostic disable-next-line: missing-fields
+    require("nvim-dap-virtual-text").setup({})
+
+    require("dap-python").setup("python3")
     dap.adapters.python = function(cb, config)
       if config.request == "attach" then
         ---@diagnostic disable-next-line: undefined-field
@@ -33,7 +42,7 @@ return {
         })
       else
         local venv_path = os.getenv("VIRTUAL_ENV")
-        local python_executable = venv_path and venv_path .. "/bin/python" or "/usr/bin/python"
+        local python_executable = venv_path and venv_path .. "/bin/python" or "/usr/bin/python3"
         cb({
           type = "executable",
           command = python_executable,
@@ -80,6 +89,23 @@ return {
     }
 
     dap.configurations.go = {
+      {
+        type = "delve",
+        name = "Debug Ginkgo Test",
+        request = "launch",
+        mode = "test",
+        program = "${fileDirname}",
+        args = { "-ginkgo.v", "-ginkgo.progress" },
+        buildFlags = "-tags=ginkgo" -- Add Ginkgo build tag
+      },
+      {
+        type = "delve",
+        name = "Debug Ginkgo Suite",
+        request = "launch",
+        mode = "test",
+        program = "${fileDirname}",
+        args = { "-ginkgo.v", "-ginkgo.progress" },
+      },
       {
         type = "delve",
         name = "Debug",
