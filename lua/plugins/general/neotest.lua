@@ -7,8 +7,8 @@ return {
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
-    { "fredrikaverpil/neotest-golang", version = "*" }, -- Installation
-    { dir = "/home/omer/Desktop/projects/nvim-ginkgo", name = "nvim-ginkgo" },
+    "nvim-contrib/nvim-ginkgo",
+    { "fredrikaverpil/neotest-golang", version = "*" },
   },
   cmd = {
     "Neotest",
@@ -67,17 +67,7 @@ return {
         require("neotest-python")({
           dap = { justMyCode = false },
         }),
-        -- require("neotest-golang")({}),
-        require("nvim-ginkgo").setup({
-          args = {
-            -- "-v",
-            -- "-timeout", "60m",
-            "--integration",
-            "--gateway-url=http://localhost:8000",
-            "--maestro-rest-api-url=http://localhost:8001",
-            "--azure-operators-managed-identities-config-path=/home/omer/Desktop/projects/uhc-clusters-service/path2.yaml"
-          },
-        })
+        require("nvim-ginkgo")
       },
     }
     neotest.setup(cfg)

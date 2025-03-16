@@ -20,6 +20,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.clipboard = "unnamedplus" -- Access system clipboard
 vim.opt.colorcolumn = "120"
+vim.o.splitright = true
 
 vim.g.have_nerd_font = true
 vim.g.loaded_netrw = 1

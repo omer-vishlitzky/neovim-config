@@ -1,3 +1,4 @@
+local codecompanion = require "plugins.general.codecompanion"
 return {
   "saghen/blink.cmp",
   -- optional: provides snippets for the snippet source
@@ -27,7 +28,10 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
-      cmdline = {},
+      per_filetype = { codecompanion = { "codecompanion" }}
+    },
+    cmdline = {
+      enabled = false
     },
     completion = {
       accept = {
@@ -42,8 +46,8 @@ return {
           padding = 1,
           treesitter = { "lsp" },
           columns = {
-            { "label", "label_description", gap = 1 },
-            { "kind_icon", "kind", gap = 1 },
+            { "label",       "label_description", gap = 1 },
+            { "kind_icon",   "kind",              gap = 1 },
             { "source_name", gap = 1 },
           },
           components = {

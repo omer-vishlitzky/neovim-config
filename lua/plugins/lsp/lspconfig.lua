@@ -13,12 +13,9 @@ return { -- LSP Configuration & Plugins
     vim.keymap.set("n", "gd", function() require("fzf-lua").lsp_definitions() end,
       { desc = "[G]oto [D]efition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
-    vim.keymap.set("n", "gr", function()
-      require("trouble").toggle("lsp_references")
-    end, { desc = "[G]oto [R]eferences" })
     vim.keymap.set("n", "gi", function() require("fzf-lua").lsp_implementations() end,
       { desc = "[G]oto [I]mplementation" })
-    vim.keymap.set("n", "gt", function() require("fzf-lua").lsp_type_definitions() end,
+    vim.keymap.set("n", "gt", function() require("fzf-lua").lsp_typedefs() end,
       { desc = "[G]oto [T]ype Definitions" })
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" })
     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
@@ -35,9 +32,27 @@ return { -- LSP Configuration & Plugins
     ---@type lspconfig.options
     local servers = {
 
-      ---@type lspconfig.settings.rust_analyzer
-      rust_analyzer = {},
-      ruff = {},
+      ---@type lspconfig.settings.basedpyright
+      basedpyright = {
+        basedpyright = {
+          disableLanguageServices = false,
+          disableOrganizeImports = false,
+          disableTaggedHints = false,
+          importStrategy = "fromEnvironment",
+          analysis = {
+            autoImportCompletions = true,
+            diagnosticMode = "workspace",
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+              functionReturnTypes = true,
+              genericTypes = true,
+            },
+            typeCheckingMode = "recommended"
+          }
+        }
+      },
+
       lua_ls = {
 
       },
@@ -80,6 +95,7 @@ return { -- LSP Configuration & Plugins
         },
       },
       clangd = {},
+      rust_analyzer = {},
     }
 
 
@@ -100,7 +116,6 @@ return { -- LSP Configuration & Plugins
         "clangd",
         "ruff",
         "basedpyright",
-        "pylsp",
         "jsonls",
         "yamlls",
       },

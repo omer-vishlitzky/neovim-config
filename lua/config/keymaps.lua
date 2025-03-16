@@ -8,7 +8,8 @@ vim.api.nvim_set_keymap("n", "N", "Nzz", { noremap = true, silent = true })
 -- Paste over currently selected text without yanking it
 vim.api.nvim_set_keymap("v", "p", '"_dP', { noremap = true, silent = true })
 
---
+vim.keymap.set("t", "<C-c>", "<Esc>", { buffer = 0 })
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("x", "<leader>p", [["_dP]])
