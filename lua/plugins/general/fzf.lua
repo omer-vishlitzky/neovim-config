@@ -8,11 +8,13 @@ return {
       keymap = {
         builtin = {
           true,
-          ["<C-q>"] = "select-all+accept",
           ["<C-u>"] = "preview-page-up",
           ["<C-d>"] = "preview-page-down",
           ["<C-o>"] = "toggle-preview",
           ["<C-w>"] = "toggle-preview-wrap",
+        },
+        fzf = {
+          ["ctrl-q"] = "select-all+accept",
         },
       },
       winopts = {

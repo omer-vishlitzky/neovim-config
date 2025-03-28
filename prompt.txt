@@ -1,0 +1,2401 @@
+Project Path: nvim
+
+Source Tree:
+
+```
+nvim
+├── init.lua
+├── lua
+│   ├── config
+│   │   ├── init.lua
+│   │   ├── keymaps.lua
+│   │   └── options.lua
+│   └── plugins
+│       ├── colorschemes
+│       │   ├── catppuccin.lua
+│       │   ├── github-theme.lua
+│       │   ├── onedark.lua
+│       │   ├── gruvbox.lua
+│       │   ├── rosepine.lua
+│       │   ├── tokyonight.lua
+│       │   └── vscode.lua
+│       ├── dap
+│       │   └── dap.lua
+│       ├── general
+│       │   ├── abolish.lua
+│       │   ├── autopairs.lua
+│       │   ├── colorizer.lua
+│       │   ├── comment.lua
+│       │   ├── dressing.lua
+│       │   ├── harpoon.lua
+│       │   ├── icons.lua
+│       │   ├── illuminate.lua
+│       │   ├── jsonpath.lua
+│       │   ├── lsplinks.lua
+│       │   ├── lualine.lua
+│       │   ├── none-ls.lua
+│       │   ├── notify.lua
+│       │   ├── nvimtree.lua
+│       │   ├── sleuth.lua
+│       │   ├── treesj.lua
+│       │   ├── bqf.lua
+│       │   ├── colorful.lua
+│       │   ├── conform.lua
+│       │   ├── leetcode.lua
+│       │   ├── whichkey.lua
+│       │   ├── snacks.lua
+│       │   ├── bufferline.lua
+│       │   ├── mini.lua
+│       │   ├── pydoc.lua
+│       │   ├── godoc.lua
+│       │   ├── markdown.lua
+│       │   ├── refactoring.lua
+│       │   ├── lint.lua
+│       │   ├── trouble.lua
+│       │   ├── fzf.lua
+│       │   ├── neotest.lua
+│       │   ├── rust.lua
+│       │   ├── augment.lua
+│       │   ├── zenmode.lua
+│       │   ├── codecompanion.lua
+│       │   ├── ufo.lua
+│       │   └── treesitter.lua
+│       ├── git
+│       │   ├── gitsigns.lua
+│       │   └── diffview.lua
+│       ├── init.lua
+│       ├── lsp
+│       │   ├── fidget.lua
+│       │   ├── jdtls.lua
+│       │   ├── lazydev.lua
+│       │   ├── lsp-signature.lua
+│       │   ├── blink-cmp.lua
+│       │   ├── venv-selector.lua
+│       │   └── lspconfig.lua
+│       └── lazy.lua
+├── lazy-lock.json
+└── neoconf.json
+
+```
+
+`/home/omer/.config/nvim/init.lua`:
+
+```lua
+require("config")
+require("plugins")
+
+```
+
+`/home/omer/.config/nvim/lua/config/init.lua`:
+
+```lua
+require("config.options")
+require("config.keymaps")
+
+```
+
+`/home/omer/.config/nvim/lua/config/keymaps.lua`:
+
+```lua
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Center search results
+vim.api.nvim_set_keymap("n", "n", "nzz", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "N", "Nzz", { noremap = true, silent = true })
+
+-- Paste over currently selected text without yanking it
+vim.api.nvim_set_keymap("v", "p", '"_dP', { noremap = true, silent = true })
+
+vim.keymap.set("t", "<C-c>", "<Esc>", { buffer = 0 })
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("n", "<S-Left>", "<cmd>vertical resize -3<CR>")
+vim.keymap.set("n", "<S-Right>", "<cmd>vertical resize +3<CR>")
+vim.keymap.set("n", "<S-Up>", "<cmd>resize -3<CR>")
+vim.keymap.set("n", "<S-Down>", "<cmd>resize +3<CR>")
+vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader><leader>", function()
+  vim.cmd("so")
+end, { desc = "[S]ource" })
+
+-- Switch window
+vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k<CR>", { noremap = true, silent = true })
+
+-- diff
+vim.keymap.set("n", "<leader>dg", "<cmd>diffget<cr>")
+vim.keymap.set("n", "<leader>dp", "<cmd>diffput<cr>")
+
+vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Next Quickfix Item" })
+vim.keymap.set("n", "[q", ":cprevious<cr>", { desc = "Previous Quickfix Item" })
+
+vim.api.nvim_create_user_command("OpenGitModified", function()
+  -- Get git status output
+  local git_output = vim.fn.system("git diff upstream/master --name-only")
+  local modified_files = vim.split(git_output, "\n")
+  for _, file in pairs(modified_files) do
+    vim.cmd("edit " .. file)
+  end
+end, {})
+vim.keymap.set("n", "<leader>ba", ":OpenGitModified<CR>")
+
+vim.api.nvim_create_user_command("CombineBuffers", function()
+  local result = {}
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) then
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+      table.insert(result, "Filename: " .. (filename == "" and "[No Name]" or filename))
+      table.insert(result, "-----------")
+      table.insert(result, table.concat(lines, "\n"))
+      table.insert(result, "-----------\n")
+    end
+  end
+  vim.cmd("new")
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(table.concat(result, "\n"), "\n"))
+end, {})
+vim.keymap.set("n", "<leader>bp", ":CombineBuffers<CR>")
+
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+-- Base64 decode function
+vim.api.nvim_create_user_command("Base64Decode", function(opts)
+  -- Get visual selection
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  local lines = vim.fn.getline(start_pos[2], end_pos[2])
+  local text = table.concat(lines, "\n")
+
+  -- Decode base64
+  local decoded = vim.fn.system('echo -n "' .. text .. '" | base64 -d')
+
+  -- Create new window
+  vim.cmd("vsplit")
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_create_buf(true, true)
+  vim.api.nvim_win_set_buf(win, buf)
+
+  -- Set content
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(decoded, "\n"))
+  vim.bo[buf].modifiable = false
+end, { range = true })
+
+```
+
+`/home/omer/.config/nvim/lua/config/options.lua`:
+
+```lua
+vim.opt.nu = true
+vim.opt.relativenumber = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.cursorline = true
+vim.opt.smartindent = true
+vim.opt.wrap = false
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.termguicolors = true
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+vim.opt.updatetime = 50
+vim.opt.clipboard = "unnamedplus" -- Access system clipboard
+vim.opt.colorcolumn = "120"
+vim.o.splitright = true
+
+vim.g.have_nerd_font = true
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
+vim.o.showtabline = 2
+
+-- Highlight on yank
+vim.cmd([[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]])
+
+vim.g.augment_workspace_folders = { "~/.config/nvim", "~/Desktop/projects/zellij" }
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/catppuccin.lua`:
+
+```lua
+return {
+  "catppuccin/nvim",
+  priority = 1000,
+  config = function()
+    require("catppuccin").setup({
+      ---@type CatppuccinOptions
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = true,
+      },
+      background = {
+        dark = "mocha",
+      },
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/github-theme.lua`:
+
+```lua
+return {
+  "projekt0n/github-nvim-theme",
+  priority = 1000,
+  config = function()
+    local cfg = {
+      options = {
+        inverse = { -- Inverse highlight for different types
+          match_paren = false,
+          visual = true,
+          search = true,
+        },
+        styles = {
+          comments = "italic",
+          keywords = "bold",
+          types = "italic,bold",
+        },
+      },
+    }
+    require("github-theme").setup(cfg)
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/onedark.lua`:
+
+```lua
+return {
+  -- Theme inspired by Atom
+  "navarasu/onedark.nvim",
+  priority = 1000,
+  opts = {},
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/gruvbox.lua`:
+
+```lua
+return {
+  "ellisonleao/gruvbox.nvim",
+  priority = 1000,
+  lazy = false,
+  config = function()
+    --- @diagnostic disable-next-line: undefined-doc-name
+    --- @type GruvboxConfig
+    local cfg = {
+      undercurl = true,
+      underline = true,
+      bold = true,
+      italic = {
+        strings = true,
+        comments = true,
+        operators = false,
+        folds = true,
+        emphasis = true,
+      },
+      strikethrough = true,
+      invert_selection = true,
+      invert_signs = false,
+      invert_tabline = false,
+      invert_intend_guides = false,
+      inverse = true,    -- invert background for search, diffs, statuslines and errors
+      contrast = "hard", -- can be "hard", "soft" or empty string
+      ---@class GruvboxPalette
+      palette_overrides = {
+        -- dark0_hard = "#222222",
+      },
+      overrides = {
+
+      },
+      dim_inactive = false,
+      transparent_mode = false,
+      terminal_colors = true,
+    }
+    require("gruvbox").setup(cfg)
+    -- vim.cmd.colorscheme("rose-pine-main")
+    vim.cmd.colorscheme("gruvbox")
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/rosepine.lua`:
+
+```lua
+---@diagnostic disable: missing-fields
+return {
+  "rose-pine/neovim",
+  priority = 1000,
+  name = "rose-pine",
+  config = function()
+    ---@type Options
+    local cfg = {
+      ---@usage 'auto'|'main'|'moon'|'dawn'
+      variant = "auto",
+      ---@usage 'main'|'moon'|'dawn'
+      dark_variant = "main",
+      bold_vert_split = false,
+      dim_nc_background = false,
+      disable_background = false,
+      disable_float_background = false,
+      disable_italics = false,
+
+      dim_inactive_windows = false,
+      palette = {
+        ---@type Palette
+        main = {
+          base = "#111111",
+          surface = "#111111",
+          text = "#ffffff"
+          -- overlay = "#111111",
+          -- muted = "#000000",
+        }
+      },
+      groups = {
+        panel = "surface",
+        panel_nc = "base",
+        border = "highlight_med",
+        comment = "muted",
+        link = "iris",
+        punctuation = "subtle",
+
+        error = "love",
+        hint = "iris",
+        info = "foam",
+        warn = "gold",
+
+        headings = {
+          h1 = "iris",
+          h2 = "foam",
+          h3 = "rose",
+          h4 = "gold",
+          h5 = "pine",
+          h6 = "foam",
+        },
+      },
+    }
+    require("rose-pine").setup(cfg)
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/tokyonight.lua`:
+
+```lua
+---@diagnostic disable: missing-fields
+return {
+  "folke/tokyonight.nvim",
+  ---@module "tokyonight"
+  ---@type tokyonight.Config
+  opts = {
+    ---@param colors ColorScheme
+    on_colors = function(colors)
+      colors.bg = "#111111"
+    end,
+  },
+  priority = 1000,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/colorschemes/vscode.lua`:
+
+```lua
+return {
+  {
+    "askfiy/visual_studio_code",
+    priority = 1000,
+  },
+  {
+    'vermdeep/darcula_dark.nvim',
+    priority = 1000,
+  },
+  {
+    "rockyzhang24/arctic.nvim",
+    dependencies = { "rktjmp/lush.nvim" },
+    name = "arctic",
+    branch = "main",
+    priority = 1000,
+  },
+  {
+    "tallestlegacy/darcula.nvim",
+    name = "darcula2"
+  }
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/dap/dap.lua`:
+
+```lua
+return {
+  "mfussenegger/nvim-dap",
+  dependencies = {
+    "jay-babu/mason-nvim-dap.nvim",
+    "rcarriga/nvim-dap-ui",
+    "nvim-neotest/nvim-nio",
+    "theHamsta/nvim-dap-virtual-text",
+    "leoluz/nvim-dap-go",
+    "mfussenegger/nvim-dap-python"
+  },
+  keys = {
+    -- Debug control keymaps
+    { "<F5>",       "<CMD>DapContinue<CR>",                                                                     mode = "n",                       desc = "Debug" },
+    { "<F6>",       "<CMD>DapToggleBreakpoint<CR>",                                                             mode = "n",                       desc = "Toggle Breakpoint" },
+    { "<F7>",       "<CMD>DapStepInto<CR>",                                                                     mode = "n",                       desc = "Step Into" },
+    { "<F8>",       "<CMD>DapStepOver<CR>",                                                                     mode = "n",                       desc = "Step Over" },
+    { "<F9>",       "<CMD>DapStepOut<CR>",                                                                      mode = "n",                       desc = "Step Out" },
+    { "<F10>",      "<CMD>DapTerminate<CR>",                                                                    mode = "n",                       desc = "Terminate" },
+
+    -- DAP UI individual element keymaps (as floating windows)
+    -- Add this to your keymaps
+    { "<leader>xt", function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").threads) end, desc = "Debug [T]hreads" },
+    { "<leader>xv", function() require("dapui").float_element("scopes") end,                                    desc = "Debug [V]ariables" },
+    { "<leader>xs", function() require("dapui").float_element("stacks") end,                                    desc = "Debug [S]tacks" },
+    { "<leader>xb", function() require("dapui").float_element("breakpoints") end,                               desc = "Debug [B]reakpoints" },
+    { "<leader>xw", function() require("dapui").float_element("watches") end,                                   desc = "Debug [W]atches" },
+    { "<leader>xr", function() require("dapui").float_element("repl") end,                                      desc = "Debug [R]EPL" },
+    { "<leader>xc", function() require("dapui").float_element("console") end,                                   desc = "Debug [C]onsole" },
+
+    -- Toggle layouts
+    { "<leader>xu", function() require("dapui").toggle() end,                                                   desc = "Toggle Debug [U]I" },
+    { "<leader>xl", function() require("dapui").toggle({ layout = 1 }) end,                                     desc = "Toggle Debug [L]eft UI" },
+    { "<leader>xo", function() require("dapui").toggle({ layout = 2 }) end,                                     desc = "Toggle Debug B[o]ttom UI" },
+  },
+  config = function()
+    local dap = require("dap")
+    local dapui = require("dapui")
+
+    dap.defaults.fallback.focus_terminal = true
+    dap.defaults.fallback.auto_continue_if_many_stopped = false
+    -- Configure DAP UI with empty layouts by default
+    ---@type dapui.config
+    ---@diagnostic disable-next-line: missing-fields
+    local cfg = {
+      ---@diagnostic disable-next-line: missing-fields
+      floating = {
+        max_height = 80,
+        max_width = 80,
+      }
+
+    }
+    dapui.setup(cfg)
+
+    dap.configurations.python = {
+      {
+        type = "python",
+        request = "launch",
+        name = "Debug tbot",
+        program = vim.fn.getcwd() .. "/src/debug_local.py",
+        console = "integratedTerminal",
+        justMyCode = true,
+      }
+    }
+
+    require("dap-python").setup("python3")
+    require('dap-go').setup()
+
+    -- Recommended: Set up specific signs for breakpoints
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapBreakpointCondition', { text = '🟡', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapLogPoint', { text = '📝', texthl = '', linehl = '', numhl = '' })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/abolish.lua`:
+
+```lua
+return {
+  "tpope/vim-abolish",
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/autopairs.lua`:
+
+```lua
+return {
+  "windwp/nvim-autopairs",
+  event = "InsertEnter",
+  opts = {},
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/colorizer.lua`:
+
+```lua
+return {
+  "norcalli/nvim-colorizer.lua",
+  cmd = "ColorizerToggle",
+  opts = {},
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/comment.lua`:
+
+```lua
+return {
+  "numToStr/Comment.nvim",
+  opts = {},
+  keys = {
+    { "gc", mode = { "n", "v" } },
+    { "gb", mode = { "n", "v" } },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/dressing.lua`:
+
+```lua
+return {
+  "stevearc/dressing.nvim",
+  init = function()
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.ui.select = function(...)
+      require("lazy").load({ plugins = { "dressing.nvim" } })
+      return vim.ui.select(...)
+    end
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.ui.input = function(...)
+      require("lazy").load({ plugins = { "dressing.nvim" } })
+      return vim.ui.input(...)
+    end
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/harpoon.lua`:
+
+```lua
+return {
+  "ThePrimeagen/harpoon",
+  branch = "harpoon2",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  opts = {},
+  keys = {
+    { "<leader>a", mode = { "n" }, desc = "[A]dd to harpoon" },
+    { "H", mode = { "n" } , desc = "[H]arpoon"},
+  },
+  config = function()
+    local harpoon = require("harpoon")
+    harpoon:setup()
+    vim.keymap.set("n", "<leader>a", function()
+      harpoon:list():add()
+    end, { desc = "[H]arpoon [A]dd" })
+    vim.keymap.set("n", "H", function()
+      harpoon.ui:toggle_quick_menu(harpoon:list())
+    end)
+    require("harpoon"):extend(require("harpoon.extensions").builtins.command_on_nav('UfoEnableFold'))
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/icons.lua`:
+
+```lua
+return {
+  "nvim-tree/nvim-web-devicons",
+  opts = {}
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/illuminate.lua`:
+
+```lua
+return {
+  "RRethy/vim-illuminate",
+  -- event = { "BufReadPost", "BufNewFile" },
+  event = { "VeryLazy" },
+  config = function()
+    -- default configuration
+    require("illuminate").configure({}) -- change the highlight styl
+
+    --- @type vim.api.keyset.highlight
+    local val = {
+      background = "#424242",
+    }
+    vim.api.nvim_set_hl(0, "IlluminatedWordText", val)
+    vim.api.nvim_set_hl(0, "IlluminatedWordRead", val)
+    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", val)
+    vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+      pattern = { "*" },
+      callback = function()
+        vim.api.nvim_set_hl(0, "IlluminatedWordText", val)
+        vim.api.nvim_set_hl(0, "IlluminatedWordRead", val)
+        vim.api.nvim_set_hl(0, "IlluminatedWordWrite", val)
+      end,
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/jsonpath.lua`:
+
+```lua
+return {
+  "phelipetls/jsonpath.nvim",
+  keys = {
+    { "<leader>jw", mode = { "n" }, desc = "[J]son Show in [W]inbar" },
+    { "<leader>jc", mode = { "n" }, desc = "[J]son [C]opy" },
+  },
+  config = function()
+    vim.keymap.set("n", "<leader>jw", function()
+      if vim.fn.exists("+winbar") == 1 then
+        vim.opt_local.winbar = "%{%v:lua.require'jsonpath'.get()%}"
+      end
+    end, { desc = "[J]son [P]ath" })
+
+    vim.keymap.set("n", "<leader>jc", function()
+      vim.fn.setreg("+", require("jsonpath").get())
+    end, { desc = "[J]son [P]ath" })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/lsplinks.lua`:
+
+```lua
+return {
+  "icholy/lsplinks.nvim",
+  ft = { "yaml" },
+  config = function()
+    local lsplinks = require("lsplinks")
+    lsplinks.setup()
+    vim.keymap.set("n", "gx", lsplinks.gx)
+  end
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/lualine.lua`:
+
+```lua
+return {
+  "nvim-lualine/lualine.nvim",
+  -- event = { "BufReadPost", "BufNewFile" },
+  event = { "VeryLazy" },
+  opts = {
+    sections = {
+      lualine_c = {
+        {
+          "filename",
+          file_status = true, -- displays file status (readonly status, modified status)
+          path = 2,           -- 0 = just filename, 1 = relative path, 2 = absolute path
+        },
+      },
+    },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/none-ls.lua`:
+
+```lua
+return {
+  "nvimtools/none-ls.nvim",
+  keys = {
+    { "<leader>ca", mode = { "n", "v" } }
+  },
+  config = function()
+    local null_ls = require("null-ls")
+
+    null_ls.setup({
+      sources = {
+
+        null_ls.builtins.code_actions.gitrebase,
+        null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.gomodifytags,
+        null_ls.builtins.code_actions.impl,
+        null_ls.builtins.code_actions.refactoring,
+
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.yamlfix,
+        null_ls.builtins.formatting.goimports,
+
+        null_ls.builtins.diagnostics.golangci_lint,
+        null_ls.builtins.hover.printenv,
+      },
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/notify.lua`:
+
+```lua
+return {
+  "rcarriga/nvim-notify",
+  init = function()
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.notify = function(...)
+      vim.notify = require("notify")
+      vim.notify(...)
+    end
+    vim.keymap.set("n", "<leader>dn", function()
+      require("notify").dismiss({ silent = true, pending = true })
+    end, { desc = "[D]ismiss [N]otifications" })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/nvimtree.lua`:
+
+```lua
+return {
+  "nvim-tree/nvim-tree.lua",
+  keys = {
+    { "<C-n>", "<cmd>NvimTreeToggle<cr>",   desc = "NvimTreeToggle" },
+    { "<C-f>", "<cmd>NvimTreeFindFile<cr>", desc = "NvimTreeFindFile" },
+  },
+  config = function()
+    local nvimtree = require("nvim-tree")
+    local config = {
+      filters = {
+        dotfiles = false
+      },
+      actions = {
+        open_file = {
+          resize_window = false
+        }
+      }
+    }
+    nvimtree.setup(config)
+  end
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/sleuth.lua`:
+
+```lua
+return {
+  "tpope/vim-sleuth",
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/treesj.lua`:
+
+```lua
+return {
+  "Wansmer/treesj",
+  keys = {
+    { "<space>m", mode = { "n" }, desc = "Toggle Fold" },
+  },
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  opts = {
+    max_join_length = 900
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/bqf.lua`:
+
+```lua
+return {
+  "kevinhwang91/nvim-bqf",
+  event = { "VeryLazy" },
+  ---@module bqf
+  ---@type BqfConfig
+  ---@diagnostic disable-next-line: missing-fields
+  opts = {
+    auto_enable = true,
+    magic_window = true,
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/colorful.lua`:
+
+```lua
+return {
+  "xzbdmw/colorful-menu.nvim",
+  config = function()
+    -- You don't need to set these options.
+    require("colorful-menu").setup({
+      ls = {
+        lua_ls = {
+          -- Maybe you want to dim arguments a bit.
+          arguments_hl = "@comment",
+        },
+        gopls = {
+          -- By default, we render variable/function's type in the right most side,
+          -- to make them not to crowd together with the original label.
+
+          -- when true:
+          -- foo             *Foo
+          -- ast         "go/ast"
+
+          -- when false:
+          -- foo *Foo
+          -- ast "go/ast"
+          align_type_to_right = true,
+          -- When true, label for field and variable will format like "foo: Foo"
+          -- instead of go's original syntax "foo Foo".
+          add_colon_before_type = false,
+        },
+        -- for lsp_config or typescript-tools
+        ts_ls = {
+          extra_info_hl = "@comment",
+        },
+        vtsls = {
+          extra_info_hl = "@comment",
+        },
+        ["rust-analyzer"] = {
+          -- Such as (as Iterator), (use std::io).
+          extra_info_hl = "@comment",
+        },
+        clangd = {
+          -- Such as "From <stdio.h>".
+          extra_info_hl = "@comment",
+        },
+        roslyn = {
+          extra_info_hl = "@comment",
+        },
+        -- The same applies to pyright/pylance
+        basedpyright = {
+          -- It is usually import path such as "os"
+          extra_info_hl = "@comment",
+        },
+
+        -- If true, try to highlight "not supported" languages.
+        fallback = true,
+      },
+      -- If the built-in logic fails to find a suitable highlight group,
+      -- this highlight is applied to the label.
+      fallback_highlight = "@variable",
+      -- If provided, the plugin truncates the final displayed text to
+      -- this width (measured in display cells). Any highlights that extend
+      -- beyond the truncation point are ignored. When set to a float
+      -- between 0 and 1, it'll be treated as percentage of the width of
+      -- the window: math.floor(max_width * vim.api.nvim_win_get_width(0))
+      -- Default 60.
+      max_width = 60,
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/conform.lua`:
+
+```lua
+return {
+  'stevearc/conform.nvim',
+  ---@module "conform.nvim"
+  ---@type conform.setupOpts
+  opts = {
+    formatters_by_ft = {
+      lua = { "stylua" },
+      python = { "isort", "black", "flake8", "ruff" },
+      rust = { "rustfmt", lsp_format = "fallback" },
+      go = { "gci", "gofumpt", "goimports", "gofmt" }
+    },
+    formatters = {
+      gci = {
+        command = "gci",
+        args = function(self, ctx)
+          return {
+            "write",
+            "--skip-generated",
+            "-s", "standard",
+            "-s", "default",
+            "-s", "prefix(k8s)",
+            "-s", "prefix(sigs.k8s)",
+            "-s", "prefix(github.com)",
+            "-s", "prefix(gitlab)",
+            "--custom-order",
+            "$FILENAME"
+          }
+        end,
+        stdin = false,
+      },
+    },
+  },
+  keys = {
+    { "<leader>cf", function() require("conform").format({}) end, "[C]ode [F]ormat" },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/leetcode.lua`:
+
+```lua
+return {
+  "kawre/leetcode.nvim",
+  build = ":TSUpdate html",
+  dependencies = {
+    "ibhagwan/fzf-lua",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "rcarriga/nvim-notify",
+    "nvim-tree/nvim-web-devicons",
+  },
+  opts = {
+    -- configuration goes here
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/whichkey.lua`:
+
+```lua
+return {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  config = function()
+    local wk = require("which-key")
+    local mappings = {
+      { "<leader>c", group = "[C]ode" },
+      { "<leader>f", group = "[F]ind" },
+      { "<leader>h", group = "[H]unk" },
+      { "<leader>j", group = "[J]son" },
+      { "<leader>l", group = "[L]sp" },
+      { "<leader>r", group = "[R]efactor/[R]esume/[R]eset" },
+      { "<leader>t", group = "[T]oggle" },
+    }
+    ---@type wk.Opts
+    local cfg = {
+      preset = "modern"
+    }
+    wk.add(mappings, {})
+    wk.setup(cfg)
+  end
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/snacks.lua`:
+
+```lua
+return {
+  "folke/snacks.nvim",
+  ---@module "snacks"
+  ---@type snacks.Config
+  opts = {},
+  lazy = false,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/bufferline.lua`:
+
+```lua
+return {
+  "akinsho/bufferline.nvim",
+  event = { "VeryLazy" },
+  keys = {
+    { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",            desc = "[B]uffers delete [O]thers" },
+    { "<leader>bd", "<Cmd>bd<CR>",                               desc = "[B]uffer [D]elete" },
+    { "<leader>bf", "<Cmd>FzfLua current_buffer_fuzzy_find<CR>", desc = "[B]uffer Fuzzy [F]ind" },
+    { "<leader>bc", "<Cmd>FzfLua git_bcommits<CR>",              desc = "[B]uffer [C]ommits" },
+    { "<leader>bl", "<Cmd>FzfLua buffers<CR>",                   desc = "[B]uffer [L]ist" },
+    { "[b",         "<cmd>BufferLineCyclePrev<CR>",              desc = "Prev Buffer" },
+    { "]b",         "<cmd>BufferLineCycleNext<CR>",              desc = "Next Buffer" },
+  },
+  opts = {
+    ---@module "bufferline.nvim"
+    ---@type bufferline.Options
+    options = {
+      truncate_names = false,
+    }
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/mini.lua`:
+
+```lua
+return {
+  "echasnovski/mini.misc",
+  version = false,
+  opts = {},
+  keys = {
+    {
+      "<leader>,",
+      function()
+        require("mini.misc").zoom()
+      end,
+      desc = "Toggle zoom",
+    },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/pydoc.lua`:
+
+```lua
+return {
+  "fredrikaverpil/pydoc.nvim",
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = {
+        ensure_installed = { "markdown" },
+      },
+    },
+  },
+  cmd = { "PyDoc" },
+  opts = {},
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/godoc.lua`:
+
+```lua
+return {
+  "fredrikaverpil/godoc.nvim",
+  version = "*",
+  dependencies = {
+    { "ibhagwan/fzf-lua" }, -- optional
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = {
+        ensure_installed = { "go" },
+      },
+    },
+  },
+  build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
+  cmd = { "GoDoc" },                                                 -- optional
+  opts = {},                                                         -- see further down below for configuration
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/markdown.lua`:
+
+```lua
+return {
+  'MeanderingProgrammer/markdown.nvim',
+  main = "render-markdown",
+  ft = { "markdown" },
+  opts = {},
+  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/refactoring.lua`:
+
+```lua
+return {
+  "ThePrimeagen/refactoring.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+  },
+  config = function()
+    require("refactoring").setup({
+      prompt_func_return_type = {
+        go = true,
+        c = true,
+      },
+      prompt_func_param_type = {
+        go = true,
+        c = true,
+        python = false,
+      },
+      show_success_message = true,
+      below = true,
+    })
+  end,
+  keys = {
+    { "<leader>rf", function() return require("refactoring").refactor("Extract Function") end, mode = { "n", "x" }, expr = true },
+    { "<leader>rv", function() return require("refactoring").refactor("Extract Variable") end, mode = { "n", "x" }, expr = true },
+    { "<leader>rI", function() return require("refactoring").refactor("Inline Function") end,  mode = { "n", "x" }, expr = true },
+    { "<leader>ri", function() return require("refactoring").refactor("Inline Variable") end,  mode = { "n", "x" }, expr = true },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/lint.lua`:
+
+```lua
+return {
+  "mfussenegger/nvim-lint",
+  keys = {
+    { "<leader>cl" }
+  },
+  config = function()
+    local lint = require("lint")
+
+
+    lint.linters_by_ft = {
+      python = { "ruff", "flake8", "mypy" },
+      lua = { "luacheck" },
+      go = { "golangcilint" },
+    }
+
+    vim.keymap.set("n", "<leader>cl", function()
+      require("lint").try_lint()
+    end, { desc = "[C]ode [L]int" })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/trouble.lua`:
+
+```lua
+return {
+  "folke/trouble.nvim",
+  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  cmd = "Trouble",
+  keys = {
+    {
+      "<leader>xx",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Diagnostics (Trouble)",
+    },
+    {
+      "<leader>xX",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+      desc = "Buffer Diagnostics (Trouble)",
+    },
+    {
+      "<leader>cs",
+      "<cmd>Trouble symbols toggle focus=false<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>cl",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    {
+      "<leader>xL",
+      "<cmd>Trouble loclist toggle<cr>",
+      desc = "Location List (Trouble)",
+    },
+    {
+      "<leader>xQ",
+      "<cmd>Trouble qflist toggle<cr>",
+      desc = "Quickfix List (Trouble)",
+    },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/fzf.lua`:
+
+```lua
+return {
+  "ibhagwan/fzf-lua",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  cmd = { "FzfLua" },
+  opts = function(_, opts)
+    local actions = require("fzf-lua.actions")
+    return {
+      keymap = {
+        builtin = {
+          true,
+          ["<C-u>"] = "preview-page-up",
+          ["<C-d>"] = "preview-page-down",
+          ["<C-o>"] = "toggle-preview",
+          ["<C-w>"] = "toggle-preview-wrap",
+        },
+        fzf = {
+          ["ctrl-q"] = "select-all+accept",
+        },
+      },
+      winopts = {
+        -- fullscreen = true,
+        preview = {
+          layout = "vertical",
+          vertical = "up:65%",
+        },
+      },
+      files = {
+        actions = {
+          ["ctrl-v"] = actions.file_vsplit,
+          ["ctrl-t"] = actions.file_tabedit,
+        },
+      },
+      grep = {
+        actions = {
+          ["ctrl-f"] = { fn = actions.toggle_ignore },
+          ["ctrl-h"] = { fn = actions.toggle_hidden },
+        }
+      },
+      git = {
+        commits = {
+          ["ctrl-y"] = { fn = actions.git_yank_commit },
+        },
+        status = {
+          actions = {
+            ["ctrl-s"] = { fn = actions.git_stage },
+            ["ctrl-u"] = { fn = actions.git_unstage },
+          }
+        },
+        branches = {
+          actions = {
+            ["ctrl-d"] = function(selected)
+              require("diffview")
+              vim.notify(selected)
+              local branch = selected[1]
+              vim.notify(branch)
+              vim.cmd("DiffviewOpen " .. branch)
+            end,
+          },
+        },
+      },
+    }
+  end,
+  keys = {
+    { "<leader><leader>f", "<CMD>FzfLua<CR>",                            desc = "FzfLua" },
+    { "<leader>sw",        "<CMD>FzfLua lsp_live_workspace_symbols<CR>", desc = "[S]ymbols [W]orkspace" },
+    { "<leader>sd",        "<CMD>FzfLua lsp_document_symbols<CR>",       desc = "[S]ymbols [D]ocument" },
+    { "<leader>fo",        "<CMD>FzfLua oldfiles<CR>",                   desc = "[F]ind recently [O]pened files" },
+    { "<leader>fq",        "<CMD>FzfLua quickfix<CR>",                   desc = "[F]ind [Q]uickfix" },
+    { "<leader>fj",        "<CMD>FzfLua jumps<CR>",                      desc = "[F]ind [J]umps" },
+    { "<leader>ff",        "<CMD>FzfLua files<CR>",                      desc = "[F]ind [F]iles" },
+    { "<leader>rt",        "<CMD>FzfLua resume<CR>",                     desc = "[R]esume [T]elescope" },
+    { "<leader>fc",        "<CMD>FzfLua git_commits<CR>",                desc = "[F]ind Git [C]ommits" },
+    { "<leader>fb",        "<CMD>FzfLua git_branches<CR>",               desc = "[F]ind Git [B]ranches" },
+    { "<leader>fg",        "<CMD>FzfLua live_grep<CR>",                  desc = "[F]ind by [G]rep" },
+    { "<leader>fd",        "<CMD>FzfLua lsp_workspace_diagnostics<CR>",  desc = "[F]ind [D]iagnostics" },
+    { "<leader>fr",        "<CMD>FzfLua lsp_references<CR>",             desc = "[F]ind [R]eferences" },
+    { "<leader>fi",        "<CMD>FzfLua lsp_implementations<CR>",        desc = "[F]ind [I]mplementations" },
+    { "<leader>fk",        "<CMD>FzfLua keymaps<CR>",                    desc = "[F]ind [K]eymaps" },
+    { "<leader>fh",        "<CMD>FzfLua help_tags<CR>",                  desc = "[F]ind [H]elp tags" },
+    { "<leader>fs",        "<CMD>FzfLua git_status<CR>",                 desc = "[F]ind Git [S]tatus" },
+    { "<leader>ch",        "<CMD>FzfLua command_history<CR>",            desc = "[C]ommands [H]istory" },
+    { "<leader>fw",        "<CMD>FzfLua grep_cword<CR>",                 desc = "[F]ind [w]ord" },
+    { "<leader>fW",        "<CMD>FzfLua grep_cWORD<CR>",                 desc = "[F]ind [W]ord" },
+    {
+      "<leader>fp",
+      function()
+        require('fzf-lua').files({ fzf_cli_args = '--query ' .. vim.fn.expand('<cWORD>') })
+      end,
+      desc = "[F]ind [P]ath"
+    },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/neotest.lua`:
+
+```lua
+---@diagnostic disable: missing-fields
+return {
+  "nvim-neotest/neotest",
+  dependencies = {
+    "nvim-neotest/neotest-python",
+    "nvim-neotest/nvim-nio",
+    "nvim-lua/plenary.nvim",
+    "antoinemadec/FixCursorHold.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-contrib/nvim-ginkgo",
+    { "fredrikaverpil/neotest-golang", version = "*" },
+  },
+  cmd = {
+    "Neotest",
+  },
+  keys = {
+    { "<leader>ts", "<cmd>Neotest summary<cr>",                                       { desc = "[T]est [S]ummary" } },
+    { "<leader>tr", "<cmd>Neotest run<cr>",                                           { desc = "[T]est [R]un" } },
+    { "<leader>tf", "<cmd>Neotest run file<cr>",                                      { desc = "[T]est run [F]ile" } },
+    { "<leader>to", "<cmd>Neotest output<cr>",                                        { desc = "[T]est [O]utput" } },
+    { "<leader>tO", "<cmd>Neotest output-panel<cr>",                                  { desc = "[T]est [O]utput panel" } },
+    { "<leader>tn", "<cmd>Neotest jump next<cr>",                                     { desc = "[T]est [N]ext" } },
+    { "<leader>tp", "<cmd>Neotest jump prev<cr>",                                     { desc = "[T]est [P]rev" } },
+    { "<leader>tl", "<cmd>Neotest run last<cr>",                                      { desc = "[T]est [L]ast" } },
+    { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end,  { desc = "[T]est [D]ebug" } }
+  },
+  config = function()
+    local neotest = require("neotest")
+    ---@type neotest.Config
+    local cfg = {
+      log_level = vim.log.levels.INFO,
+      quickfix = {
+        enabled = false,
+      },
+      diagnostic = {
+        enabled = true,
+        severity = 1,
+      },
+      discovery = {
+        concurrent = 0
+      },
+      floating = {
+        border = "rounded",
+        max_height = 0.8,
+        max_width = 0.8,
+        options = {},
+      },
+      status = {
+        virtual_text = true,
+        enabled = true,
+        signs = true,
+      },
+      summary = {
+        animated = true,
+        enabled = true,
+        expand_errors = false,
+        open = "topleft vsplit | vertical resize 50",
+        follow = true,
+      },
+      output = {
+        open_on_run = false,
+        enabled = true,
+      },
+      output_panel = {
+        enabled = true,
+      },
+      adapters = {
+        -- require("neotest-python")({
+        --   dap = { justMyCode = false },
+        -- }),
+        require("neotest-python")({
+          dap = { justMyCode = false },
+          -- pytest_xvs = true, -- Added for more verbose diff output
+          runner = "pytest",
+          args = { "-vv", "--color=yes" } -- force verbose mode and colored output
+        }),
+        -- require("neotest-golang")()
+        -- require("nvim-ginkgo")
+      },
+    }
+    neotest.setup(cfg)
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/rust.lua`:
+
+```lua
+return {
+  'mrcjkb/rustaceanvim',
+  version = '^5', -- Recommended
+  lazy = false, -- This plugin is already lazy
+  enabled = false,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/augment.lua`:
+
+```lua
+return {
+  "augmentcode/augment.vim",
+  lazy = false,
+  enabled = false,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/zenmode.lua`:
+
+```lua
+return {
+  "folke/zen-mode.nvim",
+  keys = {
+    {"<leader>z", "<cmd>ZenMode<cr>", mode = {"n"}},
+  },
+  opts = {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/codecompanion.lua`:
+
+```lua
+return {
+  "olimorris/codecompanion.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+  },
+  opts = {
+    adapters = {
+      anthropic = function()
+        return require("codecompanion.adapters").extend("anthropic", {
+          env = {
+            api_key = "",
+          },
+          schema = {
+            model = {
+              default = "claude-3-5-sonnet-20241022",
+            },
+          },
+        })
+      end,
+    },
+    strategies = {
+      chat = {
+        adapter = "anthropic",
+      },
+      inline = {
+        adapter = "anthropic",
+      },
+    },
+  },
+  keys = {
+    { "<leader>ac", "<cmd>CodeCompanionChat<cr>", mode = {"x", "n"}},
+    { "<leader>aa", "<cmd>CodeCompanionAction<cr>", mode = {"x", "n"}},
+  }
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/ufo.lua`:
+
+```lua
+return {
+  "kevinhwang91/nvim-ufo",
+  dependencies = {
+    "kevinhwang91/promise-async",
+  },
+  event = "VeryLazy",
+  config = function()
+    vim.o.foldcolumn = "1"
+    vim.o.foldlevel = 99
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
+
+    -- Basic UFO keymaps
+    local ufo = require("ufo")
+    vim.keymap.set("n", "zR", ufo.openAllFolds)
+    vim.keymap.set("n", "zM", ufo.closeAllFolds)
+    vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
+    vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor)
+
+    -- Custom keymaps for folding to specific levels
+    for i = 0, 9 do
+      -- Use z1, z2, z3, etc. to fold to that level
+      vim.keymap.set("n", "z" .. i, function()
+        -- First close all folds
+        ufo.closeAllFolds()
+        -- Then set the fold level to show the desired level
+        vim.o.foldlevel = i
+      end, { desc = "Fold to level " .. i })
+    end
+
+    -- Setup UFO
+    ufo.setup({
+      provider_selector = function(bufnr, filetype, buftype)
+        return { "treesitter", "indent" }
+      end,
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/general/treesitter.lua`:
+
+```lua
+---@diagnostic disable: missing-fields
+return {
+  -- Highlight, edit, and navigate code
+  "nvim-treesitter/nvim-treesitter",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+  },
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
+  config = function()
+    ---@type TSConfig
+    local cfg = {
+      ensure_installed = {
+        "dart",
+        "java",
+        "json",
+        "kotlin",
+        "latex",
+        "bash",
+        "vim",
+        "vimdoc",
+        "query",
+        "python",
+        "javascript",
+        "typescript",
+        "c",
+        "lua",
+        "rust",
+        "markdown",
+        "markdown_inline",
+        "go",
+        "yaml",
+        "toml",
+        "sql",
+      },
+      auto_install = true,
+      sync_install = false,
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+      indent = {
+        enable = true
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<c-space>",
+          node_incremental = "<c-space>",
+          scope_incremental = "<c-s>",
+          node_decremental = "<M-space>",
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["al"] = "@loop.outer",
+            ["il"] = "@loop.inner",
+            ["ai"] = "@conditional.outer",
+            ["ii"] = "@conditional.inner",
+            -- ["ab"] = "@block.outer",
+            -- ["ib"] = "@block.inner",
+            ["as"] = "@statement.outer",
+            ["is"] = "@statement.inner",
+            ["am"] = "@call.outer",
+            ["im"] = "@call.inner",
+            ["ad"] = "@comment.outer",
+            ["id"] = "@comment.inner",
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]m"] = "@function.outer",
+            ["]]"] = "@class.outer",
+            ["]p"] = "@parameter.outer",
+            ["]l"] = "@loop.outer",
+            ["]i"] = "@conditional.outer",
+            ["]b"] = "@block.outer",
+            ["]s"] = "@statement.outer",
+            ["]c"] = "@call.outer",
+            ["]d"] = "@comment.outer",
+          },
+          goto_next_end = {
+            ["]M"] = "@function.outer",
+            ["]["] = "@class.outer",
+            ["]P"] = "@parameter.outer",
+            ["]L"] = "@loop.outer",
+            ["]I"] = "@conditional.outer",
+            ["]B"] = "@block.outer",
+            ["]S"] = "@statement.outer",
+            ["]C"] = "@call.outer",
+            ["]D"] = "@comment.outer",
+          },
+          goto_previous_start = {
+            ["[m"] = "@function.outer",
+            ["[["] = "@class.outer",
+            ["[p"] = "@parameter.outer",
+            ["[l"] = "@loop.outer",
+            ["[i"] = "@conditional.outer",
+            ["[b"] = "@block.outer",
+            ["[s"] = "@statement.outer",
+            ["[c"] = "@call.outer",
+            ["[d"] = "@comment.outer",
+          },
+          goto_previous_end = {
+            ["[M"] = "@function.outer",
+            ["[]"] = "@class.outer",
+            ["[P"] = "@parameter.outer",
+            ["[L"] = "@loop.outer",
+            ["[I"] = "@conditional.outer",
+            ["[B"] = "@block.outer",
+            ["[S"] = "@statement.outer",
+            ["[C"] = "@call.outer",
+            ["[D"] = "@comment.outer",
+          },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ["<leader>a"] = "@parameter.inner",
+            ["<leader>f"] = "@function.outer",
+            ["<leader>l"] = "@loop.outer",
+            ["<leader>b"] = "@block.outer",
+            ["<leader>s"] = "@statement.outer",
+          },
+          swap_previous = {
+            ["<leader>A"] = "@parameter.inner",
+            ["<leader>F"] = "@function.outer",
+            ["<leader>L"] = "@loop.outer",
+            ["<leader>B"] = "@block.outer",
+            ["<leader>S"] = "@statement.outer",
+          },
+        },
+        lsp_interop = {
+          enable = true,
+          floating_preview_opts = {},
+          peek_definition_code = {
+            ["<leader>df"] = "@function.outer",
+            ["<leader>dF"] = "@class.outer",
+            ["<leader>dp"] = "@parameter.outer",
+            ["<leader>dc"] = "@call.outer",
+          },
+        },
+      }
+    }
+    require("nvim-treesitter.configs").setup(cfg)
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/git/gitsigns.lua`:
+
+```lua
+return {
+  "lewis6991/gitsigns.nvim",
+  event = { "VeryLazy" },
+  opts = {
+    signs = {
+      add = { text = "+" },
+      change = { text = "~" },
+      delete = { text = "_" },
+      topdelete = { text = "‾" },
+      changedelete = { text = "~" },
+    },
+    on_attach = function(bufnr)
+      local gitsigns = require("gitsigns")
+      vim.keymap.set("n", "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+      vim.keymap.set("n", "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+      vim.keymap.set("v", "<leader>hs", function()
+        gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+      end)
+      vim.keymap.set("v", "<leader>hr", function()
+        gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+      end)
+      vim.keymap.set("n", "<leader>bs", "<CMD>Gitsigns stage_buffer<CR>", { desc = "[B]uffer [S]tage" })
+      vim.keymap.set("n", "<leader>br", "<CMD>Gitsigns reset_buffer<CR>", { desc = "[B]uffer [R]eset" })
+      vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "[T]oggle git [B]lame" })
+      vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { desc = "[H]unk [D]iff" })
+      vim.keymap.set("n", "<leader>hp", "<CMD>Gitsigns preview_hunk<CR>", { desc = "[H]unk [P]review" })
+      -- don't override the built-in and fugitive keymaps
+      local gs = package.loaded.gitsigns
+      vim.keymap.set({ "n", "v" }, "]c", function()
+        if vim.wo.diff then
+          return "]c"
+        end
+        vim.schedule(function()
+          gs.next_hunk()
+        end)
+        return "<Ignore>"
+      end, { expr = true, buffer = bufnr, desc = "Next Hunk" })
+      vim.keymap.set({ "n", "v" }, "[c", function()
+        if vim.wo.diff then
+          return "[c"
+        end
+        vim.schedule(function()
+          gs.prev_hunk()
+        end)
+        return "<Ignore>"
+      end, { expr = true, buffer = bufnr, desc = "Previous Hunk" })
+    end,
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/git/diffview.lua`:
+
+```lua
+return {
+  "sindrets/diffview.nvim",
+  opts = {},
+  cmd = { "DiffViewOpen" },
+  keys = {
+    {
+      "<leader>dv",
+      function()
+        local lib = require('diffview.lib')
+        if lib.get_current_view() then
+          vim.cmd('DiffviewClose')
+        else
+          vim.cmd('DiffviewOpen')
+        end
+      end,
+      desc = "Toggle DiffView"
+    },
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/init.lua`:
+
+```lua
+require("plugins.lazy")
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/fidget.lua`:
+
+```lua
+return {
+  "j-hui/fidget.nvim",
+  opts = {},
+  event = "VeryLazy"
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/jdtls.lua`:
+
+```lua
+return {
+  "mfussenegger/nvim-jdtls",
+  ft = { "java" },
+  config = function()
+    local config = {
+      cmd = { "/home/omer/.local/share/nvim/mason/packages/jdtls/jdtls" },
+      root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+    }
+    require("jdtls").start_or_attach(config)
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/lazydev.lua`:
+
+```lua
+return {
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- Library items can be absolute paths
+        -- "~/projects/my-awesome-lib",
+        -- Or relative, which means they will be resolved as a plugin
+        -- "LazyVim",
+        -- When relative, you can also provide a path to the library in the plugin dir
+        "luvit-meta/library", -- see below
+        "nvim-dap-ui",
+        "folke/tokyonight.nvim",
+        "kevinhwang91/nvim-bqf",
+      },
+    },
+  },
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+  { -- optional completion source for require statements and module annotations
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = "lazydev",
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+      })
+    end,
+  },
+  -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/lsp-signature.lua`:
+
+```lua
+return {
+  "ray-x/lsp_signature.nvim",
+  event = "LspAttach", -- This ensures it loads when an LSP client attaches
+  opts = {
+    bind = true, -- This is mandatory, otherwise border config won't get registered
+    handler_opts = {
+      border = "rounded" -- Double, rounded, single, shadow, none
+    },
+    hint_enable = true,
+    hint_prefix = "🐼 ",
+    hint_scheme = "String",
+    hi_parameter = "LspSignatureActiveParameter", -- How your parameter will be highlighted
+    max_height = 12,
+    max_width = 120,
+    floating_window = true,
+    floating_window_above_cur_line = true,
+    floating_window_off_x = 1, -- Adjust float windows x position
+    floating_window_off_y = 0, -- Adjust float windows y position
+    fix_pos = false, -- Set to true if you want the floating window to stay in place
+    doc_lines = 10, -- Will show lines of document/signature in floating window
+    always_trigger = false, -- Default to false, set to true if you want signature to appear even if you're on different line than function call
+    timer_interval = 200, -- Default timer check interval
+    zindex = 200, -- By default it will be on top of all floating windows
+    toggle_key = '<C-s>', -- Toggle signature on and off in insert mode, e.g. '<M-x>'
+  },
+  config = function(_, opts)
+    -- Setup the plugin with the provided options
+    require("lsp_signature").setup(opts)
+    
+    -- This ensures it's attached to all active LSP clients
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        local bufnr = args.buf
+        -- Only attach if buffer has LSP client
+        if vim.lsp.get_clients({ bufnr = bufnr })[1] then
+          require("lsp_signature").on_attach(opts, bufnr)
+        end
+      end,
+    })
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/blink-cmp.lua`:
+
+```lua
+local codecompanion = require "plugins.general.codecompanion"
+return {
+  "saghen/blink.cmp",
+  -- optional: provides snippets for the snippet source
+  dependencies = "rafamadriz/friendly-snippets",
+  -- use a release tag to download pre-built binaries
+  version = "*",
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    -- 'default' for mappings similar to built-in completion
+    -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+    -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+    -- See the full "keymap" documentation for information on defining your own keymap.
+    keymap = { preset = "enter" },
+
+    appearance = {
+      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+      -- Useful for when your theme doesn't support blink.cmp
+      -- Will be removed in a future release
+      use_nvim_cmp_as_default = true,
+      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = "mono",
+    },
+
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    sources = {
+      default = { "lsp", "path", "snippets", "buffer" },
+      per_filetype = { codecompanion = { "codecompanion" }}
+    },
+    cmdline = {
+      enabled = false
+    },
+    completion = {
+      accept = {
+        auto_brackets = {
+          enabled = true,
+        },
+      },
+      menu = {
+        -- auto_show = function(ctx) return ctx.mode ~= 'cmdline' end,
+        border = "rounded",
+        draw = {
+          padding = 1,
+          treesitter = { "lsp" },
+          columns = {
+            { "label",       "label_description", gap = 1 },
+            { "kind_icon",   "kind",              gap = 1 },
+            { "source_name", gap = 1 },
+          },
+          components = {
+            label = {
+              text = function(ctx)
+                return require("colorful-menu").blink_components_text(ctx)
+              end,
+              highlight = function(ctx)
+                return require("colorful-menu").blink_components_highlight(ctx)
+              end,
+            },
+          },
+        },
+      },
+      documentation = {
+        window = {
+          border = "rounded",
+        },
+        auto_show = false,
+        auto_show_delay_ms = 200,
+      },
+      ghost_text = {
+        enabled = vim.g.ai_cmp,
+      },
+    },
+    signature = {
+      window = {
+        border = "single",
+      },
+    },
+  },
+  opts_extend = { "sources.default" },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/venv-selector.lua`:
+
+```lua
+return {
+  "linux-cultist/venv-selector.nvim",
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
+    { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+  },
+  branch = "regexp", -- This is the regexp branch, use this for the new version
+  cmd = {
+    "VenvSelect"
+  },
+  ---@type venv-selector.Config
+  opts = {
+    -- Your settings go here
+  },
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lsp/lspconfig.lua`:
+
+```lua
+---@diagnostic disable: missing-fields
+return { -- LSP Configuration & Plugins
+  "neovim/nvim-lspconfig",
+  event = { "BufReadPost", "BufNewFile" },
+  dependencies = {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    { "folke/neoconf.nvim", opts = {} },
+    "saghen/blink.cmp"
+  },
+  config = function()
+    vim.keymap.set("n", "gd", function() require("fzf-lua").lsp_definitions() end,
+      { desc = "[G]oto [D]efition" })
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
+    vim.keymap.set("n", "gi", function() require("fzf-lua").lsp_implementations() end,
+      { desc = "[G]oto [I]mplementation" })
+    vim.keymap.set("n", "gt", function() require("fzf-lua").lsp_typedefs() end,
+      { desc = "[G]oto [T]ype Definitions" })
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" })
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+    vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "[L]sp [F]ormat" })
+
+    vim.keymap.set("n", "<leader>th", function()
+      ---@diagnostic disable-next-line: missing-parameter
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end, { desc = "[T]oggle inlay [H]ints" })
+
+
+
+    ---@type lspconfig.options
+    local servers = {
+
+      ---@type lspconfig.settings.basedpyright
+      basedpyright = {
+        basedpyright = {
+          disableLanguageServices = false,
+          disableOrganizeImports = false,
+          disableTaggedHints = false,
+          importStrategy = "fromEnvironment",
+          analysis = {
+            autoImportCompletions = true,
+            diagnosticMode = "workspace",
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+              functionReturnTypes = true,
+              genericTypes = true,
+            },
+            typeCheckingMode = "recommended"
+          }
+        }
+      },
+
+      lua_ls = {
+
+      },
+      gopls = {
+        settings = {
+          gopls = {
+            gofumpt = true,
+            codelenses = {
+              gc_details = false,
+              generate = true,
+              regenerate_cgo = true,
+              run_govulncheck = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            experimentalPostfixCompletions = true,
+            analyses = {
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            usePlaceholders = true,
+            completeUnimported = true,
+            staticcheck = true,
+            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+            semanticTokens = true,
+          },
+        },
+      },
+      clangd = {},
+      rust_analyzer = {},
+    }
+
+
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
+    -- require("neoconf").setup({})
+    require("mason").setup({})
+    require("mason-tool-installer").setup({})
+
+    require("lspconfig").ocamllsp.setup({})
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "rust_analyzer",
+        "lua_ls",
+        "zls",
+        "gopls",
+        "clangd",
+        "ruff",
+        "basedpyright",
+        "jsonls",
+      },
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+          require("lspconfig")[server_name].setup(server)
+        end,
+      },
+    })
+    require("lspconfig").gleam.setup({})
+  end,
+}
+
+```
+
+`/home/omer/.config/nvim/lua/plugins/lazy.lua`:
+
+```lua
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  spec = {
+    { import = "plugins.general" },
+    { import = "plugins.lsp" },
+    { import = "plugins.git" },
+    { import = "plugins.dap" },
+    { import = "plugins.colorschemes" },
+  },
+  defaults = {
+    lazy = true,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      }
+    }
+  },
+  ui = {
+    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      require = "🌙",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
+      lazy = "💤 ",
+    },
+  },
+})
+
+```
+
+`/home/omer/.config/nvim/lazy-lock.json`:
+
+```json
+{
+  "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
+  "FixCursorHold.nvim": { "branch": "master", "commit": "1900f89dc17c603eec29960f57c00bd9ae696495" },
+  "arctic": { "branch": "main", "commit": "46da33aeb3a8ee48533f41911b3aaf4f1541dd6f" },
+  "augment.vim": { "branch": "main", "commit": "97418c9dfc1918fa9bdd23863ea3d2e49130727f" },
+  "blink.cmp": { "branch": "main", "commit": "cb5e346d9e0efa7a3eee7fd4da0b690c48d2a98e" },
+  "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
+  "codecompanion.nvim": { "branch": "main", "commit": "35b11dc4b292519a5c09fb2c0c0e8a8832e9e821" },
+  "colorful-menu.nvim": { "branch": "master", "commit": "f80feb8a6706f965321aff24d0ed3849f02a7f77" },
+  "conform.nvim": { "branch": "master", "commit": "eebc724d12c5579d733d1f801386e0ceb909d001" },
+  "darcula2": { "branch": "main", "commit": "c73bc9820c25a88ffb3cac56e78847e4e1b7b76d" },
+  "darcula_dark.nvim": { "branch": "main", "commit": "dd80b584f40738b03702924646765b087d70b5ec" },
+  "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
+  "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
+  "fidget.nvim": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
+  "friendly-snippets": { "branch": "main", "commit": "efff286dd74c22f731cdec26a70b46e5b203c619" },
+  "fzf-lua": { "branch": "main", "commit": "47b85a25c0c0b2c20b4e75199ed01bb71e7814f5" },
+  "github-nvim-theme": { "branch": "main", "commit": "c106c9472154d6b2c74b74565616b877ae8ed31d" },
+  "gitsigns.nvim": { "branch": "main", "commit": "17ab794b6fce6fce768430ebc925347e349e1d60" },
+  "godoc.nvim": { "branch": "main", "commit": "356f79853dbb3b3e200064367603751895153c29" },
+  "gruvbox.nvim": { "branch": "main", "commit": "12b5420b665e8053d74eb075d8a589477333f67d" },
+  "harpoon": { "branch": "harpoon2", "commit": "ed1f853847ffd04b2b61c314865665e1dadf22c7" },
+  "jsonpath.nvim": { "branch": "main", "commit": "2d889eb9c39893e030e902b854122a1615c042ea" },
+  "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "lazydev.nvim": { "branch": "main", "commit": "2367a6c0a01eb9edb0464731cc0fb61ed9ab9d2c" },
+  "leetcode.nvim": { "branch": "master", "commit": "db7e1cd6b9191b34b4c1f2f96e4e3949cde9f951" },
+  "lsp_signature.nvim": { "branch": "master", "commit": "15bb33cdb47e85278e168cad11acb1b6fa9c6488" },
+  "lsplinks.nvim": { "branch": "master", "commit": "94d729170e95298ce86ba41ef66f8756f6062b34" },
+  "lualine.nvim": { "branch": "master", "commit": "0ea56f91b7f51a37b749c050a5e5dfdd56b302b3" },
+  "lush.nvim": { "branch": "main", "commit": "45a79ec4acb5af783a6a29673a999ce37f00497e" },
+  "luvit-meta": { "branch": "main", "commit": "1df30b60b1b4aecfebc785aa98943db6c6989716" },
+  "markdown.nvim": { "branch": "main", "commit": "05e6a6d119f90b99829ecb7eb85428a226c0c05f" },
+  "mason-lspconfig.nvim": { "branch": "main", "commit": "1a31f824b9cd5bc6f342fc29e9a53b60d74af245" },
+  "mason-nvim-dap.nvim": { "branch": "main", "commit": "4c2cdc69d69fe00c15ae8648f7e954d99e5de3ea" },
+  "mason-tool-installer.nvim": { "branch": "main", "commit": "1255518cb067e038a4755f5cb3e980f79b6ab89c" },
+  "mason.nvim": { "branch": "main", "commit": "fc98833b6da5de5a9c5b1446ac541577059555be" },
+  "mini.misc": { "branch": "main", "commit": "52bf20e952a26820c25776c7b594f64b7a6dcb66" },
+  "neoconf.nvim": { "branch": "main", "commit": "04bd5acb17053b19e82ad07df6bee76397e8e75c" },
+  "neotest": { "branch": "master", "commit": "dddbe8fe358b05b2b7e54fe4faab50563171a76d" },
+  "neotest-golang": { "branch": "main", "commit": "131e0402e63966692d340861c58756853913ada3" },
+  "neotest-python": { "branch": "master", "commit": "a2861ab3c9a0bf75a56b11835c2bfc8270f5be7e" },
+  "none-ls.nvim": { "branch": "main", "commit": "0cbbf2d442afd0150590bffbd11fb0c83f5bed37" },
+  "nui.nvim": { "branch": "main", "commit": "8d3bce9764e627b62b07424e0df77f680d47ffdb" },
+  "nvim": { "branch": "main", "commit": "5b5e3aef9ad7af84f463d17b5479f06b87d5c429" },
+  "nvim-autopairs": { "branch": "master", "commit": "2a406cdd8c373ae7fe378a9e062a5424472bd8d8" },
+  "nvim-bqf": { "branch": "main", "commit": "e20417d5e589e03eaaaadc4687904528500608be" },
+  "nvim-cmp": { "branch": "main", "commit": "059e89495b3ec09395262f16b1ad441a38081d04" },
+  "nvim-colorizer.lua": { "branch": "master", "commit": "a065833f35a3a7cc3ef137ac88b5381da2ba302e" },
+  "nvim-dap": { "branch": "master", "commit": "7aade9e99bef5f0735cf966e715b3ce45515d786" },
+  "nvim-dap-go": { "branch": "main", "commit": "8763ced35b19c8dc526e04a70ab07c34e11ad064" },
+  "nvim-dap-python": { "branch": "master", "commit": "34282820bb713b9a5fdb120ae8dd85c2b3f49b51" },
+  "nvim-dap-ui": { "branch": "master", "commit": "bc81f8d3440aede116f821114547a476b082b319" },
+  "nvim-dap-virtual-text": { "branch": "master", "commit": "df66808cd78b5a97576bbaeee95ed5ca385a9750" },
+  "nvim-ginkgo": { "branch": "main", "commit": "12e1cb60d1254b39dbdffac1e4fcbf8f0afd98da" },
+  "nvim-jdtls": { "branch": "master", "commit": "1be4289f761a9e98011f9f4a69505dc01e07e586" },
+  "nvim-lint": { "branch": "master", "commit": "5b1bdf306bd3e565908145279e8bbfc594dac3b3" },
+  "nvim-lspconfig": { "branch": "master", "commit": "94dda50b2d9a29d0b76562a9027029538840e2d7" },
+  "nvim-nio": { "branch": "master", "commit": "21f5324bfac14e22ba26553caf69ec76ae8a7662" },
+  "nvim-notify": { "branch": "master", "commit": "22f29093eae7785773ee9d543f8750348b1a195c" },
+  "nvim-tree.lua": { "branch": "master", "commit": "c3c193594213c5e2f89ec5d7729cad805f76b256" },
+  "nvim-treesitter": { "branch": "master", "commit": "0e21ee8df6235511c02bab4a5b391d18e165a58d" },
+  "nvim-treesitter-textobjects": { "branch": "master", "commit": "698b5f805722254bca3c509591c1806d268b6c2f" },
+  "nvim-ufo": { "branch": "main", "commit": "c1ecaae0338cb56720122c4910a6acf9ca61a7c8" },
+  "nvim-web-devicons": { "branch": "master", "commit": "57dfa947cc88cdf1baa2c7e13ed31edddd8fb1d1" },
+  "onedark.nvim": { "branch": "master", "commit": "67a74c275d1116d575ab25485d1bfa6b2a9c38a6" },
+  "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
+  "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
+  "pydoc.nvim": { "branch": "main", "commit": "f3ec76284e22957cf1a11ef197390878302012f5" },
+  "refactoring.nvim": { "branch": "master", "commit": "2be7ea3f10b7e59658f5abf6dffc50b5d61964d6" },
+  "rose-pine": { "branch": "main", "commit": "96ff3993a67356ee85d1cdab9be652cdc1c5d1ac" },
+  "rustaceanvim": { "branch": "master", "commit": "e9c5aaba16fead831379d5f44617547a90b913c7" },
+  "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
+  "telescope.nvim": { "branch": "0.1.x", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
+  "tokyonight.nvim": { "branch": "main", "commit": "057ef5d260c1931f1dffd0f052c685dcd14100a3" },
+  "treesj": { "branch": "main", "commit": "f4049f8ba2177e7c5c03fb9e34d4e039c685d744" },
+  "trouble.nvim": { "branch": "main", "commit": "85bedb7eb7fa331a2ccbecb9202d8abba64d37b3" },
+  "venv-selector.nvim": { "branch": "regexp", "commit": "c677caa1030808a9f90092e522de7cc20c1390dd" },
+  "vim-abolish": { "branch": "master", "commit": "dcbfe065297d31823561ba787f51056c147aa682" },
+  "vim-illuminate": { "branch": "master", "commit": "19cb21f513fc2b02f0c66be70107741e837516a1" },
+  "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
+  "visual_studio_code": { "branch": "master", "commit": "ff7fd467e6c82bd1e062d64f60428cf36b0e99c6" },
+  "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" },
+  "zen-mode.nvim": { "branch": "main", "commit": "863f150ca321b3dd8aa1a2b69b5f411a220e144f" }
+}
+
+```
+
+`/home/omer/.config/nvim/neoconf.json`:
+
+```json
+{
+    "neoconf": {
+        "plugins": {
+            "lspconfig": {
+                "enabled": true
+            },
+            "jsonls": {
+                "enabled": true,
+                "configured_servers_only": true
+            }
+        }
+    },
+    "lspconfig": {
+        "pylsp": {
+            "pylsp.plugins.rope_completion.eager": true,
+            "pylsp.plugins.rope_autoimport.code_actions.enabled": true,
+            "pylsp.plugins.rope_autoimport.memory": true,
+            "pylsp.plugins.rope_autoimport.enabled": true,
+            "pylsp.plugins.rope_completion.enabled": true,
+            "pylsp.plugins.rope_autoimport.completions.enabled": true,
+            "pylsp.plugins.pylint.enabled": false,
+            "pylsp.plugins.pyflakes.enabled": false,
+            "pylsp.plugins.flake8.enabled": false,
+            "pylsp.plugins.pycodestyle.enabled": false,
+            "pylsp.plugins.jedi_signature_help.enabled": false,
+            "pylsp.plugins.yapf.enabled": false,
+            "pylsp.plugins.mccabe.enabled": false,
+            "pylsp.plugins.preload.enabled": false,
+            "pylsp.plugins.autopep8.enabled": false,
+            "pylsp.plugins.jedi_references.enabled": false,
+            "pylsp.plugins.pydocstyle.enabled": false,
+            "pylsp.plugins.jedi_hover.enabled": false,
+            "pylsp.plugins.jedi_symbols.enabled": false,
+            "pylsp.plugins.jedi_definition.enabled": false,
+            "pylsp.plugins.jedi_completion.enabled": false
+        },
+        "pyright": {
+            "python.analysis.typeCheckingMode": "standard",
+            "pyright.disableTaggedHints": false,
+            "pyright.disableLanguageServices": false,
+            "python.analysis.autoImportCompletions": true
+        },
+        "rust_analyzer": {
+            "rust-analyzer.inlayHints.chainingHints.enable": true,
+            "rust-analyzer.inlayHints.typeHints.enable": true,
+            "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
+            "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
+            "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
+            "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
+            "rust-analyzer.inlayHints.closureStyle": "rust_analyzer",
+            "rust-analyzer.inlayHints.rangeExclusiveHints.enable": true,
+            "rust-analyzer.inlayHints.renderColons": true,
+            "rust-analyzer.inlayHints.reborrowHints.enable": "always",
+            "rust-analyzer.inlayHints.parameterHints.enable": true,
+            "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+            "rust-analyzer.hover.actions.implementations.enable": true,
+            "rust-analyzer.hover.actions.enable": true,
+            "rust-analyzer.checkOnSave": true,
+            "rust-analyzer.completion.fullFunctionSignatures.enable": true,
+            "rust-analyzer.completion.autoimport.enable": true
+        },
+        "kotlin_language_server": {
+            "kotlin.indexing.enabled": true,
+            "kotlin.inlayHints.typeHints": true,
+            "kotlin.inlayHints.chainedHints": true,
+            "kotlin.inlayHints.parameterHints": true,
+            "kotlin.completion.snippets.enabled": true,
+            "kotlin.languageServer.enabled": true
+        },
+        "clangd": {
+            "clangd.enableCodeCompletion": true,
+            "clangd.serverCompletionRanking": true,
+            "clangd.onConfigChanged": "prompt",
+            "clangd.inactiveRegions.useBackgroundHighlight": true
+        },
+        "lua_ls": {
+            "Lua.hint.await": true,
+            "Lua.hint.enable": true,
+            "Lua.hover.enable": true,
+            "Lua.hint.setType": true,
+            "Lua.format.enable": true
+        },
+    }
+}
+
+```

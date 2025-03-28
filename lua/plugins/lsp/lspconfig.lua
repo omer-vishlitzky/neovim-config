@@ -117,7 +117,6 @@ return { -- LSP Configuration & Plugins
         "ruff",
         "basedpyright",
         "jsonls",
-        "yamlls",
       },
       handlers = {
         function(server_name)

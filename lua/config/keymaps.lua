@@ -18,9 +18,6 @@ vim.keymap.set("n", "<S-Left>", "<cmd>vertical resize -3<CR>")
 vim.keymap.set("n", "<S-Right>", "<cmd>vertical resize +3<CR>")
 vim.keymap.set("n", "<S-Up>", "<cmd>resize -3<CR>")
 vim.keymap.set("n", "<S-Down>", "<cmd>resize +3<CR>")
-vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
 end, { desc = "[S]ource" })
@@ -65,29 +62,33 @@ vim.api.nvim_create_user_command("CombineBuffers", function()
 end, {})
 vim.keymap.set("n", "<leader>bp", ":CombineBuffers<CR>")
 
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump({
+    count = -1,
+    -- float = { border = "rounded" }
+  })
+end, { desc = "Go to previous diagnostic message" })
 
--- Base64 decode function
-vim.api.nvim_create_user_command("Base64Decode", function(opts)
-  -- Get visual selection
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
-  local lines = vim.fn.getline(start_pos[2], end_pos[2])
-  local text = table.concat(lines, "\n")
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.jump({
+    count = 1,
+    -- float = { border = "rounded" }
+  })
+end, { desc = "Go to next diagnostic message" })
 
-  -- Decode base64
-  local decoded = vim.fn.system('echo -n "' .. text .. '" | base64 -d')
+vim.keymap.set("n", "[D", function()
+  vim.diagnostic.jump({
+    count = -1,
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, { desc = "Go to previous error" })
 
-  -- Create new window
-  vim.cmd("vsplit")
-  local win = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_create_buf(true, true)
-  vim.api.nvim_win_set_buf(win, buf)
+vim.keymap.set("n", "]D", function()
+  vim.diagnostic.jump({
+    count = 1,
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, { desc = "Go to next error" })
 
-  -- Set content
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(decoded, "\n"))
-  vim.bo[buf].modifiable = false
-end, { range = true })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })

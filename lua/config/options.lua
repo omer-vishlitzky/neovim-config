@@ -38,3 +38,4 @@ vim.cmd([[
   augroup end
 ]])
 
+vim.g.augment_workspace_folders = { "~/.config/nvim", "~/Desktop/projects/zellij" }

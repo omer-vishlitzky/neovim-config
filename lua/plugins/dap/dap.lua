@@ -15,6 +15,7 @@ return {
     { "<F7>",       "<CMD>DapStepInto<CR>",                                                                     mode = "n",                       desc = "Step Into" },
     { "<F8>",       "<CMD>DapStepOver<CR>",                                                                     mode = "n",                       desc = "Step Over" },
     { "<F9>",       "<CMD>DapStepOut<CR>",                                                                      mode = "n",                       desc = "Step Out" },
+    { "<F10>",      "<CMD>DapTerminate<CR>",                                                                    mode = "n",                       desc = "Terminate" },
 
     -- DAP UI individual element keymaps (as floating windows)
     -- Add this to your keymaps
@@ -49,6 +50,17 @@ return {
 
     }
     dapui.setup(cfg)
+
+    dap.configurations.python = {
+      {
+        type = "python",
+        request = "launch",
+        name = "Debug tbot",
+        program = vim.fn.getcwd() .. "/src/debug_local.py",
+        console = "integratedTerminal",
+        justMyCode = true,
+      }
+    }
 
     require("dap-python").setup("python3")
     require('dap-go').setup()

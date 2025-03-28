@@ -16,7 +16,7 @@ return {
     vim.keymap.set("n", "zM", ufo.closeAllFolds)
     vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
     vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor)
-    
+
     -- Custom keymaps for folding to specific levels
     for i = 0, 9 do
       -- Use z1, z2, z3, etc. to fold to that level

@@ -9,7 +9,7 @@ return {
       anthropic = function()
         return require("codecompanion.adapters").extend("anthropic", {
           env = {
-            api_key = "${CLAUDE_API_KEY}",
+            api_key = "",
           },
           schema = {
             model = {
