@@ -12,10 +12,10 @@ return {
 
     -- Basic UFO keymaps
     local ufo = require("ufo")
-    vim.keymap.set("n", "zR", ufo.openAllFolds)
-    vim.keymap.set("n", "zM", ufo.closeAllFolds)
-    vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
-    vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor)
+    vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
+    vim.keymap.set("n", "zM", ufo.closeAllFolds, { desc = "Close all folds" })
+    vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds, { desc = "Open folds except kinds" })
+    vim.keymap.set("n", "zp", ufo.peekFoldedLinesUnderCursor, { desc = "Peek folded lines" })
 
     -- Custom keymaps for folding to specific levels
     for i = 0, 9 do

@@ -1,5 +1,5 @@
 vim.opt.nu = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -28,6 +28,8 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+vim.o.diffopt = "filler,linematch:30,iwhite,indent-heuristic,algorithm:minimal"
+
 vim.o.showtabline = 2
 
 -- Highlight on yank
@@ -37,5 +39,3 @@ vim.cmd([[
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
 ]])
-
-vim.g.augment_workspace_folders = { "~/.config/nvim", "~/Desktop/projects/zellij" }

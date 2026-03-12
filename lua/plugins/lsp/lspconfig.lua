@@ -1,10 +1,10 @@
 ---@diagnostic disable: missing-fields
 return { -- LSP Configuration & Plugins
   "neovim/nvim-lspconfig",
-  event = { "BufReadPost", "BufNewFile" },
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason.nvim",
+    "mason-org/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "folke/neoconf.nvim", opts = {} },
     "saghen/blink.cmp"
@@ -27,11 +27,15 @@ return { -- LSP Configuration & Plugins
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { desc = "[T]oggle inlay [H]ints" })
 
-
-
     ---@type lspconfig.options
     local servers = {
 
+      ---@type lspconfig.settings.ruff_lsp
+      ruff_lsp = {
+        ruff = {
+          path = {"/home/omer/.pyenv/shims/ruff"},
+        },
+      },
       ---@type lspconfig.settings.basedpyright
       basedpyright = {
         basedpyright = {
@@ -56,76 +60,113 @@ return { -- LSP Configuration & Plugins
       lua_ls = {
 
       },
+
       gopls = {
-        settings = {
-          gopls = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            experimentalPostfixCompletions = true,
-            analyses = {
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            usePlaceholders = true,
-            completeUnimported = true,
-            staticcheck = true,
-            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-            semanticTokens = true,
+      settings = {
+        gopls = {
+          gofumpt = true,
+          codelenses = {
+            gc_details = false,
+            generate = true,
+            regenerate_cgo = true,
+            run_govulncheck = true,
+            test = true,
+            tidy = true,
+            upgrade_dependency = true,
+            vendor = true,
           },
+          hints = {
+            assignVariableTypes = true,
+            compositeLiteralFields = true,
+            compositeLiteralTypes = true,
+            constantValues = true,
+            functionTypeParameters = true,
+            parameterNames = true,
+            rangeVariableTypes = true,
+          },
+          analyses = {
+            nilness = true,
+            unusedparams = true,
+            unusedwrite = true,
+            useany = true,
+          },
+          usePlaceholders = true,
+          completeUnimported = true,
+          staticcheck = true,
+          directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+          semanticTokens = true,
+        },
         },
       },
+-- gopls = {
+--         settings = {
+--           gopls = {
+--             gofumpt = true,
+--             codelenses = {
+--               gc_details = false,
+--               generate = true,
+--               regenerate_cgo = true,
+--               run_govulncheck = true,
+--               test = true,
+--               tidy = true,
+--               upgrade_dependency = true,
+--               vendor = true,
+--             },
+--             hints = {
+--               assignVariableTypes = true,
+--               compositeLiteralFields = true,
+--               compositeLiteralTypes = true,
+--               constantValues = true,
+--               functionTypeParameters = true,
+--               parameterNames = true,
+--               rangeVariableTypes = true,
+--             },
+--             experimentalPostfixCompletions = true,
+--             analyses = {
+--               nilness = true,
+--               unusedparams = true,
+--               unusedwrite = true,
+--               useany = true,
+--             },
+--             usePlaceholders = true,
+--             completeUnimported = true,
+--             staticcheck = true,
+--             directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+--             semanticTokens = true,
+--           },
+--         },
+--       },
       clangd = {},
-      rust_analyzer = {},
     }
-
-
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
-    -- require("neoconf").setup({})
+    require("neoconf").setup({})
     require("mason").setup({})
     require("mason-tool-installer").setup({})
 
-    require("lspconfig").ocamllsp.setup({})
+    local ensure_installed = {
+      -- "rust_analyzer",
+      "lua_ls",
+      "zls",
+      "gopls",
+      "clangd",
+      "ruff",
+      "bashls",
+      "basedpyright",
+      -- "ty",
+      "jsonls",
+      "ts_ls",
+    }
+
+    for server_name, server_opts in pairs(servers) do
+      vim.lsp.config(server_name, vim.tbl_deep_extend("force", { capabilities = capabilities }, server_opts))
+    end
+
     require("mason-lspconfig").setup({
-      ensure_installed = {
-        "rust_analyzer",
-        "lua_ls",
-        "zls",
-        "gopls",
-        "clangd",
-        "ruff",
-        "basedpyright",
-        "jsonls",
-      },
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
+      ensure_installed = ensure_installed,
     })
-    require("lspconfig").gleam.setup({})
+
+    vim.lsp.enable("gleam")
   end,
 }

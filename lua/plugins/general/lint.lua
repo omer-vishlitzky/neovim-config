@@ -8,9 +8,10 @@ return {
 
 
     lint.linters_by_ft = {
-      python = { "ruff", "flake8", "mypy" },
+      python = { "ruff" },
       lua = { "luacheck" },
-      go = { "golangcilint" },
+      go = { "golangci-lint" },
+      ansible = { "ansible-lint" }
     }
 
     vim.keymap.set("n", "<leader>cl", function()

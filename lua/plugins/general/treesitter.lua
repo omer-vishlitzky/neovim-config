@@ -1,16 +1,11 @@
----@diagnostic disable: missing-fields
 return {
-  -- Highlight, edit, and navigate code
-  "nvim-treesitter/nvim-treesitter",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
-  build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
-  config = function()
-    ---@type TSConfig
-    local cfg = {
-      ensure_installed = {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").install({
         "dart",
         "java",
         "json",
@@ -32,108 +27,112 @@ return {
         "yaml",
         "toml",
         "sql",
-      },
-      auto_install = true,
-      sync_install = false,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-      indent = {
-        enable = true
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<c-space>",
-          node_incremental = "<c-space>",
-          scope_incremental = "<c-s>",
-          node_decremental = "<M-space>",
-        },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-          keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
-            ["al"] = "@loop.outer",
-            ["il"] = "@loop.inner",
-            ["ai"] = "@conditional.outer",
-            ["ii"] = "@conditional.inner",
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
-            ["]p"] = "@parameter.outer",
-            ["]l"] = "@loop.outer",
-            ["]i"] = "@conditional.outer",
-            ["]s"] = "@statement.outer",
-          },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
-            ["]P"] = "@parameter.outer",
-            ["]L"] = "@loop.outer",
-            ["]I"] = "@conditional.outer",
-            ["]S"] = "@statement.outer",
-          },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-            ["[p"] = "@parameter.outer",
-            ["[l"] = "@loop.outer",
-            ["[i"] = "@conditional.outer",
-            ["[s"] = "@statement.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
-            ["[P"] = "@parameter.outer",
-            ["[L"] = "@loop.outer",
-            ["[I"] = "@conditional.outer",
-            ["[S"] = "@statement.outer",
-          },
-        },
-        swap = {
-          enable = true,
-          swap_next = {
-            ["<leader>sp"] = "@parameter.inner",
-            ["<leader>sf"] = "@function.outer",
-            ["<leader>sl"] = "@loop.outer",
-            ["<leader>sb"] = "@block.outer",
-            ["<leader>ss"] = "@statement.outer",
-          },
-          swap_previous = {
-            ["<leader>sP"] = "@parameter.inner",
-            ["<leader>sF"] = "@function.outer",
-            ["<leader>sL"] = "@loop.outer",
-            ["<leader>sB"] = "@block.outer",
-            ["<leader>sS"] = "@statement.outer",
-          },
-        },
-        lsp_interop = {
-          enable = true,
-          floating_preview_opts = {},
-          peek_definition_code = {
-            ["<leader>df"] = "@function.outer",
-            ["<leader>dF"] = "@class.outer",
-            ["<leader>dp"] = "@parameter.outer",
-            ["<leader>dc"] = "@call.outer",
-          },
-        },
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev)
+          if vim.bo[ev.buf].buftype ~= "" then return end
+          pcall(vim.treesitter.start, ev.buf)
+          vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    lazy = false,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("nvim-treesitter-textobjects").setup({
+        select = { lookahead = true },
+        move = { set_jumps = true },
+      })
+
+      local select = require("nvim-treesitter-textobjects.select")
+      local move = require("nvim-treesitter-textobjects.move")
+      local swap = require("nvim-treesitter-textobjects.swap")
+
+      local sel_maps = {
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ["ai"] = "@conditional.outer",
+        ["ii"] = "@conditional.inner",
       }
-    }
-    require("nvim-treesitter.configs").setup(cfg)
-  end,
+      for key, query in pairs(sel_maps) do
+        vim.keymap.set({ "x", "o" }, key, function()
+          select.select_textobject(query, "textobjects")
+        end, { desc = "Select " .. query })
+      end
+
+      local next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+        ["]p"] = "@parameter.outer",
+        ["]l"] = "@loop.outer",
+        ["]i"] = "@conditional.outer",
+        ["]s"] = "@statement.outer",
+      }
+      for key, query in pairs(next_start) do
+        vim.keymap.set({ "n", "x", "o" }, key, function()
+          move.goto_next_start(query, "textobjects")
+        end, { desc = "Next " .. query .. " start" })
+      end
+
+      local next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+        ["]P"] = "@parameter.outer",
+        ["]L"] = "@loop.outer",
+        ["]I"] = "@conditional.outer",
+        ["]S"] = "@statement.outer",
+      }
+      for key, query in pairs(next_end) do
+        vim.keymap.set({ "n", "x", "o" }, key, function()
+          move.goto_next_end(query, "textobjects")
+        end, { desc = "Next " .. query .. " end" })
+      end
+
+      local prev_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+        ["[p"] = "@parameter.outer",
+        ["[l"] = "@loop.outer",
+        ["[i"] = "@conditional.outer",
+        ["[s"] = "@statement.outer",
+      }
+      for key, query in pairs(prev_start) do
+        vim.keymap.set({ "n", "x", "o" }, key, function()
+          move.goto_previous_start(query, "textobjects")
+        end, { desc = "Prev " .. query .. " start" })
+      end
+
+      local prev_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+        ["[P"] = "@parameter.outer",
+        ["[L"] = "@loop.outer",
+        ["[I"] = "@conditional.outer",
+        ["[S"] = "@statement.outer",
+      }
+      for key, query in pairs(prev_end) do
+        vim.keymap.set({ "n", "x", "o" }, key, function()
+          move.goto_previous_end(query, "textobjects")
+        end, { desc = "Prev " .. query .. " end" })
+      end
+
+      vim.keymap.set("n", "<leader>sp", function()
+        swap.swap_next("@parameter.inner")
+      end, { desc = "[S]wap [P]arameter next" })
+      vim.keymap.set("n", "<leader>sP", function()
+        swap.swap_previous("@parameter.inner")
+      end, { desc = "[S]wap [P]arameter prev" })
+    end,
+  },
 }

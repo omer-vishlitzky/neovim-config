@@ -1,6 +1,5 @@
 return {
   "sindrets/diffview.nvim",
-  opts = {},
   cmd = { "DiffViewOpen" },
   keys = {
     {
@@ -14,6 +13,28 @@ return {
         end
       end,
       desc = "Toggle DiffView"
+    },
+  },
+  ---@type DiffviewConfig
+  ---@diagnostic disable-next-line: missing-fields
+  opts = {
+    enhanced_diff_hl = true,
+    use_icons = true,
+    view = {
+      default = {
+        layout = "diff2_horizontal",
+      },
+    },
+    keymaps = {
+      view = {
+        { "n", "<leader>td", function()
+          if vim.wo.diff then
+            vim.cmd("windo diffoff")
+          else
+            vim.cmd("windo diffthis")
+          end
+        end, { desc = "Toggle diff rendering" } },
+      },
     },
   },
 }

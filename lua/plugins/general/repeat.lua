@@ -1,4 +1,4 @@
 return {
-  "tpope/vim-abolish",
+  "tpope/vim-repeat",
   event = "VeryLazy",
 }

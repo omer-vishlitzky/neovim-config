@@ -26,7 +26,6 @@ return {
   config = function(_, opts)
     -- Setup the plugin with the provided options
     require("lsp_signature").setup(opts)
-    
     -- This ensures it's attached to all active LSP clients
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(args)

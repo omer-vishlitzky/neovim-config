@@ -4,6 +4,6 @@ return {
   config = function()
     local lsplinks = require("lsplinks")
     lsplinks.setup()
-    vim.keymap.set("n", "gx", lsplinks.gx)
+    vim.keymap.set("n", "gx", lsplinks.gx, { desc = "Open LSP link" })
   end
 }

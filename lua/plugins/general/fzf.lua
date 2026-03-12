@@ -1,6 +1,8 @@
 return {
   "ibhagwan/fzf-lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
   cmd = { "FzfLua" },
   opts = function(_, opts)
     local actions = require("fzf-lua.actions")
@@ -31,19 +33,32 @@ return {
         },
       },
       grep = {
+        rg_glob = true,            -- enable glob parsing
+        glob_flag = "--iglob",     -- case insensitive globs
+        glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
         actions = {
-          ["ctrl-f"] = { fn = actions.toggle_ignore },
+          -- ["ctrl-f"] = { fn = actions.toggle_ignore },
           ["ctrl-h"] = { fn = actions.toggle_hidden },
+          ["ctrl-f"] = { fn = actions.grep_lgrep },
         }
       },
       git = {
         commits = {
           ["ctrl-y"] = { fn = actions.git_yank_commit },
+          actions = {
+            ["ctrl-d"] = function(selected)
+              require("diffview")
+              vim.notify(selected)
+              local branch = selected[1]
+              vim.notify(branch)
+              vim.cmd("DiffviewOpen " .. branch)
+            end,
+          }
         },
         status = {
           actions = {
             ["ctrl-s"] = { fn = actions.git_stage },
-            ["ctrl-u"] = { fn = actions.git_unstage },
+            ["ctrl-S"] = { fn = actions.git_unstage },
           }
         },
         branches = {
@@ -78,13 +93,50 @@ return {
     { "<leader>fk",        "<CMD>FzfLua keymaps<CR>",                    desc = "[F]ind [K]eymaps" },
     { "<leader>fh",        "<CMD>FzfLua help_tags<CR>",                  desc = "[F]ind [H]elp tags" },
     { "<leader>fs",        "<CMD>FzfLua git_status<CR>",                 desc = "[F]ind Git [S]tatus" },
+    {
+      "<leader>fB",
+      function()
+        local file = vim.fn.expand("%:.")
+        if file == "" then return vim.notify("No file open", vim.log.levels.WARN) end
+        local fzf = require("fzf-lua")
+        fzf.fzf_exec("git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads refs/remotes refs/tags", {
+          prompt = "Open " .. file .. " from> ",
+          preview = "git show {}:" .. file .. " 2>/dev/null",
+          actions = {
+            ["default"] = function(selected)
+              local ref = selected[1]
+              local content = vim.fn.systemlist("git show " .. ref .. ":" .. file)
+              if vim.v.shell_error ~= 0 then return vim.notify(file .. " doesn't exist in " .. ref, vim.log.levels.ERROR) end
+              vim.cmd("enew")
+              vim.api.nvim_buf_set_lines(0, 0, -1, false, content)
+              vim.bo.buftype = "nofile"
+              vim.bo.bufhidden = "wipe"
+              vim.bo.modifiable = false
+              vim.api.nvim_buf_set_name(0, ref .. ":" .. file)
+              local ft = vim.filetype.match({ filename = file })
+              if ft then vim.bo.filetype = ft end
+            end,
+          },
+        })
+      end,
+      desc = "[F]ind current file from [B]ranch/ref",
+    },
     { "<leader>ch",        "<CMD>FzfLua command_history<CR>",            desc = "[C]ommands [H]istory" },
     { "<leader>fw",        "<CMD>FzfLua grep_cword<CR>",                 desc = "[F]ind [w]ord" },
     { "<leader>fW",        "<CMD>FzfLua grep_cWORD<CR>",                 desc = "[F]ind [W]ord" },
+    { "<leader>fm",        "<CMD>FzfLua manpages<CR>",                   desc = "[F]ind [M]anpages" },
     {
       "<leader>fp",
       function()
         require('fzf-lua').files({ fzf_cli_args = '--query ' .. vim.fn.expand('<cWORD>') })
+      end,
+      desc = "[F]ind [P]ath"
+    },
+    {
+      "<leader>fP",
+      function()
+        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t")
+        require('fzf-lua').live_grep({ search = filename })
       end,
       desc = "[F]ind [P]ath"
     },

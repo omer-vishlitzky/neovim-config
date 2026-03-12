@@ -4,52 +4,85 @@ return {
   priority = 1000,
   name = "rose-pine",
   config = function()
-    ---@type Options
-    local cfg = {
-      ---@usage 'auto'|'main'|'moon'|'dawn'
-      variant = "auto",
-      ---@usage 'main'|'moon'|'dawn'
-      dark_variant = "main",
-      bold_vert_split = false,
-      dim_nc_background = false,
-      disable_background = false,
-      disable_float_background = false,
-      disable_italics = false,
-
+    require("rose-pine").setup({
+      variant = "auto",    -- auto, main, moon, or dawn
+      dark_variant = "main", -- main, moon, or dawn
       dim_inactive_windows = false,
-      palette = {
-        ---@type Palette
-        main = {
-          base = "#111111",
-          surface = "#111111",
-          text = "#ffffff"
-          -- overlay = "#111111",
-          -- muted = "#000000",
-        }
+      extend_background_behind_borders = true,
+
+      enable = {
+        terminal = true,
+        legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+        migrations = true,        -- Handle deprecated options automatically
       },
+
+      styles = {
+        bold = true,
+        italic = true,
+        transparency = false,
+      },
+
       groups = {
-        panel = "surface",
-        panel_nc = "base",
-        border = "highlight_med",
-        comment = "muted",
+        border = "muted",
         link = "iris",
-        punctuation = "subtle",
+        panel = "surface",
 
         error = "love",
         hint = "iris",
         info = "foam",
+        note = "pine",
+        todo = "rose",
         warn = "gold",
 
-        headings = {
-          h1 = "iris",
-          h2 = "foam",
-          h3 = "rose",
-          h4 = "gold",
-          h5 = "pine",
-          h6 = "foam",
-        },
+        git_add = "foam",
+        git_change = "rose",
+        git_delete = "love",
+        git_dirty = "rose",
+        git_ignore = "muted",
+        git_merge = "iris",
+        git_rename = "pine",
+        git_stage = "iris",
+        git_text = "rose",
+        git_untracked = "subtle",
+
+        h1 = "iris",
+        h2 = "foam",
+        h3 = "rose",
+        h4 = "gold",
+        h5 = "pine",
+        h6 = "foam",
       },
-    }
-    require("rose-pine").setup(cfg)
+
+      palette = {
+        -- Override the builtin palette per variant
+        -- moon = {
+        --     base = '#18191a',
+        --     overlay = '#363738',
+        -- },
+      },
+
+      -- NOTE: Highlight groups are extended (merged) by default. Disable this
+      -- per group via `inherit = false`
+      highlight_groups = {
+        -- Comment = { fg = "foam" },
+        -- StatusLine = { fg = "love", bg = "love", blend = 15 },
+        -- VertSplit = { fg = "muted", bg = "muted" },
+        -- Visual = { fg = "base", bg = "text", inherit = false },
+      },
+
+      before_highlight = function(group, highlight, palette)
+        -- Disable all undercurls
+        -- if highlight.undercurl then
+        --     highlight.undercurl = false
+        -- end
+        --
+        -- Change palette colour
+        -- if highlight.fg == palette.pine then
+        --     highlight.fg = palette.foam
+        -- end
+      end,
+    })
+
+    -- vim.cmd("colorscheme rose-pine")
   end,
 }

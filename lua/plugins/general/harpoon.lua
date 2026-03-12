@@ -4,7 +4,7 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {},
   keys = {
-    { "<leader>a", mode = { "n" }, desc = "[A]dd to harpoon" },
+    { "<leader>ha", mode = { "n" }, desc = "[H]arpoon [A]" },
     { "H", mode = { "n" } , desc = "[H]arpoon"},
   },
   config = function()
@@ -15,7 +15,7 @@ return {
     end, { desc = "[H]arpoon [A]dd" })
     vim.keymap.set("n", "H", function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
-    end)
+    end, { desc = "Harpoon menu" })
     require("harpoon"):extend(require("harpoon.extensions").builtins.command_on_nav('UfoEnableFold'))
   end,
 }

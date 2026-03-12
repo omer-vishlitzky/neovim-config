@@ -18,7 +18,12 @@ vim.keymap.set("n", "<S-Left>", "<cmd>vertical resize -3<CR>")
 vim.keymap.set("n", "<S-Right>", "<cmd>vertical resize +3<CR>")
 vim.keymap.set("n", "<S-Up>", "<cmd>resize -3<CR>")
 vim.keymap.set("n", "<S-Down>", "<cmd>resize +3<CR>")
-vim.keymap.set("n", "<leader><leader>", function()
+--
+-- Normal mode: use word under cursor
+vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Visual mode: use selected text
+vim.keymap.set("x", "<leader>ss", [[y:%s/<C-r>"/<C-r>"/gI<Left><Left><Left>]])vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
 end, { desc = "[S]ource" })
 
@@ -35,45 +40,12 @@ vim.keymap.set("n", "<leader>dp", "<cmd>diffput<cr>")
 vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Next Quickfix Item" })
 vim.keymap.set("n", "[q", ":cprevious<cr>", { desc = "Previous Quickfix Item" })
 
-vim.api.nvim_create_user_command("OpenGitModified", function()
-  -- Get git status output
-  local git_output = vim.fn.system("git diff upstream/master --name-only")
-  local modified_files = vim.split(git_output, "\n")
-  for _, file in pairs(modified_files) do
-    vim.cmd("edit " .. file)
-  end
-end, {})
-vim.keymap.set("n", "<leader>ba", ":OpenGitModified<CR>")
-
-vim.api.nvim_create_user_command("CombineBuffers", function()
-  local result = {}
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(bufnr) then
-      local filename = vim.api.nvim_buf_get_name(bufnr)
-      local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-      table.insert(result, "Filename: " .. (filename == "" and "[No Name]" or filename))
-      table.insert(result, "-----------")
-      table.insert(result, table.concat(lines, "\n"))
-      table.insert(result, "-----------\n")
-    end
-  end
-  vim.cmd("new")
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(table.concat(result, "\n"), "\n"))
-end, {})
-vim.keymap.set("n", "<leader>bp", ":CombineBuffers<CR>")
-
 vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({
-    count = -1,
-    -- float = { border = "rounded" }
-  })
+  vim.diagnostic.jump({ count = -1 })
 end, { desc = "Go to previous diagnostic message" })
 
 vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({
-    count = 1,
-    -- float = { border = "rounded" }
-  })
+  vim.diagnostic.jump({ count = 1 })
 end, { desc = "Go to next diagnostic message" })
 
 vim.keymap.set("n", "[D", function()
@@ -92,3 +64,11 @@ end, { desc = "Go to next error" })
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+
+
+vim.keymap.set("n", "<leader>ya", ":%!toyaml<CR>:set filetype=yaml<CR>")
+vim.keymap.set("n", "<leader>yf", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+end, { desc = "Yank file path into clipboard" })
+

@@ -5,11 +5,14 @@ return {
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black", "flake8", "ruff" },
+      python = { "ruff" },
       rust = { "rustfmt", lsp_format = "fallback" },
       go = { "gci", "gofumpt", "goimports", "gofmt" }
     },
     formatters = {
+      ruff = {
+        inherit = true,
+      },
       gci = {
         command = "gci",
         args = function(self, ctx)

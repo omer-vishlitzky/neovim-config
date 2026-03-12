@@ -9,8 +9,12 @@ return {
   cmd = {
     "VenvSelect"
   },
+  keys = {
+    {"<leader>v", ":VenvSelect<CR>", mode = {"n"}}
+  },
+  ---@module "venv-selector"
   ---@type venv-selector.Config
   opts = {
-    -- Your settings go here
+
   },
 }

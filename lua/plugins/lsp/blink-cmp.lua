@@ -1,4 +1,3 @@
-local codecompanion = require "plugins.general.codecompanion"
 return {
   "saghen/blink.cmp",
   -- optional: provides snippets for the snippet source
@@ -28,7 +27,14 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
-      per_filetype = { codecompanion = { "codecompanion" }}
+      per_filetype = {
+        sql = { "lsp", "path", "snippets", "buffer", "dadbod" },
+        mysql = { "lsp", "path", "snippets", "buffer", "dadbod" },
+        plsql = { "lsp", "path", "snippets", "buffer", "dadbod" },
+      },
+      providers = {
+        dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+      },
     },
     cmdline = {
       enabled = false

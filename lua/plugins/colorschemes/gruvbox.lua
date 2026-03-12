@@ -27,9 +27,6 @@ return {
       palette_overrides = {
         -- dark0_hard = "#222222",
       },
-      overrides = {
-
-      },
       dim_inactive = false,
       transparent_mode = false,
       terminal_colors = true,

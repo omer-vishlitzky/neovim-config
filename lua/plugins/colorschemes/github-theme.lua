@@ -2,6 +2,7 @@ return {
   "projekt0n/github-nvim-theme",
   priority = 1000,
   config = function()
+    ---@type GhTheme.Config
     local cfg = {
       options = {
         inverse = { -- Inverse highlight for different types
